@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, TextInput } from "react-native";
 import React, {
   useState,
   useImperativeHandle,
@@ -25,6 +25,14 @@ const exerciseModal = (props, ref) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [grunduebung, setGrunduebung] = useState(1);
   const [level, setLevel] = useState(1);
+  const [value, setValue] = useState("");
+
+  const onChangeText = (text) => {
+    // Nur Ziffern erlauben
+    const digitsOnly = text.replace(/[^0-9]/g, "");
+    // Maximal 4 Ziffern
+    setValue(digitsOnly.slice(0, 4));
+  };
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -57,27 +65,37 @@ const exerciseModal = (props, ref) => {
           </Picker>
         </View>
         <Text>Warm-up</Text>
-        <View style={styles.picker}>
-          <Picker
-            selectedValue={level}
-            onValueChange={(newVal, itemIndex) => setLevel(newVal)}
-          >
-            <Picker.Item
-              label="Wähle ein Level aus"
-              value={0}
-              enabled={false}
-            />
-            <Picker.Item label="1" value={1} />
-            <Picker.Item label="2" value={2} />
-            <Picker.Item label="3" value={3} />
-            <Picker.Item label="4" value={4} />
-            <Picker.Item label="5" value={5} />
-            <Picker.Item label="6" value={6} />
-            <Picker.Item label="7" value={7} />
-            <Picker.Item label="8" value={8} />
-            <Picker.Item label="9" value={9} />
-            <Picker.Item label="10" value={10} />
-          </Picker>
+        <View style={styles.group}>
+          <View style={styles.picker}>
+            <Picker
+              selectedValue={level}
+              onValueChange={(newVal, itemIndex) => setLevel(newVal)}
+            >
+              <Picker.Item
+                label="Wähle ein Level aus"
+                value={0}
+                enabled={false}
+              />
+              <Picker.Item label="1" value={1} />
+              <Picker.Item label="2" value={2} />
+              <Picker.Item label="3" value={3} />
+              <Picker.Item label="4" value={4} />
+              <Picker.Item label="5" value={5} />
+              <Picker.Item label="6" value={6} />
+              <Picker.Item label="7" value={7} />
+              <Picker.Item label="8" value={8} />
+              <Picker.Item label="9" value={9} />
+              <Picker.Item label="10" value={10} />
+            </Picker>
+          </View>
+          <TextInput
+            style={styles.input}
+            value={value}
+            onChangeText={onChangeText}
+            keyboardType="numeric"
+            maxLength={4}
+            //placeholder="0000"
+          />
         </View>
         <Text>Arbeitssätze</Text>
       </View>
@@ -91,6 +109,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flex: 0.8,
   },
+  group: {
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   picker: {
     //backgroundColor: "blue",
     borderWidth: 1,
@@ -98,7 +122,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.third,
     marginBottom: 20,
     marginLeft: "10%",
-    width: "80%",
+    width: "60%",
+  },
+  input: {
+    height: 40,
+    width: 80, // schmales Feld
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 4,
+    textAlign: "center",
+    fontSize: 18,
   },
 });
 

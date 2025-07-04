@@ -63,7 +63,8 @@ const Home = ({ navigation }) => {
       <View style={styles.button}>
         <Button
           color={colors.primary}
-          onPress={() => childRef.current.toggleModal()}
+          //onPress={() => childRef.current.toggleModal()}
+          onPress={() => navigation.navigate("ExerciseEntryScreen")}
           title="Training abgeschlossen"
         ></Button>
       </View>

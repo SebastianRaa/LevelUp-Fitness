@@ -162,6 +162,9 @@ function Profile(props) {
         <Text style={{ paddingLeft: 20 }}>Trainingstage:</Text>
         <DayPicker daysRequired={daysRequired} />
       </View>
+      <Pressable onPress={() => props.navigation.navigate("TestingScreen")}>
+        <Text style={{ marginTop: 100, fontSize: 10 }}>Zum Testbereich</Text>
+      </Pressable>
     </View>
   );
 }

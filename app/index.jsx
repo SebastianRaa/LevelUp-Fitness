@@ -20,6 +20,8 @@ import TrainingsempfehlungScreen from "./screens/trainingsempfehlungScreen";
 import TrainingsplaeneScreen from "./screens/trainingsplaeneScreen";
 import AbzeichenScreen from "./screens/abzeichenScreen";
 import colors from "./colors";
+import TestingScreen from "./screens/testingScreen";
+import ExerciseEntryScreen from "./screens/exerciseEntryScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -104,6 +106,11 @@ export default function App() {
         component={TrainingsplaeneScreen}
       />
       <Stack.Screen name="AbzeichenScreen" component={AbzeichenScreen} />
+      <Stack.Screen name="TestingScreen" component={TestingScreen} />
+      <Stack.Screen
+        name="ExerciseEntryScreen"
+        component={ExerciseEntryScreen}
+      />
     </Stack.Navigator>
   );
 }
