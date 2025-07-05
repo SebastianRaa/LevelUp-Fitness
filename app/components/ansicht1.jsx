@@ -8,6 +8,7 @@ import {
   Agenda,
   LocaleConfig,
 } from "react-native-calendars";
+import ExerciseListModal from "../components/exerciseListModal";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -58,10 +59,19 @@ LocaleConfig.defaultLocale = "de";
 
 // Disclaimer from component docs: Make sure that markedDates param is immutable. If you change markedDates object content but the reference to it does not change calendar update will not be triggered.
 
-const Ansicht1 = ({ route }) => {
+const Ansicht1 = ({ route, navigation }) => {
+  const childRef = useRef(null);
   const [selected, setSelected] = useState("");
+  const [modalDay, setModalDay] = useState(
+    new Date().toLocaleDateString("de-DE")
+  );
   return (
     <View>
+      <ExerciseListModal
+        navigation={navigation}
+        ref={childRef}
+        day={modalDay} //funktioniert gerade noch nicht
+      />
       <View
         style={{
           alignItems: "center",
@@ -72,7 +82,15 @@ const Ansicht1 = ({ route }) => {
       <View style={styles.calendarContainer}>
         <Calendar
           onDayPress={(day) => {
-            setSelected(day.dateString);
+            setModalDay(
+              new Date(day.dateString).toLocaleDateString("de-DE", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "2-digit",
+              })
+            );
+            childRef.current.toggleModal();
+            //setSelected(day.dateString);
             console.log(day);
           }}
           firstDay={1}

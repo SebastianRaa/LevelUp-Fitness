@@ -7,14 +7,14 @@ import {
   Pressable,
   Button,
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import colors from "../colors";
 import { TextInput } from "react-native-gesture-handler";
-import Modal from "react-native-modal";
-import ExerciseModal from "../components/exerciseModal";
+import ExerciseListModal from "../components/exerciseListModal";
 
 //erstmal nur Montag Mittwoch Freitag Trainigstage
 //erweitern für die Auswahl aus Settings
+const today = new Date().getDay();
 function findNextTraining(today) {
   if (today == 1 || today >= 6) {
     return "Montag";
@@ -27,8 +27,16 @@ function findNextTraining(today) {
 
 //Tab 1
 const Home = ({ navigation }) => {
+  const [modalDay, setModalDay] = useState(
+    new Date().toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    })
+  );
   const childRef = useRef(null);
-  var nextTraining = findNextTraining(new Date().getDay());
+  var nextTraining = findNextTraining(today);
+
   return (
     <View
       style={{
@@ -65,10 +73,22 @@ const Home = ({ navigation }) => {
           color={colors.primary}
           //onPress={() => childRef.current.toggleModal()}
           onPress={() => navigation.navigate("ExerciseEntryScreen")}
-          title="Training abgeschlossen"
+          title="Übung eintragen"
         ></Button>
       </View>
-      <ExerciseModal ref={childRef} />
+      <View style={styles.button}>
+        <Button
+          color={colors.primary}
+          onPress={() => childRef.current.toggleModal()}
+          title="Heutiges Trainig verwalten"
+        ></Button>
+      </View>
+
+      <ExerciseListModal
+        navigation={navigation}
+        ref={childRef}
+        day={modalDay}
+      />
     </View>
   );
 };

@@ -7,25 +7,36 @@ import {
   StyleSheet,
   ScrollView,
   Alert,
+  Pressable,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import colors from "../colors";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import * as SQLite from "expo-sqlite";
 
 export default function ExerciseEntryScreen({ navigation }) {
-  const [grunduebung, setGrunduebung] = useState(1);
+  const [grunduebung, setGrunduebung] = useState(0);
   // BEREICH 1: Array von Gruppen { level, value }
   const [groups, setGroups] = useState([{ level: 0, value: "" }]);
 
   // BEREICH 2: ein einzelner Level-Picker + Array von Zahl-Inputs
   const [singleLevel, setSingleLevel] = useState(0);
-  const [numberInputs, setNumberInputs] = useState([""]);
+  const [numberInputs, setNumberInputs] = useState([]);
+
+  const [date, setDate] = useState(
+    new Date().toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+    })
+  );
 
   // Funktionen für Bereich 1
   const addGroup = () =>
-    setGroups((g) => (g.length > 7 ? g : [...g, { level: 0, value: "" }]));
+    setGroups((g) => (g.length > 5 ? g : [...g, { level: 0, value: "" }]));
 
   const removeGroup = () =>
-    setGroups((g) => (g.length > 1 ? g.slice(0, -1) : g));
+    setGroups((g) => (g.length > 0 ? g.slice(0, -1) : g));
 
   const updateGroup = (idx, field, val) =>
     setGroups((g) =>
@@ -34,7 +45,7 @@ export default function ExerciseEntryScreen({ navigation }) {
 
   // Funktionen für Bereich 2
   const addNumberInput = () =>
-    setNumberInputs((arr) => (arr.length > 7 ? arr : [...arr, ""]));
+    setNumberInputs((arr) => (arr.length > 5 ? arr : [...arr, ""]));
 
   const removeNumberInput = () =>
     setNumberInputs((arr) => (arr.length > 1 ? arr.slice(0, -1) : arr));
@@ -45,14 +56,64 @@ export default function ExerciseEntryScreen({ navigation }) {
   };
 
   const onPressFertig = () => {
+    //User-Error handling: Keine Grundübung ausgewählt
+    if (grunduebung === 0) {
+      Alert.alert(
+        "Achtung",
+        "Bitte wähle eine Grundübung aus, um deine Eingaben speichern zu können.",
+        [{ text: "OK" }]
+      );
+      return;
+    } else if (singleLevel === 0) {
+      //User-Error handling: Keine Level für die Arbeitssätze ausgewählt
+      Alert.alert(
+        "Achtung",
+        "Bitte wähle ein Level für deine Arbeitssätze aus, um deine Eingaben speichern zu können.",
+        [{ text: "OK" }]
+      );
+      return;
+    }
+    //console.log(groups);
+    //console.log(numberInputs[1]);
+    saveToDB();
     Alert.alert("Eintrag abgeschlossen", "Deine Eingaben wurden gespeichert.", [
       { text: "OK" },
     ]);
     navigation.navigate("TabHome");
   };
 
+  async function saveToDB() {
+    const fields = [];
+    const placeholders = ["?", "?", "?"];
+    const values = [date, grunduebung, singleLevel];
+
+    Object.entries(numberInputs).forEach(([key, value], index) => {
+      if (value) {
+        fields.push(`work${index + 1}_rep`);
+        //console.log("key: " + key + 1);
+        //console.log("value: " + value);
+        placeholders.push("?");
+        values.push(value);
+      }
+    });
+
+    //als nächstes mit warmups weiter
+
+    const query = `INSERT INTO trainings (datestring, baseExercise, level, ${fields.join(
+      ", "
+    )}) VALUES (${placeholders.join(", ")})`;
+    console.log(query);
+    console.log(values);
+    const db = await SQLite.openDatabaseAsync("training.db");
+    const result = await db.runAsync(query, values);
+    console.log(result);
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <Pressable onPress={() => navigation.navigate("TabHome")}>
+        <Ionicons name="close-outline" />
+      </Pressable>
       {/* === BEREICH 1: dynamische Gruppen === */}
       <Text style={styles.headingBig}>Übungseintragung</Text>
       <Text style={styles.heading}>Grundübung</Text>
@@ -62,7 +123,7 @@ export default function ExerciseEntryScreen({ navigation }) {
           onValueChange={(newVal, itemIndex) => setGrunduebung(newVal)}
         >
           <Picker.Item
-            label="Wähle eine Grundübung aus"
+            label="- Grundübung wählen -"
             value={0}
             enabled={false}
           />

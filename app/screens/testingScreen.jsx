@@ -7,144 +7,72 @@ import {
   StyleSheet,
   ScrollView,
   Alert,
+  Pressable,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import colors from "../colors";
+import Modal from "react-native-modal";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import * as SQLite from "expo-sqlite";
 
 export default function TestingScreen({ navigation }) {
-  const [grunduebung, setGrunduebung] = useState(1);
-  // BEREICH 1: Array von Gruppen { level, value }
-  const [groups, setGroups] = useState([{ level: 0, value: "" }]);
+  const [isModalVisible, setModalVisible] = useState(false);
 
-  // BEREICH 2: ein einzelner Level-Picker + Array von Zahl-Inputs
-  const [singleLevel, setSingleLevel] = useState(0);
-  const [numberInputs, setNumberInputs] = useState([""]);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+  async function dbAction() {
+    const db = await SQLite.openDatabaseAsync("training.db");
+    await db.execAsync(`DROP TABLE IF EXISTS trainings`);
+    await db.execAsync(`CREATE TABLE IF NOT EXISTS trainings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    datestring TEXT,
+    baseExercise INTEGER,
+    level INTEGER,
+    work1_rep TEXT,
+    work2_rep TEXT,
+    work3_rep TEXT,
+    work4_rep TEXT,
+    work5_rep TEXT,
+    work6_rep TEXT,
+    warmup1_level TEXT,
+    warmup1_rep TEXT,
+    warmup2_level TEXT,
+    warmup2_rep TEXT,
+    warmup3_level TEXT,
+    warmup3_rep TEXT,
+    warmup4_level TEXT,
+    warmup4_rep TEXT,
+    warmup5_level TEXT,
+    warmup5_rep TEXT,
+    warmup6_level TEXT,
+    warmup6_rep TEXT
+);`);
 
-  // Funktionen für Bereich 1
-  const addGroup = () =>
-    setGroups((g) => (g.length > 7 ? g : [...g, { level: 0, value: "" }]));
-
-  const removeGroup = () =>
-    setGroups((g) => (g.length > 1 ? g.slice(0, -1) : g));
-
-  const updateGroup = (idx, field, val) =>
-    setGroups((g) =>
-      g.map((grp, i) => (i === idx ? { ...grp, [field]: val } : grp))
+    const result = await db.runAsync(
+      "INSERT INTO trainings (datestring, baseExercise, level, work1_rep, work2_rep) VALUES (?, ?, ?, ?, ?)",
+      "12.02.2025",
+      1,
+      5,
+      15,
+      20
     );
+    console.log(result.lastInsertRowId, result.changes);
+  }
 
-  // Funktionen für Bereich 2
-  const addNumberInput = () =>
-    setNumberInputs((arr) => (arr.length > 7 ? arr : [...arr, ""]));
-
-  const removeNumberInput = () =>
-    setNumberInputs((arr) => (arr.length > 1 ? arr.slice(0, -1) : arr));
-
-  const updateNumberInput = (idx, text) => {
-    const cleaned = text.replace(/[^0-9]/g, "");
-    setNumberInputs((arr) => arr.map((v, i) => (i === idx ? cleaned : v)));
-  };
-
-  const onPressFertig = () => {
-    console.log("alerting");
-    Alert.alert("Eintrag abgeschlossen", "Deine Eingaben wurden gespeichert.", [
-      { text: "OK" },
-    ]);
-    navigation.navigate("TabHome");
-  };
+  async function resultsLog() {
+    const db = await SQLite.openDatabaseAsync("training.db");
+    const firstRow = await db.getFirstAsync("SELECT * FROM trainings");
+    console.log(firstRow);
+    const allRows = await db.getAllAsync("SELECT * FROM trainings");
+    console.log(allRows);
+  }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {/* === BEREICH 1: dynamische Gruppen === */}
-      <Text style={styles.headingBig}>Übungseintragung</Text>
-      <Text style={styles.heading}>Grundübung</Text>
-      <View style={styles.picker}>
-        <Picker
-          selectedValue={grunduebung}
-          onValueChange={(newVal, itemIndex) => setGrunduebung(newVal)}
-        >
-          <Picker.Item
-            label="Wähle eine Grundübung aus"
-            value={0}
-            enabled={false}
-          />
-          <Picker.Item label="Liegestütze" value={1} />
-          <Picker.Item label="Kniebeuge" value={2} />
-          <Picker.Item label="Klimmzüge" value={3} />
-          <Picker.Item label="Beinheber" value={4} />
-          <Picker.Item label="Brücken" value={5} />
-          <Picker.Item label="Handstand Liegestütze" value={6} />
-        </Picker>
-      </View>
-      <Text style={styles.heading}>Warm-up</Text>
-      {groups.map((grp, i) => (
-        <View key={i} style={styles.group}>
-          <View style={styles.picker}>
-            <Picker
-              selectedValue={grp.level}
-              onValueChange={(val) => updateGroup(i, "level", val)}
-            >
-              <Picker.Item label="- Level wählen -" value={0} enabled={false} />
-              {[...Array(10)].map((_, idx) => (
-                <Picker.Item
-                  key={idx + 1}
-                  label={`${idx + 1}`}
-                  value={idx + 1}
-                />
-              ))}
-            </Picker>
-          </View>
-          <TextInput
-            style={styles.input}
-            keyboardType="numeric"
-            maxLength={4}
-            value={grp.value}
-            onChangeText={(text) =>
-              updateGroup(i, "value", text.replace(/[^0-9]/g, ""))
-            }
-            placeholder="55"
-          />
-        </View>
-      ))}
-      <View style={styles.buttonsRow}>
-        <Button title="Satz hinzufügen" onPress={addGroup} />
-        <View style={styles.spacer} />
-        <Button title="Satz entfernen" onPress={removeGroup} />
-      </View>
-
-      {/* === BEREICH 2: Single Picker + flexible Zahl-Inputs === */}
-      <Text style={[styles.heading, { marginTop: 24 }]}>Arbeitssätze</Text>
-      <View style={[styles.group, { marginBottom: 8 }]}>
-        <View style={styles.picker}>
-          <Picker
-            selectedValue={singleLevel}
-            onValueChange={(val) => setSingleLevel(val)}
-          >
-            <Picker.Item label="- Level wählen -" value={0} enabled={false} />
-            {[...Array(10)].map((_, idx) => (
-              <Picker.Item key={idx + 1} label={`${idx + 1}`} value={idx + 1} />
-            ))}
-          </Picker>
-        </View>
-      </View>
-      {numberInputs.map((val, i) => (
-        <TextInput
-          key={i}
-          style={[styles.input, styles.numberInput]}
-          keyboardType="numeric"
-          maxLength={4}
-          value={val}
-          onChangeText={(text) => updateNumberInput(i, text)}
-          placeholder={`#${i + 1}`}
-        />
-      ))}
-      <View style={styles.buttonsRow}>
-        <Button title="Satz hinzufügen" onPress={addNumberInput} />
-        <View style={styles.spacer} />
-        <Button title="Satz entfernen" onPress={removeNumberInput} />
-      </View>
-      <View style={styles.buttonWrapper}>
-        <Button title="Fertig" onPress={() => onPressFertig()} />
-      </View>
+    <ScrollView>
+      <Text>Hi </Text>
+      <Button title="Create & insert DB" onPress={dbAction} />
+      <Button title="Results" onPress={resultsLog} />
     </ScrollView>
   );
 }

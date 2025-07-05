@@ -28,7 +28,7 @@ const PushupScreen = ({ route }) => {
         Fortgeschritten: 2 Sätze à 25 Wdh.{"\n"}Level-Up: 3 Sätze à 50 Wdh.
         {"\n"}
         <Image
-          source={require("../../assets/images/react-logo.png")}
+          source={require("../../../assets/images/react-logo.png")}
           style={""}
         />
         {"\n"}Level 2: Incline Pushups (Schräge Liegestütze){"\n"}Finde eine

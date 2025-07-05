@@ -38,7 +38,7 @@ const DayPicker = ({ daysRequired }) => {
       </View>
       {daysRequired != selectedDays.length ? (
         <Text style={{ paddingLeft: 20, color: "red" }}>
-          Please select exactly {daysRequired} days for this workout
+          Bitte wähle für diesen Trainingsplan exakt {daysRequired} Tage aus
         </Text>
       ) : (
         ""
