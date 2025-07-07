@@ -12,7 +12,7 @@ const TraningsconceptScreen = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
       <Text>
-        <Text style={{ fontSize: 22 }}>Trainigskonzept</Text>
+        <Text style={{ fontSize: 22 }}>Trainingskonzept</Text>
         {"\n"}
         {"\n"}
       </Text>

@@ -1,18 +1,33 @@
 import { View, Text, Button, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BarChart } from "react-native-gifted-charts";
 import ProgressBar from "./ProgressBar";
+import * as SQLite from "expo-sqlite";
+import Storage from "expo-sqlite/kv-store";
 
 const Ansicht2 = ({ route }) => {
+  //get values from key value storage
+  const pushups = JSON.parse(Storage.getItemSync("pushups"));
+  const squats = JSON.parse(Storage.getItemSync("squats"));
+  const pullups = JSON.parse(Storage.getItemSync("pullups"));
+  const leg_raises = JSON.parse(Storage.getItemSync("leg_raises"));
+  const bridges = JSON.parse(Storage.getItemSync("bridges"));
+  const handstand_pushups = JSON.parse(
+    Storage.getItemSync("handstand_pushups")
+  );
+
   return (
     <View style={styles.chartBackground}>
       <Text style={styles.headline}>Aktueller Trainingsstand nach Level</Text>
-      <ProgressBar label="Liegestütze" fillWidth={1.2} />
-      <ProgressBar label="Kniebeugen" fillWidth={7.5} />
-      <ProgressBar label="Klimmzüge" fillWidth={6.9} />
-      <ProgressBar label="Beinheber" fillWidth={4.8} />
-      <ProgressBar label="Brücken" fillWidth={8.3} />
-      <ProgressBar label="Handstand Liegestütze" fillWidth={3.2} />
+      <ProgressBar label="Liegestütze" fillWidth={pushups} />
+      <ProgressBar label="Kniebeugen" fillWidth={squats} />
+      <ProgressBar label="Klimmzüge" fillWidth={pullups} />
+      <ProgressBar label="Beinheber" fillWidth={leg_raises} />
+      <ProgressBar label="Brücken" fillWidth={bridges} />
+      <ProgressBar
+        label="Handstand Liegestütze"
+        fillWidth={handstand_pushups}
+      />
     </View>
   );
 };
@@ -64,3 +79,17 @@ export default Ansicht2;
         </View>
       </View>
  */
+
+/*async function getData() {
+    const db = await SQLite.openDatabaseAsync("training.db");
+    const result =
+      await db.runAsync(`CREATE TABLE IF NOT EXISTS levels (id INTEGER PRIMARY KEY AUTOINCREMENT,
+      pushups REAL,
+      squats REAL,
+      pullups REAL,
+      leg_raises REAL,
+      bridges REAL,
+      handstand_pushups REAL);`);
+
+    const firstRow = await db.getFirstAsync(`SELECT * FROM levels`);
+  }*/

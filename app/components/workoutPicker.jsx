@@ -9,7 +9,7 @@ export default function WorkoutPicker({
   onValueChange,
   daysRequired,
 }) {
-  const [selectedValue, setSelectedValue] = useState("New Blood");
+  const [selectedValue, setSelectedValue] = useState("Anfänger");
 
   return (
     <View style={styles.container}>
@@ -20,9 +20,9 @@ export default function WorkoutPicker({
             value=""
             enabled={false}
           />
-          <Picker.Item label="New Blood" value="New Blood" />
-          <Picker.Item label="Good Behaviour" value="Good Behaviour" />
-          <Picker.Item label="Veterano" value="Veterano" />
+          <Picker.Item label="Anfänger" value="Anfänger" />
+          <Picker.Item label="Fortgeschritten" value="Fortgeschritten" />
+          <Picker.Item label="Profi" value="Profi" />
         </Picker>
       </View>
     </View>

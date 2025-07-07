@@ -35,7 +35,7 @@ function Profile(props) {
   const [name, setName] = useState("Max Mustermann");
   const fadeAnim = useAnimatedValue(0);
   const [notification, setNotification] = useState(false);
-  const [workoutPickerValue, setWorkoutPickerValue] = useState("New Blood");
+  const [workoutPickerValue, setWorkoutPickerValue] = useState("Anfänger");
   const [daysRequired, setDaysRequired] = useState(2);
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -45,11 +45,11 @@ function Profile(props) {
 
   const adjustDaysRequired = (newVal) => {
     console.log("this is adjustDaysRequired " + newVal);
-    if (newVal == "New Blood") {
+    if (newVal == "Anfänger") {
       setDaysRequired(2);
-    } else if (newVal == "Good Behaviour") {
+    } else if (newVal == "Fortgeschritten") {
       setDaysRequired(3);
-    } else if (newVal == "Veterano") {
+    } else if (newVal == "Profi") {
       setDaysRequired(6);
     }
   };

@@ -12,7 +12,7 @@ import colors from "../colors";
 import { TextInput } from "react-native-gesture-handler";
 import ExerciseListModal from "../components/exerciseListModal";
 
-//erstmal nur Montag Mittwoch Freitag Trainigstage
+//erstmal nur Montag Mittwoch Freitag Trainingstage
 //erweitern für die Auswahl aus Settings
 const today = new Date().getDay();
 function findNextTraining(today) {
@@ -80,7 +80,7 @@ const Home = ({ navigation }) => {
         <Button
           color={colors.primary}
           onPress={() => childRef.current.toggleModal()}
-          title="Heutiges Trainig verwalten"
+          title="Heutiges Training verwalten"
         ></Button>
       </View>
 

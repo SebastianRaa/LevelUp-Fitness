@@ -29,7 +29,7 @@ function Knowledge({ navigation }) {
           alignItems: "center",
         }}
       >
-        <Text style={styles.headline}>Trainigskonzept</Text>
+        <Text style={styles.headline}>Trainingskonzept</Text>
         <ConceptCard
           title="Trainingskonzept"
           navigation={navigation}

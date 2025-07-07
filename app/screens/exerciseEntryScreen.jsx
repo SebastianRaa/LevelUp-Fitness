@@ -13,15 +13,18 @@ import { Picker } from "@react-native-picker/picker";
 import colors from "../colors";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
+import Storage from "expo-sqlite/kv-store";
+import LevelUpRequirements from "../data/exercises/levelUpRequirements";
 
 export default function ExerciseEntryScreen({ navigation }) {
   const [grunduebung, setGrunduebung] = useState(0);
-  // BEREICH 1: Array von Gruppen { level, value }
-  const [groups, setGroups] = useState([{ level: 0, value: "" }]);
+  // BEREICH 1: Array von Warm-Up Gruppen { level, value }
+  const [warmupGroups, setWarmupGroups] = useState([{ level: 0, value: "" }]);
 
   // BEREICH 2: ein einzelner Level-Picker + Array von Zahl-Inputs
-  const [singleLevel, setSingleLevel] = useState(0);
-  const [numberInputs, setNumberInputs] = useState([]);
+  const [workLevel, setWorkLevel] = useState(0);
+  const [workReps, setWorkReps] = useState([""]);
+  var totalWorkReps = 0;
 
   const [date, setDate] = useState(
     new Date().toLocaleDateString("de-DE", {
@@ -33,29 +36,31 @@ export default function ExerciseEntryScreen({ navigation }) {
 
   // Funktionen für Bereich 1
   const addGroup = () =>
-    setGroups((g) => (g.length > 5 ? g : [...g, { level: 0, value: "" }]));
+    setWarmupGroups((g) =>
+      g.length > 5 ? g : [...g, { level: 0, value: "" }]
+    );
 
   const removeGroup = () =>
-    setGroups((g) => (g.length > 0 ? g.slice(0, -1) : g));
+    setWarmupGroups((g) => (g.length > 0 ? g.slice(0, -1) : g));
 
   const updateGroup = (idx, field, val) =>
-    setGroups((g) =>
+    setWarmupGroups((g) =>
       g.map((grp, i) => (i === idx ? { ...grp, [field]: val } : grp))
     );
 
   // Funktionen für Bereich 2
-  const addNumberInput = () =>
-    setNumberInputs((arr) => (arr.length > 5 ? arr : [...arr, ""]));
+  const addWorkReps = () =>
+    setWorkReps((arr) => (arr.length > 5 ? arr : [...arr, ""]));
 
-  const removeNumberInput = () =>
-    setNumberInputs((arr) => (arr.length > 1 ? arr.slice(0, -1) : arr));
+  const removeWorkReps = () =>
+    setWorkReps((arr) => (arr.length > 1 ? arr.slice(0, -1) : arr));
 
-  const updateNumberInput = (idx, text) => {
+  const updateWorkReps = (idx, text) => {
     const cleaned = text.replace(/[^0-9]/g, "");
-    setNumberInputs((arr) => arr.map((v, i) => (i === idx ? cleaned : v)));
+    setWorkReps((arr) => arr.map((v, i) => (i === idx ? cleaned : v)));
   };
 
-  const onPressFertig = () => {
+  async function onPressFertig() {
     //User-Error handling: Keine Grundübung ausgewählt
     if (grunduebung === 0) {
       Alert.alert(
@@ -64,7 +69,7 @@ export default function ExerciseEntryScreen({ navigation }) {
         [{ text: "OK" }]
       );
       return;
-    } else if (singleLevel === 0) {
+    } else if (workLevel === 0) {
       //User-Error handling: Keine Level für die Arbeitssätze ausgewählt
       Alert.alert(
         "Achtung",
@@ -72,41 +77,103 @@ export default function ExerciseEntryScreen({ navigation }) {
         [{ text: "OK" }]
       );
       return;
+    } else if (!workReps[0]) {
+      //User-Error handling: Keine Reps für den ersten Arbeitssatz ausgewählt
+      Alert.alert(
+        "Achtung",
+        "Bitte trage mindestens ein Satz für deine Arbeitssätze ein, um deine Eingaben speichern zu können.",
+        [{ text: "OK" }]
+      );
+      return;
     }
-    //console.log(groups);
-    //console.log(numberInputs[1]);
-    saveToDB();
-    Alert.alert("Eintrag abgeschlossen", "Deine Eingaben wurden gespeichert.", [
-      { text: "OK" },
-    ]);
-    navigation.navigate("TabHome");
-  };
+    //Warten auf Ergebnis des DB-Inserts
+    const result = await saveToDB();
+    //erfolg
+    if (result === 1) {
+      await saveToStorage();
+      Alert.alert(
+        "Eintrag abgeschlossen",
+        "Deine Eingaben wurden gespeichert.",
+        [{ text: "OK" }]
+      );
+      navigation.navigate("TabHome");
+    } else {
+      //misserfolg
+      Alert.alert(
+        "Fehler",
+        "Deine Eingaben konnten leider nicht gespeichert werden.",
+        [{ text: "OK" }]
+      );
+    }
+  }
 
   async function saveToDB() {
-    const fields = [];
-    const placeholders = ["?", "?", "?"];
-    const values = [date, grunduebung, singleLevel];
+    try {
+      //need to dynamically create query string and values
+      const fields = [];
+      const placeholders = ["?", "?", "?"];
+      const values = [date, grunduebung, workLevel];
 
-    Object.entries(numberInputs).forEach(([key, value], index) => {
-      if (value) {
-        fields.push(`work${index + 1}_rep`);
-        //console.log("key: " + key + 1);
-        //console.log("value: " + value);
-        placeholders.push("?");
-        values.push(value);
+      //iterate over every work set
+      Object.entries(workReps).forEach(([key, value], index) => {
+        if (value) {
+          fields.push(`work${index + 1}_rep`);
+          //console.log("key: " + key + 1);
+          //console.log("value: " + value);
+          placeholders.push("?");
+          values.push(value);
+          //console.log("value " + value + typeof value);
+          totalWorkReps = totalWorkReps + Number(value);
+        }
+      });
+
+      //iterate over every group of warmup entries
+      Object.entries(warmupGroups).forEach(([key, value], index) => {
+        if (value.level && value.value) {
+          fields.push(`warmup${index + 1}_level`);
+          fields.push(`warmup${index + 1}_rep`);
+          placeholders.push("?");
+          placeholders.push("?");
+          values.push(value.level);
+          values.push(value.value);
+        }
+      });
+
+      const query = `INSERT INTO trainings (datestring, baseExercise, level, ${fields.join(
+        ", "
+      )}) VALUES (${placeholders.join(", ")})`;
+      console.log(query);
+      console.log(values);
+      const db = await SQLite.openDatabaseAsync("training.db");
+      const result = await db.runAsync(query, values);
+      console.log(result);
+      if (result.changes === 1) {
+        console.log("Speichern war erfolgreich.");
+        return 1;
+      } else {
+        console.log("Keine Zeile gespeichert.");
+        return 0;
       }
-    });
+    } catch (error) {
+      console.error("❌ Fehler beim Speichern", error);
+      return 0;
+    }
+  }
 
-    //als nächstes mit warmups weiter
-
-    const query = `INSERT INTO trainings (datestring, baseExercise, level, ${fields.join(
-      ", "
-    )}) VALUES (${placeholders.join(", ")})`;
-    console.log(query);
-    console.log(values);
-    const db = await SQLite.openDatabaseAsync("training.db");
-    const result = await db.runAsync(query, values);
-    console.log(result);
+  //save level of base exercise to key value storage
+  async function saveToStorage() {
+    const req = LevelUpRequirements[grunduebung][workLevel];
+    //console.log("totalWorkReps: " + totalWorkReps);
+    //console.log("req: " + req);
+    if (totalWorkReps >= req) {
+      const levelUp = workLevel + 1;
+      await Storage.setItem(`${grunduebung}`, `${levelUp}`);
+    } else {
+      var progress = totalWorkReps / req;
+      progress = progress.toFixed(1).slice(1); //should round to one decimal and get rid of 0 at the front
+      await Storage.setItem(`${grunduebung}`, `${workLevel + progress}`);
+      //console.log(progress);
+    }
   }
 
   return (
@@ -127,16 +194,19 @@ export default function ExerciseEntryScreen({ navigation }) {
             value={0}
             enabled={false}
           />
-          <Picker.Item label="Liegestütze" value={1} />
-          <Picker.Item label="Kniebeuge" value={2} />
-          <Picker.Item label="Klimmzüge" value={3} />
-          <Picker.Item label="Beinheber" value={4} />
-          <Picker.Item label="Brücken" value={5} />
-          <Picker.Item label="Handstand Liegestütze" value={6} />
+          <Picker.Item label="Liegestütze" value={"pushups"} />
+          <Picker.Item label="Kniebeuge" value={"squats"} />
+          <Picker.Item label="Klimmzüge" value={"pullups"} />
+          <Picker.Item label="Beinheber" value={"leg_raises"} />
+          <Picker.Item label="Brücken" value={"bridges"} />
+          <Picker.Item
+            label="Handstand Liegestütze"
+            value={"handstand_pushups"}
+          />
         </Picker>
       </View>
-      <Text style={styles.heading}>Warm-up</Text>
-      {groups.map((grp, i) => (
+      <Text style={[styles.heading, { marginTop: 10 }]}>Warm-up</Text>
+      {warmupGroups.map((grp, i) => (
         <View key={i} style={styles.group}>
           <View style={styles.picker}>
             <Picker
@@ -176,8 +246,8 @@ export default function ExerciseEntryScreen({ navigation }) {
       <View style={[styles.group, { marginBottom: 8 }]}>
         <View style={styles.picker}>
           <Picker
-            selectedValue={singleLevel}
-            onValueChange={(val) => setSingleLevel(val)}
+            selectedValue={workLevel}
+            onValueChange={(val) => setWorkLevel(val)}
           >
             <Picker.Item label="- Level wählen -" value={0} enabled={false} />
             {[...Array(10)].map((_, idx) => (
@@ -186,21 +256,21 @@ export default function ExerciseEntryScreen({ navigation }) {
           </Picker>
         </View>
       </View>
-      {numberInputs.map((val, i) => (
+      {workReps.map((val, i) => (
         <TextInput
           key={i}
           style={[styles.input, styles.numberInput]}
           keyboardType="numeric"
           maxLength={4}
           value={val}
-          onChangeText={(text) => updateNumberInput(i, text)}
+          onChangeText={(text) => updateWorkReps(i, text)}
           placeholder={`#${i + 1}`}
         />
       ))}
       <View style={styles.buttonsRow}>
-        <Button title="Satz hinzufügen" onPress={addNumberInput} />
+        <Button title="Satz hinzufügen" onPress={addWorkReps} />
         <View style={styles.spacer} />
-        <Button title="Satz entfernen" onPress={removeNumberInput} />
+        <Button title="Satz entfernen" onPress={removeWorkReps} />
       </View>
       <View style={styles.buttonWrapper}>
         <Button title="Fertig" onPress={() => onPressFertig()} />

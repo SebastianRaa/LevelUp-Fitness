@@ -14,6 +14,7 @@ import colors from "../colors";
 import Modal from "react-native-modal";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
+import Storage from "expo-sqlite/kv-store";
 
 export default function TestingScreen({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -68,11 +69,35 @@ export default function TestingScreen({ navigation }) {
     console.log(allRows);
   }
 
+  async function storageTest() {
+    await Storage.setItem(
+      "levels",
+      JSON.stringify({
+        pushups: 7.2,
+        squats: 8.2,
+        pullups: 1.2,
+        leg_raises: 5.2,
+        bridges: 8.2,
+        handstand_pushups: 6.2,
+      })
+    );
+    const levels = await Storage.getItem("levels");
+    const entity = JSON.parse(levels);
+    console.log(entity); // { entity: 'value' }
+  }
+
+  async function storageTest2() {
+    //await Storage.setItem("levels", "abc");
+    const levels = await Storage.getItem("handstand_pushups");
+    console.log(levels); // { entity: 'value' }
+  }
+
   return (
     <ScrollView>
       <Text>Hi </Text>
       <Button title="Create & insert DB" onPress={dbAction} />
       <Button title="Results" onPress={resultsLog} />
+      <Button title="Storage Test" onPress={storageTest2} />
     </ScrollView>
   );
 }

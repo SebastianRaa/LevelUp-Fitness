@@ -26,7 +26,7 @@ const HandstandpushupScreen = ({ route }) => {
         Beine gegen die Wand gelehnt sind. Strecke die Beine langsam und halte
         die Position. Atme ruhig durch die Nase. Senke die Beine kontrolliert,
         um wieder in den Kniestand zurückzukehren​.{"\n"}
-        {"\n"}Trainigsziele:{"\n"}Anfänger: 30 Sekunden halten{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Anfänger: 30 Sekunden halten{"\n"}
         Fortgeschritten: 1 Minute halten{"\n"}Level-Up: 2 Minuten halten{"\n"}
         {"\n"}Level 2: Crow Stands (Krähenstand){"\n"}Anleitung:{"\n"}Hocke dich
         hin, Knie weit auseinander, Hände flach vor dir auf dem Boden. Lehne
@@ -34,7 +34,7 @@ const HandstandpushupScreen = ({ route }) => {
         Verlagere langsam das Gewicht nach vorn, bis deine Füße den Boden
         verlassen. Halte das Gleichgewicht mit den Händen, während du den Rumpf
         stabilisierst. Atme ruhig und konzentriere dich auf die Balance.{"\n"}
-        {"\n"}Trainigsziele:{"\n"}Anfänger: 10 Sekunden halten{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Anfänger: 10 Sekunden halten{"\n"}
         Fortgeschritten: 30 Sekunden halten{"\n"}Level-Up: 1 Minute halten​
         {"\n"}
         {"\n"}Level 3: Wall Handstands (Wand-Handstand){"\n"}Anleitung:{"\n"}
@@ -43,7 +43,7 @@ const HandstandpushupScreen = ({ route }) => {
         die Fersen die Wand leicht berühren. Der Körper bildet eine leichte
         Rückwärtskrümmung. Halte die Arme gestreckt, atme ruhig und kontrolliere
         die Position.{"\n"}
-        {"\n"}Trainigsziele:{"\n"}Anfänger: 30 Sekunden halten{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Anfänger: 30 Sekunden halten{"\n"}
         Fortgeschritten: 1 Minute halten{"\n"}Level-Up: 2 Minuten halten{"\n"}
         {"\n"}Level 4: Half Handstand Pushups (Halbe Handstandliegestütze){"\n"}
         Anleitung:{"\n"}Gehe in den Wandhandstand mit Händen etwa 20 cm von der
@@ -51,7 +51,7 @@ const HandstandpushupScreen = ({ route }) => {
         auf halber Strecke zum Boden ist. Halte die Position kurz, dann drücke
         dich wieder nach oben. Behalte durchgehende Körperspannung und atme
         ruhig.{"\n"}
-        {"\n"}Trainigsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh.{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh.{"\n"}
         Fortgeschritten: 2 Sätze à 10 Wdh.{"\n"}Level-Up: 2 Sätze à 20 Wdh.​
         {"\n"}
         {"\n"}Level 5: Handstand Pushups (Volle Handstandliegestütze){"\n"}
@@ -60,7 +60,7 @@ const HandstandpushupScreen = ({ route }) => {
         sanft den Boden berührt. Fersen bleiben an der Wand. Halte kurz und
         drücke dich dann kraftvoll wieder nach oben. Kontrolliere die Bewegung
         zu jeder Zeit.{"\n"}
-        {"\n"}Trainigsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh.{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh.{"\n"}
         Fortgeschritten: 2 Sätze à 10 Wdh.{"\n"}Level-Up: 2 Sätze à 15 Wdh.​
         {"\n"}
         {"\n"}Level 6: Close Handstand Pushups (Enge Handstandliegestütze){"\n"}
@@ -68,7 +68,7 @@ const HandstandpushupScreen = ({ route }) => {
         wie möglich zusammen, sodass sich die Zeigefinger berühren. Senke dich
         wie in Level 5, aber mit größerer Belastung auf Ellbogen und Trizeps.
         Drücke dich unter voller Körperspannung wieder hoch.{"\n"}
-        {"\n"}Trainigsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh.{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh.{"\n"}
         Fortgeschritten: 2 Sätze à 9 Wdh.{"\n"}Level-Up: 2 Sätze à 12 Wdh.​
         {"\n"}
         {"\n"}Level 7: Uneven Handstand Pushups (Ungleiche Handstandliegestütze)
@@ -77,7 +77,7 @@ const HandstandpushupScreen = ({ route }) => {
         Verteile dein Gewicht dabei gleichmäßig auf beide Hände. Senke dich
         langsam, bis der Kopf wieder sanft den Boden berührt. Halte kurz und
         drücke dich kontrolliert wieder nach oben.{"\n"}
-        {"\n"}Trainigsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh. pro Seite{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh. pro Seite{"\n"}
         Fortgeschritten: 2 Sätze à 8 Wdh. pro Seite{"\n"}Level-Up: 2 Sätze à 10
         Wdh. pro Seite​{"\n"}
         {"\n"}Level 8: Half One-Arm Handstand Pushups (Halbe einarmige
@@ -86,7 +86,7 @@ const HandstandpushupScreen = ({ route }) => {
         andere Hand wird zur Balance zur Seite gestreckt. Senke dich langsam ab,
         bis der Kopf etwa auf halber Strecke ist, halte kurz und drücke dich
         wieder hoch. Wechsle die Seite.{"\n"}
-        {"\n"}Trainigsziele:{"\n"}Anfänger: 1 Satz à 4 Wdh. pro Seite{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 4 Wdh. pro Seite{"\n"}
         Fortgeschritten: 2 Sätze à 6 Wdh. pro Seite{"\n"}Level-Up: 2 Sätze à 8
         Wdh. pro Seite​{"\n"}
         {"\n"}Level 9: Lever Handstand Pushups (Hebel-Handstandliegestütze)
@@ -96,7 +96,7 @@ const HandstandpushupScreen = ({ route }) => {
         dann drücke dich wieder hoch. Dabei gleitet die Hilfshand über den Boden
         von dir weg und wieder zu dir hin. Halte Körperspannung und nutze die
         Hilfshand nur sparsam.{"\n"}
-        {"\n"}Trainigsziele:{"\n"}Anfänger: 1 Satz à 3 Wdh. pro Seite{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 3 Wdh. pro Seite{"\n"}
         Fortgeschritten: 2 Sätze à 4 Wdh. pro Seite{"\n"}Level-Up: 2 Sätze à 6
         Wdh. pro Seite​{"\n"}
         {"\n"}Level 10: One-Arm Handstand Pushups (Einarmige
@@ -106,7 +106,7 @@ const HandstandpushupScreen = ({ route }) => {
         und Schulter, bis der Kopf den Boden leicht berührt. Drücke dich mit
         Kraft wieder hoch. Nutze bei Bedarf etwas Schwung aus den Beinen um vom
         Boden nach oben zukommen.{"\n"}
-        {"\n"}Trainigsziele:{"\n"}Anfänger: 1 Satz à 1 Wdh. pro Seite{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 1 Wdh. pro Seite{"\n"}
         Fortgeschritten: 2 Sätze à 2 Wdh. pro Seite{"\n"}Level-Up: 1 Satz à 5
         Wdh. pro Seite​
       </Text>
