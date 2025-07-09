@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import colors from "../colors";
-import { TextInput } from "react-native-gesture-handler";
 import ExerciseListModal from "../components/exerciseListModal";
 
 //erstmal nur Montag Mittwoch Freitag Trainingstage
@@ -31,7 +30,7 @@ const Home = ({ navigation }) => {
     new Date().toLocaleDateString("de-DE", {
       day: "2-digit",
       month: "2-digit",
-      year: "2-digit",
+      year: "numeric",
     })
   );
   const childRef = useRef(null);

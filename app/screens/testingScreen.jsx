@@ -24,7 +24,7 @@ export default function TestingScreen({ navigation }) {
   };
   async function dbAction() {
     const db = await SQLite.openDatabaseAsync("training.db");
-    await db.execAsync(`DROP TABLE IF EXISTS trainings`);
+    //await db.execAsync(`DROP TABLE IF EXISTS trainings`);
     await db.execAsync(`CREATE TABLE IF NOT EXISTS trainings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     datestring TEXT,
@@ -52,9 +52,9 @@ export default function TestingScreen({ navigation }) {
 
     const result = await db.runAsync(
       "INSERT INTO trainings (datestring, baseExercise, level, work1_rep, work2_rep) VALUES (?, ?, ?, ?, ?)",
-      "12.02.2025",
-      1,
-      5,
+      "09.07.2025",
+      "leg_raises",
+      6,
       15,
       20
     );
@@ -63,8 +63,8 @@ export default function TestingScreen({ navigation }) {
 
   async function resultsLog() {
     const db = await SQLite.openDatabaseAsync("training.db");
-    const firstRow = await db.getFirstAsync("SELECT * FROM trainings");
-    console.log(firstRow);
+    //const firstRow = await db.getFirstAsync("SELECT * FROM trainings");
+    //console.log(firstRow);
     const allRows = await db.getAllAsync("SELECT * FROM trainings");
     console.log(allRows);
   }

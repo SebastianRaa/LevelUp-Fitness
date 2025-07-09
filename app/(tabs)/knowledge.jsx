@@ -16,7 +16,7 @@ import colors from "../colors";
 
 //Tab 3
 function Knowledge({ navigation }) {
-  console.log(pushups.level1);
+  //console.log(pushups.level1);
   return (
     <ScrollView
       style={{

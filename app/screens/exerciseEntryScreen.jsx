@@ -16,7 +16,7 @@ import * as SQLite from "expo-sqlite";
 import Storage from "expo-sqlite/kv-store";
 import LevelUpRequirements from "../data/exercises/levelUpRequirements";
 
-export default function ExerciseEntryScreen({ navigation }) {
+export default function ExerciseEntryScreen({ route, navigation }) {
   const [grunduebung, setGrunduebung] = useState(0);
   // BEREICH 1: Array von Warm-Up Gruppen { level, value }
   const [warmupGroups, setWarmupGroups] = useState([{ level: 0, value: "" }]);
@@ -30,9 +30,13 @@ export default function ExerciseEntryScreen({ navigation }) {
     new Date().toLocaleDateString("de-DE", {
       day: "2-digit",
       month: "2-digit",
-      year: "2-digit",
+      year: "numeric",
     })
   );
+
+  //hier weiter!!
+  const { item } = route.params;
+  console.log(item);
 
   // Funktionen für Bereich 1
   const addGroup = () =>

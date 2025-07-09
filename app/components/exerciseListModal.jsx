@@ -17,13 +17,16 @@ import {
 import colors from "../colors";
 import Modal from "react-native-modal";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import * as SQLite from "expo-sqlite";
+import { useNavigation } from "@react-navigation/native";
 
-const ExerciseListModal = ({ navigation, day }, ref) => {
+const ExerciseListModal = ({ day }, ref) => {
   const [isModalVisible, setModalVisible] = useState(false);
-
+  const [dailyData, setDailyData] = useState([]);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+  const navigation = useNavigation();
 
   useImperativeHandle(ref, () => ({
     toggleModal,
@@ -31,6 +34,50 @@ const ExerciseListModal = ({ navigation, day }, ref) => {
   /*Übungen vom {day.day.toString().length == 2 ? day.day : "0" + day.day}
           .{day.month.toString().length == 2 ? day.month : "0" + day.month}.
           {day.year}*/
+
+  useEffect(() => {
+    if (!day) return;
+    async function getTrainingDay() {
+      try {
+        const db = await SQLite.openDatabaseAsync("training.db");
+        const sql = `SELECT * FROM trainings WHERE datestring = ?;`;
+        const result = await db.getAllAsync(sql, [day]);
+        console.log("SQL:", sql, [day], "→", result);
+        setDailyData(result);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    getTrainingDay();
+  }, [day]);
+
+  function getGermanName(exercise) {
+    if (exercise == "pushups") {
+      return "Liegestütze";
+    } else if (exercise == "squats") {
+      return "Kniebeuge";
+    } else if (exercise == "pullups") {
+      return "Klimmzüge";
+    } else if (exercise == "leg_raises") {
+      return "Beinheber";
+    } else if (exercise == "bridges") {
+      return "Brücken";
+    } else if (exercise == "handstand_pushups") {
+      return "Handstand Liegestütze";
+    } else {
+      return "Fehler";
+    }
+  }
+
+  async function deleteEntry(item) {
+    const db = await SQLite.openDatabaseAsync("training.db");
+    const query = `DELETE FROM trainings WHERE id=${item.id}`;
+    console.log(query);
+    const result = await db.execAsync(query);
+    console.log(result);
+    setDailyData((old) => old.filter((entry) => entry.id !== item.id));
+  }
+
   return (
     <Modal isVisible={isModalVisible} onBackdropPress={() => toggleModal()}>
       <View
@@ -49,21 +96,45 @@ const ExerciseListModal = ({ navigation, day }, ref) => {
           {"\n"}
           {"\n"}
         </Text>
-        <View style={styles.group}>
-          <Pressable onPress={() => navigation.navigate("ExerciseEntryScreen")}>
-            <Text>Liegestütze</Text>
-          </Pressable>
-          <Pressable
-            onPress={() =>
-              Alert.alert("Eintrag löschen", "Diese Übung wird gelöscht.", [
-                { text: "Abbruch" },
-                { text: "Löschen" },
-              ])
-            }
-          >
-            <Ionicons name="trash-outline" />
-          </Pressable>
-        </View>
+        {dailyData.map((item, index) => {
+          return (
+            <View key={item.id} style={styles.group}>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate("ExerciseEntryScreen", { item })
+                }
+              >
+                <Text>{getGermanName(item.baseExercise)}</Text>
+              </Pressable>
+              <Pressable
+                onPress={() =>
+                  Alert.alert(
+                    "Eintrag löschen",
+                    "Diese Übung wirklich löschen?",
+                    [
+                      // Abbrechen-Button
+                      {
+                        text: "Abbruch",
+                        style: "cancel",
+                      },
+                      // Löschen-Button mit onPress
+                      {
+                        text: "Löschen",
+                        style: "destructive",
+                        onPress: () => {
+                          deleteEntry(item);
+                        },
+                      },
+                    ]
+                  )
+                }
+              >
+                <Ionicons name="trash-outline" />
+              </Pressable>
+            </View>
+          );
+        })}
+
         <View
           style={{
             marginTop: 20,
