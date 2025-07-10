@@ -2,7 +2,6 @@ import { View, Text, Button, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 import { BarChart } from "react-native-gifted-charts";
 import ProgressBar from "./ProgressBar";
-import * as SQLite from "expo-sqlite";
 import Storage from "expo-sqlite/kv-store";
 
 const Ansicht2 = ({ route }) => {

@@ -11,12 +11,14 @@ import { useRef, useState, useEffect } from "react";
 import { LineChart } from "react-native-gifted-charts";
 import { Picker } from "@react-native-picker/picker";
 import colors from "../colors";
+import * as SQLite from "expo-sqlite";
 
 const deviceWidth = Dimensions.get("window").width;
 
 const Ansicht3 = ({ route }) => {
-  const [grunduebung, setGrunduebung] = useState(1);
+  const [grunduebung, setGrunduebung] = useState("pushups");
   const [level, setLevel] = useState(1);
+  const [data, setData] = useState([]);
   const ref = useRef(null);
 
   const lineData = [
@@ -60,7 +62,38 @@ const Ansicht3 = ({ route }) => {
 
   useEffect(() => {
     showOrHidePointer(500); //very high number in order to scroll at the end of the graph
-  });
+    async function getData() {
+      const db = await SQLite.openDatabaseAsync("training.db");
+      const query = `SELECT * FROM trainings WHERE baseExercise=? AND level=?`;
+      const values = [grunduebung, level];
+      //console.log(query);
+      //console.log(values);
+      const result = await db.getAllAsync(query, values);
+      console.log(result);
+      //console.log("result length: " + result.length);
+      const newData = [];
+      for (let i = 0; i < result.length; i++) {
+        let totalWork = 0;
+        let counter = 0;
+        for (let j = 0; j < 6; j++) {
+          //console.log(totalWork);
+          counter = j + 1;
+          if (result[i][`work${counter}_rep`]) {
+            totalWork = totalWork + Number(result[i][`work${counter}_rep`]);
+          } else {
+            break;
+          }
+        }
+        newData.push({
+          value: totalWork,
+          label: result[i].datestring.slice(0, 5),
+          dataPointText: totalWork,
+        });
+      }
+      setData(newData);
+    }
+    getData();
+  }, [grunduebung, level]);
 
   return (
     <View style={styles.chartBackground}>
@@ -82,12 +115,15 @@ const Ansicht3 = ({ route }) => {
             value={0}
             enabled={false}
           />
-          <Picker.Item label="Liegestütze" value={1} />
-          <Picker.Item label="Kniebeuge" value={2} />
-          <Picker.Item label="Klimmzüge" value={3} />
-          <Picker.Item label="Beinheber" value={4} />
-          <Picker.Item label="Brücken" value={5} />
-          <Picker.Item label="Handstand Liegestütze" value={6} />
+          <Picker.Item label="Liegestütze" value={"pushups"} />
+          <Picker.Item label="Kniebeuge" value={"squats"} />
+          <Picker.Item label="Klimmzüge" value={"pullups"} />
+          <Picker.Item label="Beinheber" value={"leg_raises"} />
+          <Picker.Item label="Brücken" value={"bridges"} />
+          <Picker.Item
+            label="Handstand Liegestütze"
+            value={"handstand_pushups"}
+          />
         </Picker>
       </View>
       <View style={styles.picker}>
@@ -109,32 +145,16 @@ const Ansicht3 = ({ route }) => {
         </Picker>
       </View>
       <View style={styles.chartContainer}>
-        <View style={{ flexDirection: "row", marginBottom: 20, marginLeft: 8 }}>
-          {months.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                style={{
-                  padding: 6,
-                  margin: 4,
-                  backgroundColor: "#ebb",
-                  borderRadius: 8,
-                }}
-                onPress={() => showOrHidePointer(index)}
-              >
-                <Text>{months[index]}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
         <LineChart
           scrollRef={ref}
-          data={lineData}
+          data={data}
           //curved
-          initialSpacing={0}
           rotateLabel
           width={deviceWidth * 0.75}
           xAxisLabelsVerticalShift={10}
+          initialSpacing={20}
+          textShiftY={-10}
+          overflowTop={10}
         />
       </View>
     </View>
@@ -154,6 +174,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   chartContainer: {
+    marginTop: 50,
     marginRight: deviceWidth * 0.1,
   },
   picker: {
@@ -166,5 +187,23 @@ const styles = StyleSheet.create({
 });
 
 export default Ansicht3;
-/*
+/*Monatskästchen zum Scrollen
+<View style={{ flexDirection: "row", marginBottom: 20, marginLeft: 8 }}>
+          {months.map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={index}
+                style={{
+                  padding: 6,
+                  margin: 4,
+                  backgroundColor: "#ebb",
+                  borderRadius: 8,
+                }}
+                onPress={() => showOrHidePointer(index)}
+              >
+                <Text>{months[index]}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
  */

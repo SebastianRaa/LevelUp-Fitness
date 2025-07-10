@@ -85,6 +85,7 @@ const ExerciseListModal = ({ day }, ref) => {
           backgroundColor: "white",
           borderRadius: 10,
           padding: 16,
+          margin: 20,
         }}
       >
         <Pressable onPress={() => toggleModal()}>
@@ -96,44 +97,58 @@ const ExerciseListModal = ({ day }, ref) => {
           {"\n"}
           {"\n"}
         </Text>
-        {dailyData.map((item, index) => {
-          return (
-            <View key={item.id} style={styles.group}>
-              <Pressable
-                onPress={() =>
-                  navigation.navigate("ExerciseEntryScreen", { item })
-                }
-              >
-                <Text>{getGermanName(item.baseExercise)}</Text>
-              </Pressable>
-              <Pressable
-                onPress={() =>
-                  Alert.alert(
-                    "Eintrag löschen",
-                    "Diese Übung wirklich löschen?",
-                    [
-                      // Abbrechen-Button
-                      {
-                        text: "Abbruch",
-                        style: "cancel",
-                      },
-                      // Löschen-Button mit onPress
-                      {
-                        text: "Löschen",
-                        style: "destructive",
-                        onPress: () => {
-                          deleteEntry(item);
+        {dailyData.length === 0 ? (
+          <Text style={{ alignSelf: "center" }}>
+            Für diesen Tag wurden noch keine Übungen eingetragen
+          </Text>
+        ) : (
+          dailyData.map((item, index) => {
+            return (
+              <View key={item.id} style={styles.group}>
+                <Pressable
+                  onPress={() =>
+                    navigation.navigate("ExerciseEntryScreen", { item })
+                  }
+                >
+                  <Text>{getGermanName(item.baseExercise)}</Text>
+                </Pressable>
+                <Text>
+                  {item.work1_rep ? item.work1_rep : ""}
+                  {item.work2_rep ? "/" + item.work2_rep : ""}
+                  {item.work3_rep ? "/" + item.work3_rep : ""}
+                  {item.work4_rep ? "/" + item.work4_rep : ""}
+                  {item.work5_rep ? "/" + item.work5_rep : ""}
+                  {item.work6_rep ? "/" + item.work6_rep : ""}
+                </Text>
+                <Pressable
+                  onPress={() =>
+                    Alert.alert(
+                      "Eintrag löschen",
+                      "Diese Übung wirklich löschen?",
+                      [
+                        // Abbrechen-Button
+                        {
+                          text: "Abbruch",
+                          style: "cancel",
                         },
-                      },
-                    ]
-                  )
-                }
-              >
-                <Ionicons name="trash-outline" />
-              </Pressable>
-            </View>
-          );
-        })}
+                        // Löschen-Button mit onPress
+                        {
+                          text: "Löschen",
+                          style: "destructive",
+                          onPress: () => {
+                            deleteEntry(item);
+                          },
+                        },
+                      ]
+                    )
+                  }
+                >
+                  <Ionicons name="trash-outline" />
+                </Pressable>
+              </View>
+            );
+          })
+        )}
 
         <View
           style={{
@@ -173,7 +188,7 @@ const styles = StyleSheet.create({
   group: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
     marginBottom: 12,
   },
   pickerWrapper: {

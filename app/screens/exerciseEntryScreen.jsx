@@ -34,9 +34,11 @@ export default function ExerciseEntryScreen({ route, navigation }) {
     })
   );
 
-  //hier weiter!!
-  const { item } = route.params;
-  console.log(item);
+  //Es gibt 3 Arten zu diesem Screen zu kommen:
+  // 1. Über den Button Übung eintragen (kann einfach heutiges date verwendet werden, recommendations kommen mit)
+  // 2. Über die Trainingsverwaltung auf eine Übung klicken (training ist mindestens teilweise ausgefüllt)
+  // 3. Über die Trainingsverwaltung auf ein beliebiges Datum klicken und neue Übung hinzufügen (date kommt rein, keine recommendations)
+  const { item } = route.params ? route.params : "";
 
   // Funktionen für Bereich 1
   const addGroup = () =>

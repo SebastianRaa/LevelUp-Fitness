@@ -51,12 +51,14 @@ export default function TestingScreen({ navigation }) {
 );`);
 
     const result = await db.runAsync(
-      "INSERT INTO trainings (datestring, baseExercise, level, work1_rep, work2_rep) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO trainings (datestring, baseExercise, level, work1_rep, work2_rep, work3_rep, work4_rep) VALUES (?, ?, ?, ?, ?, ?, ?)",
       "09.07.2025",
       "leg_raises",
       6,
-      15,
-      20
+      41,
+      36,
+      21,
+      10
     );
     console.log(result.lastInsertRowId, result.changes);
   }
