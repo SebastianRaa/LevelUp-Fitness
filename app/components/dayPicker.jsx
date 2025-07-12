@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Button } from "react-native";
-
+import colors from "../colors";
+import Storage from "expo-sqlite/kv-store";
 const DAYS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
 //component used for "picking days" - one box for each day of the week, clicked boxes will turn green and will be considered as "selected"
-const DayPicker = ({ daysRequired }) => {
+const DayPicker = ({ daysRequired, trainingDays }) => {
   const [selectedDays, setSelectedDays] = useState([]);
+  //console.log("selectedDays: " + selectedDays);
 
-  const toggleDay = (day) => {
+  function toggleDay(day) {
     setSelectedDays((prev) =>
       prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
     );
-  };
+  }
+
+  useEffect(() => {
+    setSelectedDays(trainingDays);
+  }, [trainingDays]);
+
+  useEffect(() => {
+    Storage.setItemAsync("Trainingstage", JSON.stringify(selectedDays)).catch(
+      (err) => console.warn("Fehler beim Speichern Trainingstage:", err)
+    );
+  }, [selectedDays]);
 
   return (
     <View>
@@ -62,7 +74,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   selectedButton: {
-    backgroundColor: "#4caf50",
+    backgroundColor: colors.primary,
   },
   dayText: {
     fontSize: 14,

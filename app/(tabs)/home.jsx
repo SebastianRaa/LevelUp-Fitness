@@ -6,26 +6,16 @@ import {
   View,
   Pressable,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import colors from "../colors";
 import ExerciseListModal from "../components/exerciseListModal";
-
-//erstmal nur Montag Mittwoch Freitag Trainingstage
-//erweitern für die Auswahl aus Settings
-const today = new Date().getDay();
-function findNextTraining(today) {
-  if (today == 1 || today >= 6) {
-    return "Montag";
-  } else if (today == 2 || today == 3) {
-    return "Mittwoch";
-  } else {
-    return "Freitag";
-  }
-}
+import Storage from "expo-sqlite/kv-store";
 
 //Tab 1
 const Home = ({ navigation }) => {
+  const [loading, setLoading] = useState(true);
   const [modalDay, setModalDay] = useState(
     new Date().toLocaleDateString("de-DE", {
       day: "2-digit",
@@ -33,8 +23,72 @@ const Home = ({ navigation }) => {
       year: "numeric",
     })
   );
+  const [trainingDays, setTrainingDays] = useState([]);
+  const [workoutPlan, setWorkoutPlan] = useState("");
   const childRef = useRef(null);
+  const today = new Date().getDay();
   var nextTraining = findNextTraining(today);
+
+  // Beim Mount den gespeicherten Plan und die gespeichtern Tage laden
+  useEffect(() => {
+    (async () => {
+      try {
+        const storedPlan = await Storage.getItemAsync("Trainingsplan");
+        const storedDays = await Storage.getItemAsync("Trainingstage");
+        if (storedPlan) {
+          setWorkoutPlan(storedPlan);
+        }
+
+        if (storedDays) {
+          const parsed = JSON.parse(storedDays);
+          //console.log("log: " + parsed);
+          setTrainingDays(parsed);
+        }
+      } catch (e) {
+        console.warn("Fehler beim Laden:", e);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  function findNextTraining(today) {
+    //convert trainingDays to array with 0-6 (So - Sa)
+    let intDays = [];
+    for (let i = 0; i < trainingDays.length; i++) {
+      if (trainingDays[i] == "So") intDays.push(0);
+      if (trainingDays[i] == "Mo") intDays.push(1);
+      if (trainingDays[i] == "Di") intDays.push(2);
+      if (trainingDays[i] == "Mi") intDays.push(3);
+      if (trainingDays[i] == "Do") intDays.push(4);
+      if (trainingDays[i] == "Fr") intDays.push(5);
+      if (trainingDays[i] == "Sa") intDays.push(6);
+    }
+    for (let i = 0; i < 8; i++) {
+      if (intDays.includes(today)) {
+        break;
+      } else {
+        today = today + 1;
+        if (today > 6) today = 0;
+      }
+    }
+    if (today == 0) return "Sonntag";
+    if (today == 1) return "Montag";
+    if (today == 2) return "Dienstag";
+    if (today == 3) return "Mittwoch";
+    if (today == 4) return "Donnerstag";
+    if (today == 5) return "Freitag";
+    if (today == 6) return "Samstag";
+  }
+
+  // Solange geladen wird → Spinner
+  if (loading) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <View

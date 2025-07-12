@@ -1,241 +1,228 @@
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  Switch,
-  StyleSheet,
-  TextInput,
   Pressable,
   Button,
-  Alert,
-  Animated,
-  useAnimatedValue,
+  ActivityIndicator,
+  StyleSheet,
   Dimensions,
 } from "react-native";
-import React, { useState } from "react";
-import TextSwitch from "../components/textSwitch";
-import DayPicker from "../components/dayPicker";
-import WorkoutPicker from "../components/workoutPicker";
-import MyTextInput from "../components/myTextInput";
-import MyButton from "../components/myButton";
-import { MyTimePicker } from "../components/myTimePicker";
-import colors from "../colors";
+import { Picker } from "@react-native-picker/picker";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Modal from "react-native-modal";
+import Storage from "expo-sqlite/kv-store";
+import TextSwitch from "../components/textSwitch";
+import DayPicker from "../components/dayPicker";
+import { MyTimePicker } from "../components/myTimePicker";
+import MyTextInput from "../components/myTextInput";
+import colors from "../colors";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-const createButtonAlert = () =>
-  Alert.alert("Congratulations!", "You Leveled Up!", [
-    { text: "OK", onPress: () => console.log("OK Pressed") },
-  ]);
+export default function Profile(props) {
+  // Laden-Status
+  const [loading, setLoading] = useState(true);
 
-//Tab 4
-function Profile(props) {
+  // States
   const [name, setName] = useState("Max Mustermann");
-  const fadeAnim = useAnimatedValue(0);
   const [notification, setNotification] = useState(false);
   const [workoutPickerValue, setWorkoutPickerValue] = useState("Anfänger");
   const [daysRequired, setDaysRequired] = useState(2);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [trainingDays, setTrainingDays] = useState([]);
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
+  // Helper: Anzahl Trainingstage anpassen
+  const adjustDaysRequired = (val) => {
+    if (val === "Anfänger") setDaysRequired(2);
+    else if (val === "Fortgeschritten") setDaysRequired(3);
+    else if (val === "Profi") setDaysRequired(6);
   };
 
-  const adjustDaysRequired = (newVal) => {
-    console.log("this is adjustDaysRequired " + newVal);
-    if (newVal == "Anfänger") {
-      setDaysRequired(2);
-    } else if (newVal == "Fortgeschritten") {
-      setDaysRequired(3);
-    } else if (newVal == "Profi") {
-      setDaysRequired(6);
+  // Beim Mount den gespeicherten Plan und die gespeichtern Tage laden
+  useEffect(() => {
+    (async () => {
+      try {
+        const storedPlan = await Storage.getItemAsync("Trainingsplan");
+        const storedDays = await Storage.getItemAsync("Trainingstage");
+        if (storedPlan) {
+          setWorkoutPickerValue(storedPlan);
+          adjustDaysRequired(storedPlan);
+        }
+
+        if (storedDays) {
+          const parsed = JSON.parse(storedDays);
+          //console.log("log: " + parsed);
+          setTrainingDays(parsed);
+        }
+      } catch (e) {
+        console.warn("Fehler beim Laden:", e);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  // Async speichern
+  const onWorkoutChange = async (newVal) => {
+    setWorkoutPickerValue(newVal);
+    adjustDaysRequired(newVal);
+    try {
+      await Storage.setItemAsync("Trainingsplan", newVal);
+    } catch (e) {
+      console.warn("Fehler beim Speichern:", e);
     }
   };
 
-  const fadeIn = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  };
+  // Modal umschalten
+  const toggleModal = () => setModalVisible(!isModalVisible);
 
-  const fadeOut = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  };
+  // Solange geladen wird → Spinner
+  if (loading) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
+  // Sobald geladen → ganzer Screen
   return (
     <View style={styles.container}>
-      {/*Upper part: Profile*/}
+      {/* Oberer Bereich: Profil */}
       <View style={styles.profileContainer}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignContent: "center",
-            alignItems: "center",
-            justifyContent: "space-between",
-            //backgroundColor: "lightgreen",
-          }}
-        >
-          <Pressable onPress={() => toggleModal()}>
-            <Text style={{}}>{name}</Text>
+        <View style={styles.rowSpace}>
+          <Pressable onPress={toggleModal}>
+            <Text>{name}</Text>
           </Pressable>
-          <Pressable onPress={() => toggleModal()}>
+          <Pressable onPress={toggleModal}>
             <View style={styles.avatar}>
               <Ionicons name="person-circle-outline" size={64} />
             </View>
           </Pressable>
         </View>
-        <Modal isVisible={isModalVisible} onBackdropPress={() => toggleModal()}>
-          <View
-            style={{
-              backgroundColor: "white",
-              alignItems: "center",
-              borderRadius: 10,
-            }}
-          >
-            <Text style={{ marginTop: 30, marginBottom: 30 }}>
-              Namen ändern:
-            </Text>
+
+        <Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
+          <View style={styles.modal}>
+            <Text style={styles.modalTitle}>Namen ändern:</Text>
             <MyTextInput
-              placeholder={"Name"}
+              placeholder="Name"
               value={name}
-              onChangeText={(newVal) => setName(newVal)}
+              onChangeText={setName}
             />
-            <View style={{ marginTop: 30, marginBottom: 30 }}>
-              <Button title="Fertig" onPress={toggleModal} />
-            </View>
+            <Button title="Fertig" onPress={toggleModal} />
           </View>
         </Modal>
+
         <Text>Rang 1</Text>
         <Pressable onPress={() => props.navigation.navigate("AbzeichenScreen")}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignContent: "center",
-              justifyContent: "space-between",
-              paddingTop: 20,
-              paddingBottom: 20,
-            }}
-          >
+          <View style={styles.rowSpace}>
             <Text>Abzeichen</Text>
-            <Ionicons
-              name={"arrow-forward-outline"}
-              size={20}
-              color={"black"}
-            />
+            <Ionicons name="arrow-forward-outline" size={20} />
           </View>
         </Pressable>
       </View>
-      {/*Lower part: Einstellungen*/}
+
+      {/* Unterer Bereich: Einstellungen */}
       <View style={styles.settingsContainer}>
         <Text style={styles.headline}>Einstellungen</Text>
 
         <TextSwitch
-          text={"Trainingserinnerung"}
+          text="Trainingserinnerung"
           value={notification}
-          onValueChange={(newVal) => setNotification(newVal)}
+          onValueChange={setNotification}
         />
 
-        {notification ? (
+        {notification && (
           <View style={styles.notificationBox}>
             <MyTimePicker />
           </View>
-        ) : (
-          ""
         )}
 
-        <WorkoutPicker
-          value={workoutPickerValue}
-          onValueChange={(newVal) => {
-            setWorkoutPickerValue(newVal);
-            adjustDaysRequired(newVal);
-          }}
-          daysRequired={daysRequired}
-        />
+        <View style={styles.picker}>
+          <Picker
+            selectedValue={workoutPickerValue}
+            onValueChange={onWorkoutChange}
+          >
+            <Picker.Item
+              label="Wähle dein Workout aus"
+              value="keinPlanAusgewählt"
+              enabled={false}
+            />
+            <Picker.Item label="Anfänger" value="Anfänger" />
+            <Picker.Item label="Fortgeschritten" value="Fortgeschritten" />
+            <Picker.Item label="Profi" value="Profi" />
+          </Picker>
+        </View>
+
         <Text style={{ paddingLeft: 20 }}>Trainingstage:</Text>
-        <DayPicker daysRequired={daysRequired} />
+        <DayPicker daysRequired={daysRequired} trainingDays={trainingDays} />
       </View>
+
       <Pressable onPress={() => props.navigation.navigate("TestingScreen")}>
-        <Text style={{ marginTop: 100, fontSize: 10 }}>Zum Testbereich</Text>
+        <Text style={styles.smallLink}>Zum Testbereich</Text>
       </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  avatar: {
-    //flex: 1,
-    height: deviceHeight * 0.1,
-    width: deviceWidth * 0.2,
-    //backgroundColor: "pink",
+  loader: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  notificationBox: {},
-  headline: {
-    fontWeight: "bold",
-    fontSize: 20,
-    marginBottom: 20,
   },
   container: {
     flex: 1,
     padding: 20,
   },
+  rowSpace: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  avatar: {
+    height: deviceHeight * 0.1,
+    width: deviceWidth * 0.2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   profileContainer: {
-    backgroundColor: "lightblue",
+    backgroundColor: colors.primary,
     borderRadius: 10,
+    padding: 10,
   },
-  settingsContainer: { paddingTop: deviceHeight * 0.1 },
-  fadingContainer: {
+  modal: {
+    backgroundColor: "white",
+    alignItems: "center",
+    borderRadius: 10,
     padding: 20,
-    backgroundColor: "powderblue",
   },
-  fadingText: {
-    fontSize: 28,
+  modalTitle: {
+    marginBottom: 15,
+    fontWeight: "bold",
   },
-  buttonRow: {
-    flexBasis: 100,
-    justifyContent: "space-evenly",
-    marginVertical: 16,
+  headline: {
+    fontWeight: "bold",
+    fontSize: 20,
+    marginBottom: 15,
+  },
+  settingsContainer: {
+    paddingTop: deviceHeight * 0.1,
+  },
+  notificationBox: {
+    marginBottom: 20,
+  },
+  picker: {
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: colors.third,
+    marginBottom: 20,
+  },
+  smallLink: {
+    marginTop: 50,
+    fontSize: 10,
+    color: "gray",
   },
 });
-
-export default Profile;
-/**/
-/*<MyButton /><Button
-        title="GO TO TRAINING"
-        onPress={() => navigation.navigate("Training")}
-      ></Button>
-      <Button title={"Alert Button"} onPress={createButtonAlert} />
-
-      <Animated.View
-        style={[
-          styles.fadingContainer,
-          {
-            // Bind opacity to animated value
-            opacity: fadeAnim,
-          },
-        ]}
-      >
-        <Text style={styles.fadingText}>Fading View!</Text>
-      </Animated.View>
-      <View style={styles.buttonRow}>
-        <Button title="Fade In View" onPress={fadeIn} />
-        <Button title="Fade Out View" onPress={fadeOut} />
-      </View>*/
-/*{fadeAnim === useAnimatedValue(0) ? (
-        <View>
-          <Text>Hi</Text>
-        </View>
-      ) : (
-        <View>
-          <Text>Hello There</Text>
-        </View>
-      )}*/
