@@ -4,8 +4,14 @@ import colors from "../colors";
 import Storage from "expo-sqlite/kv-store";
 const DAYS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
+function sortWeekDays(days) {
+  return days
+    .slice() // clone, damit das Original unverändert bleibt
+    .sort((a, b) => DAYS.indexOf(a) - DAYS.indexOf(b));
+}
+
 //component used for "picking days" - one box for each day of the week, clicked boxes will turn green and will be considered as "selected"
-const DayPicker = ({ daysRequired, trainingDays }) => {
+const DayPicker = ({ daysRequired, trainingDays, workoutPickerValue }) => {
   const [selectedDays, setSelectedDays] = useState([]);
   //console.log("selectedDays: " + selectedDays);
 
@@ -23,7 +29,47 @@ const DayPicker = ({ daysRequired, trainingDays }) => {
     Storage.setItemAsync("Trainingstage", JSON.stringify(selectedDays)).catch(
       (err) => console.warn("Fehler beim Speichern Trainingstage:", err)
     );
-  }, [selectedDays]);
+    //Trainingstage korrekte Anzahl? Dann speichern des Ablaufs
+    if (selectedDays.length == daysRequired) {
+      const sortedDays = sortWeekDays(selectedDays);
+      //console.log("arr: " + sortedDays);
+      const exercises = [
+        ["pushups", "leg_raises"],
+        ["pullups", "squats"],
+        ["handstand_pushups", "bridges"],
+      ];
+      const exercisesProfi = [
+        ["pullups"],
+        ["bridges"],
+        ["handstand_pushups"],
+        ["leg_raises"],
+        ["squats"],
+        ["pushups"],
+      ];
+      if (
+        workoutPickerValue === "Anfänger" ||
+        workoutPickerValue === "Fortgeschritten"
+      ) {
+        const schedule = sortedDays.reduce((acc, day, idx) => {
+          acc[day] = exercises[idx] || [];
+          return acc;
+        }, {});
+        //console.log(JSON.stringify(schedule));
+        Storage.setItemAsync("schedule", JSON.stringify(schedule)).catch(
+          (err) => console.warn("Fehler beim Speichern von schedule:", err)
+        );
+      } else {
+        const schedule = sortedDays.reduce((acc, day, idx) => {
+          acc[day] = exercisesProfi[idx] || [];
+          return acc;
+        }, {});
+        //console.log(JSON.stringify(schedule));
+        Storage.setItemAsync("schedule", JSON.stringify(schedule)).catch(
+          (err) => console.warn("Fehler beim Speichern von schedule:", err)
+        );
+      }
+    }
+  }, [selectedDays, workoutPickerValue]);
 
   return (
     <View>

@@ -28,24 +28,27 @@ const cellHeight = cellWidth;
 //Screen für die Abzeichen
 const AbzeichenScreen = () => {
   return (
-    <View style={styles.container}>
-      {Array.from({ length: TOTAL_CHILDREN }).map((_, idx) => {
-        // Jedes 3. Element (idx 2, 5, 8, 11) darf kein rechtes Margin haben
-        const isLastInRow = (idx + 1) % COLUMNS === 0;
-        return (
-          <View
-            key={idx}
-            style={[
-              styles.cell,
-              {
-                width: cellWidth,
-                height: cellHeight,
-                marginRight: isLastInRow ? 0 : GAP,
-              },
-            ]}
-          />
-        );
-      })}
+    <View style={styles.background}>
+      <Text style={styles.headline}>Abzeichen</Text>
+      <View style={styles.container}>
+        {Array.from({ length: TOTAL_CHILDREN }).map((_, idx) => {
+          // Jedes 3. Element (idx 2, 5, 8, 11) darf kein rechtes Margin haben
+          const isLastInRow = (idx + 1) % COLUMNS === 0;
+          return (
+            <View
+              key={idx}
+              style={[
+                styles.cell,
+                {
+                  width: cellWidth,
+                  height: cellHeight,
+                  marginRight: isLastInRow ? 0 : GAP,
+                },
+              ]}
+            />
+          );
+        })}
+      </View>
     </View>
   );
 };
@@ -68,10 +71,7 @@ const AbzeichenScreen = () => {
     </View>*/
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    padding: 20,
-  },
+  background: { alignItems: "center", marginTop: 10 },
   headline: {
     fontWeight: "bold",
     fontSize: 20,

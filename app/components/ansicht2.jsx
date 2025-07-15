@@ -18,14 +18,14 @@ const Ansicht2 = ({ route }) => {
   return (
     <View style={styles.chartBackground}>
       <Text style={styles.headline}>Aktueller Trainingsstand nach Level</Text>
-      <ProgressBar label="Liegestütze" fillWidth={pushups} />
-      <ProgressBar label="Kniebeugen" fillWidth={squats} />
-      <ProgressBar label="Klimmzüge" fillWidth={pullups} />
-      <ProgressBar label="Beinheber" fillWidth={leg_raises} />
-      <ProgressBar label="Brücken" fillWidth={bridges} />
+      <ProgressBar label="Liegestütze" fillWidth={pushups ? pushups : 1} />
+      <ProgressBar label="Kniebeugen" fillWidth={squats ? squats : 1} />
+      <ProgressBar label="Klimmzüge" fillWidth={pullups ? pullups : 1} />
+      <ProgressBar label="Beinheber" fillWidth={leg_raises ? leg_raises : 1} />
+      <ProgressBar label="Brücken" fillWidth={bridges ? bridges : 1} />
       <ProgressBar
         label="Handstand Liegestütze"
-        fillWidth={handstand_pushups}
+        fillWidth={handstand_pushups ? handstand_pushups : 1}
       />
     </View>
   );

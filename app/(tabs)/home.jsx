@@ -12,7 +12,10 @@ import React, { useState, useRef, useEffect } from "react";
 import colors from "../colors";
 import ExerciseListModal from "../components/exerciseListModal";
 import Storage from "expo-sqlite/kv-store";
-
+import * as SQLite from "expo-sqlite";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import LevelUpRequirements from "../data/exercises/levelUpRequirements";
+import levelUpRequirements from "../data/exercises/levelUpRequirements";
 //Tab 1
 const Home = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -25,9 +28,14 @@ const Home = ({ navigation }) => {
   );
   const [trainingDays, setTrainingDays] = useState([]);
   const [workoutPlan, setWorkoutPlan] = useState("");
+  const [schedule, setSchedule] = useState();
+  const [finishedExercises, setFinishedExercises] = useState([]);
+  const [exerciseLevels, setExerciseLevels] = useState([]);
+  const [recommandationBasis, setRecommandationBasis] = useState([]);
   const childRef = useRef(null);
   const today = new Date().getDay();
-  var nextTraining = findNextTraining(today);
+
+  const displayedDay = findNextTraining(today).slice(0, 2);
 
   // Beim Mount den gespeicherten Plan und die gespeichtern Tage laden
   useEffect(() => {
@@ -35,22 +43,89 @@ const Home = ({ navigation }) => {
       try {
         const storedPlan = await Storage.getItemAsync("Trainingsplan");
         const storedDays = await Storage.getItemAsync("Trainingstage");
+        const storedSchedule = await Storage.getItemAsync("schedule");
         if (storedPlan) {
           setWorkoutPlan(storedPlan);
         }
 
         if (storedDays) {
           const parsed = JSON.parse(storedDays);
-          //console.log("log: " + parsed);
+          //console.log("log: ", parsed);
           setTrainingDays(parsed);
+        }
+
+        if (storedSchedule) {
+          const parsed = JSON.parse(storedSchedule);
+          //console.log("log: ", parsed);
+          setSchedule(parsed);
         }
       } catch (e) {
         console.warn("Fehler beim Laden:", e);
+      } /*finally {
+        setLoading(false);
+      }*/
+    })();
+  }, []);
+
+  useEffect(() => {
+    //check if the exercises for this day have been done already
+    async function exercisesDone() {
+      if (!schedule) return;
+      try {
+        let finishedArray = [];
+        let exerciseLevelArray = [];
+        const displayedDay = findNextTraining(today).slice(0, 2);
+        //console.log("displayedDay: " + displayedDay);
+        const exercises = schedule[displayedDay];
+        //console.log(schedule);
+        //console.log(exercises);
+
+        const db = await SQLite.openDatabaseAsync("training.db");
+        for (let i = 0; i < exercises.length; i++) {
+          const storedExerciseLevel = await Storage.getItemAsync(exercises[i]);
+          if (storedExerciseLevel) exerciseLevelArray.push(storedExerciseLevel);
+          const query = `SELECT id FROM trainings WHERE baseExercise=? AND datestring=?`;
+          const values = [exercises[i], modalDay];
+          //console.log(query);
+          //console.log(values);
+          const result = await db.getAllAsync(query, values);
+          //console.log(result);
+          if (result.length > 0) finishedArray.push(true);
+          else finishedArray.push(false);
+        }
+        //console.log("final array of finished exercises: ", finishedArray);
+        setExerciseLevels(exerciseLevelArray);
+        setFinishedExercises(finishedArray);
+      } catch (e) {
+        console.warn("Fehler beim Laden (exercisesDone):", e);
       } finally {
         setLoading(false);
       }
+    }
+    exercisesDone();
+  }, [schedule]);
+
+  useEffect(() => {
+    (async () => {
+      console.log("hello");
+      if (!schedule) return;
+      console.log("hello2");
+      const resultArray = [];
+      const displayedDay = findNextTraining(today).slice(0, 2);
+      const exercises = schedule[displayedDay];
+      const db = await SQLite.openDatabaseAsync("training.db");
+      const query = `SELECT id, baseExercise, level, work1_rep, work2_rep, work3_rep, work4_rep, work5_rep, work6_rep FROM trainings WHERE baseExercise=? ORDER BY id DESC LIMIT 3`;
+      for (let i = 0; i < exercises.length; i++) {
+        const values = [exercises[i]];
+        console.log(query);
+        console.log(values);
+        const result = await db.getAllAsync(query, values);
+        console.log(result);
+        resultArray.push(result);
+      }
+      setRecommandationBasis(resultArray);
     })();
-  }, []);
+  }, [schedule]);
 
   function findNextTraining(today) {
     //convert trainingDays to array with 0-6 (So - Sa)
@@ -69,7 +144,7 @@ const Home = ({ navigation }) => {
         break;
       } else {
         today = today + 1;
-        if (today > 6) today = 0;
+        if (today == 7) today = 0;
       }
     }
     if (today == 0) return "Sonntag";
@@ -79,6 +154,99 @@ const Home = ({ navigation }) => {
     if (today == 4) return "Donnerstag";
     if (today == 5) return "Freitag";
     if (today == 6) return "Samstag";
+  }
+
+  //pass order of exercises
+  function generateWarmup(order) {
+    console.log(
+      "rec: ",
+      recommandationBasis[order] ? recommandationBasis[order][0].level : "no"
+    );
+    if (!recommandationBasis[order]) return;
+    if (!exerciseLevels[order]) return;
+    const currentLevel = Number(exerciseLevels[order].slice(0, 1));
+    let firstSetLevel = 0;
+    let secondSetLevel = 0;
+    console.log(currentLevel);
+    if (currentLevel == 1) {
+      firstSetLevel = currentLevel;
+      secondSetLevel = currentLevel;
+    } else if (currentLevel == 2) {
+      firstSetLevel = currentLevel - 1;
+      secondSetLevel = currentLevel - 1;
+    } else if (currentLevel == 3) {
+      firstSetLevel = currentLevel - 2;
+      secondSetLevel = currentLevel - 1;
+    } else if (currentLevel == 4) {
+      firstSetLevel = currentLevel - 3;
+      secondSetLevel = currentLevel - 2;
+    } else {
+      firstSetLevel = currentLevel - 4;
+      secondSetLevel = currentLevel - 3;
+    }
+    const exercise = schedule[displayedDay][order];
+    let firstSetReps =
+      LevelUpRequirements[exercise][`level${firstSetLevel}`]["Anfänger"][
+        "reps"
+      ];
+    let secondSetReps =
+      LevelUpRequirements[exercise][`level${secondSetLevel}`]["Anfänger"][
+        "reps"
+      ];
+    //console.log(firstSetReps);
+    //console.log(secondSetReps);
+    return (
+      <View>
+        {firstSetLevel == secondSetLevel ? (
+          <Text>
+            Warm-up: Level {firstSetLevel} - 2x{firstSetReps}
+          </Text>
+        ) : (
+          <View>
+            <Text>
+              Warm-up: Level {firstSetLevel} - 1x{firstSetReps}
+            </Text>
+            <Text>
+              Warm-up: Level {secondSetLevel} - 1x{secondSetReps}
+            </Text>
+          </View>
+        )}
+      </View>
+    );
+  }
+
+  function generateWork(order) {
+    if (!recommandationBasis[order]) return;
+    if (!exerciseLevels[order]) return;
+    const currentLevel = Number(exerciseLevels[order].slice(0, 1));
+    const exercise = schedule[displayedDay][order];
+    //checken ob Level "ganz neu", also gerade erst aufgestiegen und noch keine Übung auf dem Level gemacht, dann auf Trainingsziel Fortgeschritten setzen
+    let trainedOnCurrentLevel = false;
+    for (let i = 0; i < recommandationBasis[order].length; i++) {
+      if (recommandationBasis[order][i][level] >= currentLevel)
+        trainedOnCurrentLevel = true;
+    }
+    let numOfSets = 0;
+    let numOfReps = 0;
+    if (!trainedOnCurrentLevel) {
+      numOfReps =
+        levelUpRequirements[exercise][`level${currentLevel}`][
+          "Fortgeschritten"
+        ]["reps"];
+      numOfSets =
+        levelUpRequirements[exercise][`level${currentLevel}`][
+          "Fortgeschritten"
+        ]["sets"];
+    } else {
+      //TODO: Scenario A, B and D
+    }
+    return (
+      <View>
+        <Text>
+          Work: Level - {currentLevel} {numOfSets}x{numOfReps}
+        </Text>
+      </View>
+    );
   }
 
   // Solange geladen wird → Spinner
@@ -104,14 +272,18 @@ const Home = ({ navigation }) => {
         Hi!
       </Text>
       <Text style={{ fontSize: 20 }}>
-        Dein nächstes Training am {nextTraining}
+        Dein nächstes Training am {findNextTraining(today)}
       </Text>
       <View style={styles.exerciseContainer}>
         <Text style={styles.exercise}>Pullups</Text>
+        {finishedExercises[0] && (
+          <Ionicons name="checkmark-circle-outline" size={20} color="green" />
+        )}
         <Text style={styles.textTabbedIn}>Warm-up: Incline Push Up 1x15</Text>
         <Text style={styles.textTabbedIn}>Warm-up: Wall Push Up 1x15</Text>
         <Text style={styles.textTabbedIn}>Work: Kneeling Push Ups 2x20</Text>
       </View>
+      {generateWarmup(0)}
 
       <View style={styles.exerciseContainer}>
         <Text style={styles.exercise}>Squats</Text>

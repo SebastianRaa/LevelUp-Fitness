@@ -42,7 +42,7 @@ const ExerciseListModal = ({ day }, ref) => {
         const db = await SQLite.openDatabaseAsync("training.db");
         const sql = `SELECT * FROM trainings WHERE datestring = ?;`;
         const result = await db.getAllAsync(sql, [day]);
-        console.log("SQL:", sql, [day], "→", result);
+        //console.log("SQL:", sql, [day], "→", result);
         setDailyData(result);
       } catch (err) {
         console.error(err);

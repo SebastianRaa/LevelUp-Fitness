@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     //borderWidth: 1,
     backgroundColor: "white",
     marginBottom: 20,
-    boxShadow: "5px 5px 10px 1px #000000",
+    boxShadow: "5px 5px 10px 0px #000000",
     width: deviceWidth * 0.8,
     height: deviceHeight * 0.05,
     //alignItems: "flex-start",

@@ -93,13 +93,9 @@ export default function Profile(props) {
       {/* Oberer Bereich: Profil */}
       <View style={styles.profileContainer}>
         <View style={styles.rowSpace}>
+          <Text style={{ marginRight: 15 }}>{name}</Text>
           <Pressable onPress={toggleModal}>
-            <Text>{name}</Text>
-          </Pressable>
-          <Pressable onPress={toggleModal}>
-            <View style={styles.avatar}>
-              <Ionicons name="person-circle-outline" size={64} />
-            </View>
+            <Ionicons name="create-outline" size={16} />
           </Pressable>
         </View>
 
@@ -115,9 +111,9 @@ export default function Profile(props) {
           </View>
         </Modal>
 
-        <Text>Rang 1</Text>
+        <Text style={{ marginTop: 20, marginBottom: 20 }}>Rang 1</Text>
         <Pressable onPress={() => props.navigation.navigate("AbzeichenScreen")}>
-          <View style={styles.rowSpace}>
+          <View style={styles.rowSpace2}>
             <Text>Abzeichen</Text>
             <Ionicons name="arrow-forward-outline" size={20} />
           </View>
@@ -157,7 +153,11 @@ export default function Profile(props) {
         </View>
 
         <Text style={{ paddingLeft: 20 }}>Trainingstage:</Text>
-        <DayPicker daysRequired={daysRequired} trainingDays={trainingDays} />
+        <DayPicker
+          workoutPickerValue={workoutPickerValue}
+          daysRequired={daysRequired}
+          trainingDays={trainingDays}
+        />
       </View>
 
       <Pressable onPress={() => props.navigation.navigate("TestingScreen")}>
@@ -178,6 +178,11 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   rowSpace: {
+    flexDirection: "row",
+    justifyContent: "left",
+    alignItems: "center",
+  },
+  rowSpace2: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -226,3 +231,9 @@ const styles = StyleSheet.create({
     color: "gray",
   },
 });
+
+/*<Pressable onPress={toggleModal}>
+            <View style={styles.avatar}>
+              <Ionicons name="person-circle-outline" size={64} />
+            </View>
+          </Pressable>*/

@@ -1,4 +1,5 @@
 //level up requirements for each exercise & level, summed up
+//extended by sets and reps for each level
 export default {
   pushups: {
     1: 150,
