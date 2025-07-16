@@ -46,6 +46,7 @@ export default function Profile(props) {
       try {
         const storedPlan = await Storage.getItemAsync("Trainingsplan");
         const storedDays = await Storage.getItemAsync("Trainingstage");
+        const storedName = await Storage.getItemAsync("name");
         if (storedPlan) {
           setWorkoutPickerValue(storedPlan);
           adjustDaysRequired(storedPlan);
@@ -55,6 +56,10 @@ export default function Profile(props) {
           const parsed = JSON.parse(storedDays);
           //console.log("log: " + parsed);
           setTrainingDays(parsed);
+        }
+
+        if (storedName) {
+          setName(storedName);
         }
       } catch (e) {
         console.warn("Fehler beim Laden:", e);
@@ -71,12 +76,20 @@ export default function Profile(props) {
     try {
       await Storage.setItemAsync("Trainingsplan", newVal);
     } catch (e) {
-      console.warn("Fehler beim Speichern:", e);
+      console.warn("Fehler beim Speichern: ", e);
     }
   };
 
   // Modal umschalten
   const toggleModal = () => setModalVisible(!isModalVisible);
+
+  async function saveNameToStorage() {
+    try {
+      await Storage.setItemAsync("name", name);
+    } catch (e) {
+      console.warn("Fehler beim Speichern: ", e);
+    }
+  }
 
   // Solange geladen wird → Spinner
   if (loading) {
@@ -107,7 +120,15 @@ export default function Profile(props) {
               value={name}
               onChangeText={setName}
             />
-            <Button title="Fertig" onPress={toggleModal} />
+            <View style={{ marginTop: 30 }}>
+              <Button
+                title="Fertig"
+                onPress={() => {
+                  toggleModal();
+                  saveNameToStorage();
+                }}
+              />
+            </View>
           </View>
         </Modal>
 

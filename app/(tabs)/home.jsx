@@ -18,6 +18,7 @@ import LevelUpRequirements from "../data/exercises/levelUpRequirements";
 import levelUpRequirements from "../data/exercises/levelUpRequirements";
 //Tab 1
 const Home = ({ navigation }) => {
+  const [name, setName] = useState();
   const [loading, setLoading] = useState(true);
   const [modalDay, setModalDay] = useState(
     new Date().toLocaleDateString("de-DE", {
@@ -44,6 +45,7 @@ const Home = ({ navigation }) => {
         const storedPlan = await Storage.getItemAsync("Trainingsplan");
         const storedDays = await Storage.getItemAsync("Trainingstage");
         const storedSchedule = await Storage.getItemAsync("schedule");
+        const storedName = await Storage.getItemAsync("name");
         if (storedPlan) {
           setWorkoutPlan(storedPlan);
         }
@@ -58,6 +60,10 @@ const Home = ({ navigation }) => {
           const parsed = JSON.parse(storedSchedule);
           //console.log("log: ", parsed);
           setSchedule(parsed);
+        }
+
+        if (storedName) {
+          setName(storedName);
         }
       } catch (e) {
         console.warn("Fehler beim Laden:", e);
@@ -126,6 +132,15 @@ const Home = ({ navigation }) => {
       setRecommandationBasis(resultArray);
     })();
   }, [schedule]);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      console.log("Home focus event");
+      setCount((c) => c + 1);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   function findNextTraining(today) {
     //convert trainingDays to array with 0-6 (So - Sa)
@@ -158,16 +173,16 @@ const Home = ({ navigation }) => {
 
   //pass order of exercises
   function generateWarmup(order) {
-    console.log(
+    /*console.log(
       "rec: ",
       recommandationBasis[order] ? recommandationBasis[order][0].level : "no"
-    );
+    );*/
     if (!recommandationBasis[order]) return;
     if (!exerciseLevels[order]) return;
     const currentLevel = Number(exerciseLevels[order].slice(0, 1));
     let firstSetLevel = 0;
     let secondSetLevel = 0;
-    console.log(currentLevel);
+    //console.log(currentLevel);
     if (currentLevel == 1) {
       firstSetLevel = currentLevel;
       secondSetLevel = currentLevel;
@@ -223,12 +238,13 @@ const Home = ({ navigation }) => {
     //checken ob Level "ganz neu", also gerade erst aufgestiegen und noch keine Übung auf dem Level gemacht, dann auf Trainingsziel Fortgeschritten setzen
     let trainedOnCurrentLevel = false;
     for (let i = 0; i < recommandationBasis[order].length; i++) {
-      if (recommandationBasis[order][i][level] >= currentLevel)
+      if (recommandationBasis[order][i]["level"] >= currentLevel)
         trainedOnCurrentLevel = true;
     }
     let numOfSets = 0;
     let numOfReps = 0;
     if (!trainedOnCurrentLevel) {
+      //Scenario C
       numOfReps =
         levelUpRequirements[exercise][`level${currentLevel}`][
           "Fortgeschritten"
@@ -238,7 +254,18 @@ const Home = ({ navigation }) => {
           "Fortgeschritten"
         ]["sets"];
     } else {
-      //TODO: Scenario A, B and D
+      //TODO: Scenario A, B, D, E
+      let totalWorkArray = [];
+      for (let i = 0; i < recommandationBasis[order].length; i++) {
+        totalWorkArray.push(0);
+        for (let j = 1; j < 7; j++) {
+          if (recommandationBasis[order][i][`work${j}_rep`])
+            totalWorkArray[i] =
+              totalWorkArray[i] +
+              Number(recommandationBasis[order][i][`work${j}_rep`]);
+        }
+        console.log(totalWorkArray);
+      }
     }
     return (
       <View>
@@ -269,7 +296,7 @@ const Home = ({ navigation }) => {
       }}
     >
       <Text style={{ fontWeight: "bold", fontSize: 20, paddingBottom: 30 }}>
-        Hi!
+        Hi{name ? " " + name : ""}!
       </Text>
       <Text style={{ fontSize: 20 }}>
         Dein nächstes Training am {findNextTraining(today)}
@@ -284,6 +311,7 @@ const Home = ({ navigation }) => {
         <Text style={styles.textTabbedIn}>Work: Kneeling Push Ups 2x20</Text>
       </View>
       {generateWarmup(0)}
+      {generateWork(0)}
 
       <View style={styles.exerciseContainer}>
         <Text style={styles.exercise}>Squats</Text>
@@ -308,6 +336,7 @@ const Home = ({ navigation }) => {
           title="Heutiges Training verwalten"
         ></Button>
       </View>
+      <Text>{count}</Text>
 
       <ExerciseListModal
         navigation={navigation}
@@ -341,22 +370,5 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
 });
-/*<View>
-        <TextInput keyboardType="number-pad"></TextInput>
-      </View>
-      
-<Pressable onPress={() => console.log("Image pressed")}>
-          <Image
-            source={{
-              width: 400,
-              height: 400,
-              uri: "https://picsum.photos/400/400",
-            }}
-          />
-        </Pressable>
-        <Button
-        title="GO TO TRAINING"
-        onPress={() => navigation.navigate("Training")}
-      ></Button>*/
 
 export default Home;
