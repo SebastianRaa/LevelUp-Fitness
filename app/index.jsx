@@ -32,6 +32,7 @@ import colors from "./colors";
 import TestingScreen from "./screens/testingScreen";
 import ExerciseEntryScreen from "./screens/exerciseEntryScreen";
 import Storage from "expo-sqlite/kv-store";
+import db, { initDb } from "./db";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -86,15 +87,18 @@ export default function App() {
 
 export default function App() {
   const [loading, setLoading] = useState(true);
-  const [showWelcome, setShowWelcome] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
 
   useEffect(() => {
+    initDb();
     (async () => {
       try {
         const seen = await Storage.getItemAsync("has_seen_welcome");
-        if (!seen) {
-          setShowWelcome(true);
+        if (seen) {
+          if (seen === "true") setShowWelcome(false);
+          //else setShowWelcome(true);
         }
+        console.log(seen);
       } catch (e) {
         console.warn(e);
       } finally {
@@ -120,7 +124,7 @@ export default function App() {
             <WelcomeScreen
               {...props}
               onDone={async () => {
-                await Storage.setItemAsync("hasSeenWelcome", "true");
+                await Storage.setItemAsync("has_seen_welcome", "true");
                 setShowWelcome(false);
               }}
             />

@@ -15,6 +15,8 @@ import Modal from "react-native-modal";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import Storage from "expo-sqlite/kv-store";
+import db from "../db";
+//import { Iconify } from "react-native-iconify";
 
 export default function TestingScreen({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -23,7 +25,7 @@ export default function TestingScreen({ navigation }) {
     setModalVisible(!isModalVisible);
   };
   async function dbAction() {
-    const db = await SQLite.openDatabaseAsync("training.db");
+    //const db = await SQLite.openDatabaseAsync("training.db");
     //await db.execAsync(`DROP TABLE IF EXISTS trainings`);
     await db.execAsync(`CREATE TABLE IF NOT EXISTS trainings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -64,7 +66,7 @@ export default function TestingScreen({ navigation }) {
   }
 
   async function resultsLog() {
-    const db = await SQLite.openDatabaseAsync("training.db");
+    //const db = await SQLite.openDatabaseAsync("training.db");
     //const firstRow = await db.getFirstAsync("SELECT * FROM trainings");
     //console.log(firstRow);
     const allRows = await db.getAllAsync("SELECT * FROM trainings");
@@ -100,6 +102,7 @@ export default function TestingScreen({ navigation }) {
       <Button title="Create & insert DB" onPress={dbAction} />
       <Button title="Results" onPress={resultsLog} />
       <Button title="Storage Test" onPress={storageTest2} />
+      {/*<Iconify icon="mdi:home" width="24" height="24" />*/}
     </ScrollView>
   );
 }

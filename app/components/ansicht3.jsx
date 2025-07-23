@@ -12,7 +12,7 @@ import { LineChart } from "react-native-gifted-charts";
 import { Picker } from "@react-native-picker/picker";
 import colors from "../colors";
 import * as SQLite from "expo-sqlite";
-
+import db from "../db";
 const deviceWidth = Dimensions.get("window").width;
 
 const Ansicht3 = ({ route }) => {
@@ -63,7 +63,7 @@ const Ansicht3 = ({ route }) => {
   useEffect(() => {
     showOrHidePointer(500); //very high number in order to scroll at the end of the graph
     async function getData() {
-      const db = await SQLite.openDatabaseAsync("training.db");
+      //const db = await SQLite.openDatabaseAsync("training.db");
       const query = `SELECT * FROM trainings WHERE baseExercise=? AND level=?`;
       const values = [grunduebung, level];
       //console.log(query);

@@ -8,7 +8,7 @@ import {
   Button,
   ActivityIndicator,
 } from "react-native";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import colors from "../colors";
 import ExerciseListModal from "../components/exerciseListModal";
 import Storage from "expo-sqlite/kv-store";
@@ -16,6 +16,8 @@ import * as SQLite from "expo-sqlite";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import LevelUpRequirements from "../data/exercises/levelUpRequirements";
 import levelUpRequirements from "../data/exercises/levelUpRequirements";
+import { useFocusEffect } from "@react-navigation/native";
+import db from "../db";
 //Tab 1
 const Home = ({ navigation }) => {
   const [name, setName] = useState();
@@ -38,41 +40,6 @@ const Home = ({ navigation }) => {
 
   const displayedDay = findNextTraining(today).slice(0, 2);
 
-  // Beim Mount den gespeicherten Plan und die gespeichtern Tage laden
-  useEffect(() => {
-    (async () => {
-      try {
-        const storedPlan = await Storage.getItemAsync("Trainingsplan");
-        const storedDays = await Storage.getItemAsync("Trainingstage");
-        const storedSchedule = await Storage.getItemAsync("schedule");
-        const storedName = await Storage.getItemAsync("name");
-        if (storedPlan) {
-          setWorkoutPlan(storedPlan);
-        }
-
-        if (storedDays) {
-          const parsed = JSON.parse(storedDays);
-          //console.log("log: ", parsed);
-          setTrainingDays(parsed);
-        }
-
-        if (storedSchedule) {
-          const parsed = JSON.parse(storedSchedule);
-          //console.log("log: ", parsed);
-          setSchedule(parsed);
-        }
-
-        if (storedName) {
-          setName(storedName);
-        }
-      } catch (e) {
-        console.warn("Fehler beim Laden:", e);
-      } /*finally {
-        setLoading(false);
-      }*/
-    })();
-  }, []);
-
   useEffect(() => {
     //check if the exercises for this day have been done already
     async function exercisesDone() {
@@ -86,7 +53,7 @@ const Home = ({ navigation }) => {
         //console.log(schedule);
         //console.log(exercises);
 
-        const db = await SQLite.openDatabaseAsync("training.db");
+        //const db = await SQLite.openDatabaseAsync("training.db");
         for (let i = 0; i < exercises.length; i++) {
           const storedExerciseLevel = await Storage.getItemAsync(exercises[i]);
           if (storedExerciseLevel) exerciseLevelArray.push(storedExerciseLevel);
@@ -113,13 +80,11 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     (async () => {
-      console.log("hello");
       if (!schedule) return;
-      console.log("hello2");
       const resultArray = [];
       const displayedDay = findNextTraining(today).slice(0, 2);
       const exercises = schedule[displayedDay];
-      const db = await SQLite.openDatabaseAsync("training.db");
+      //const db = await SQLite.openDatabaseAsync("training.db");
       const query = `SELECT id, baseExercise, level, work1_rep, work2_rep, work3_rep, work4_rep, work5_rep, work6_rep FROM trainings WHERE baseExercise=? ORDER BY id DESC LIMIT 3`;
       for (let i = 0; i < exercises.length; i++) {
         const values = [exercises[i]];
@@ -132,15 +97,43 @@ const Home = ({ navigation }) => {
       setRecommandationBasis(resultArray);
     })();
   }, [schedule]);
-  const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      console.log("Home focus event");
-      setCount((c) => c + 1);
-    });
-    return unsubscribe;
-  }, [navigation]);
+  useFocusEffect(
+    useCallback(() => {
+      // läuft immer, wenn der Screen "focust" wird
+      (async () => {
+        try {
+          const storedPlan = await Storage.getItemAsync("Trainingsplan");
+          const storedDays = await Storage.getItemAsync("Trainingstage");
+          const storedSchedule = await Storage.getItemAsync("schedule");
+          const storedName = await Storage.getItemAsync("name");
+          if (storedPlan) {
+            setWorkoutPlan(storedPlan);
+          }
+
+          if (storedDays) {
+            const parsed = JSON.parse(storedDays);
+            //console.log("log: ", parsed);
+            setTrainingDays(parsed);
+          }
+
+          if (storedSchedule) {
+            const parsed = JSON.parse(storedSchedule);
+            //console.log("log: ", parsed);
+            setSchedule(parsed);
+          }
+
+          if (storedName) {
+            setName(storedName);
+          }
+        } catch (e) {
+          console.warn("Fehler beim Laden:", e);
+        } /*finally {
+        setLoading(false);
+      }*/
+      })();
+    }, [])
+  );
 
   function findNextTraining(today) {
     //convert trainingDays to array with 0-6 (So - Sa)
@@ -270,7 +263,7 @@ const Home = ({ navigation }) => {
     return (
       <View>
         <Text>
-          Work: Level - {currentLevel} {numOfSets}x{numOfReps}
+          Work: Level {currentLevel} - {numOfSets}x{numOfReps}
         </Text>
       </View>
     );
@@ -336,7 +329,6 @@ const Home = ({ navigation }) => {
           title="Heutiges Training verwalten"
         ></Button>
       </View>
-      <Text>{count}</Text>
 
       <ExerciseListModal
         navigation={navigation}

@@ -7,6 +7,7 @@ import {
   Dimensions,
 } from "react-native";
 import React from "react";
+import colors from "../colors";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
@@ -32,11 +33,11 @@ function ExerciseCard(props) {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 10,
-    borderColor: "black",
-    //borderWidth: 1,
+    borderColor: colors.primary,
+    borderWidth: 1,
     backgroundColor: "white",
     marginBottom: 20,
-    boxShadow: "5px 5px 10px 0px #000000",
+    elevation: 2,
     width: deviceWidth * 0.8,
     height: deviceHeight * 0.05,
     //alignItems: "flex-start",

@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "levelupfitness",
+    "name": "LevelUp Fitness",
     "slug": "levelupfitness",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo-cut.png",
     "scheme": "levelupfitness",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,

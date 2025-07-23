@@ -15,6 +15,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import Storage from "expo-sqlite/kv-store";
 import LevelUpRequirements from "../data/exercises/levelUpRequirements";
+import db from "../db";
 
 export default function ExerciseEntryScreen({ route, navigation }) {
   const [grunduebung, setGrunduebung] = useState(0);
@@ -150,7 +151,7 @@ export default function ExerciseEntryScreen({ route, navigation }) {
       )}) VALUES (${placeholders.join(", ")})`;
       console.log(query);
       console.log(values);
-      const db = await SQLite.openDatabaseAsync("training.db");
+      //const db = await SQLite.openDatabaseAsync("training.db");
       const result = await db.runAsync(query, values);
       console.log(result);
       if (result.changes === 1) {
@@ -237,7 +238,7 @@ export default function ExerciseEntryScreen({ route, navigation }) {
             onChangeText={(text) =>
               updateGroup(i, "value", text.replace(/[^0-9]/g, ""))
             }
-            placeholder={`#${i + 1}`}
+            placeholder={"Wiederholungen"}
           />
         </View>
       ))}
@@ -270,7 +271,7 @@ export default function ExerciseEntryScreen({ route, navigation }) {
           maxLength={4}
           value={val}
           onChangeText={(text) => updateWorkReps(i, text)}
-          placeholder={`#${i + 1}`}
+          placeholder={"Wiederholungen"}
         />
       ))}
       <View style={styles.buttonsRow}>
@@ -323,7 +324,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   input: {
-    width: 80,
+    width: 120,
+    height: 55,
     borderWidth: 1,
     borderColor: "#000",
     backgroundColor: colors.third,

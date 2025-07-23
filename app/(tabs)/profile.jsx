@@ -32,6 +32,7 @@ export default function Profile(props) {
   const [daysRequired, setDaysRequired] = useState(2);
   const [isModalVisible, setModalVisible] = useState(false);
   const [trainingDays, setTrainingDays] = useState([]);
+  const [rank, setRank] = useState(1);
 
   // Helper: Anzahl Trainingstage anpassen
   const adjustDaysRequired = (val) => {
@@ -47,6 +48,14 @@ export default function Profile(props) {
         const storedPlan = await Storage.getItemAsync("Trainingsplan");
         const storedDays = await Storage.getItemAsync("Trainingstage");
         const storedName = await Storage.getItemAsync("name");
+        const pushups = JSON.parse(await Storage.getItemAsync("pushups"));
+        const squats = JSON.parse(await Storage.getItemAsync("squats"));
+        const pullups = JSON.parse(await Storage.getItemAsync("pullups"));
+        const leg_raises = JSON.parse(await Storage.getItemAsync("leg_raises"));
+        const bridges = JSON.parse(await Storage.getItemAsync("bridges"));
+        const handstand_pushups = JSON.parse(
+          await Storage.getItemAsync("handstand_pushups")
+        );
         if (storedPlan) {
           setWorkoutPickerValue(storedPlan);
           adjustDaysRequired(storedPlan);
@@ -60,6 +69,32 @@ export default function Profile(props) {
 
         if (storedName) {
           setName(storedName);
+        }
+        if (!pushups) pushups = 1;
+        if (!squats) squats = 1;
+        if (!pullups) pullups = 1;
+        if (!leg_raises) leg_raises = 1;
+        if (!bridges) bridges = 1;
+        if (!handstand_pushups) handstand_pushups = 1;
+        if (
+          pushups &&
+          squats &&
+          pullups &&
+          leg_raises &&
+          bridges &&
+          handstand_pushups
+        ) {
+          const sum =
+            1 +
+            Math.floor(pushups) +
+            Math.floor(squats) +
+            Math.floor(pullups) +
+            Math.floor(leg_raises) +
+            Math.floor(bridges) +
+            Math.floor(handstand_pushups) -
+            6;
+          //console.log(sum);
+          setRank(sum);
         }
       } catch (e) {
         console.warn("Fehler beim Laden:", e);
@@ -106,9 +141,9 @@ export default function Profile(props) {
       {/* Oberer Bereich: Profil */}
       <View style={styles.profileContainer}>
         <View style={styles.rowSpace}>
-          <Text style={{ marginRight: 15 }}>{name}</Text>
+          <Text style={{ marginRight: 15, color: "white" }}>{name}</Text>
           <Pressable onPress={toggleModal}>
-            <Ionicons name="create-outline" size={16} />
+            <Ionicons name="create-outline" size={16} color="white" />
           </Pressable>
         </View>
 
@@ -132,11 +167,13 @@ export default function Profile(props) {
           </View>
         </Modal>
 
-        <Text style={{ marginTop: 20, marginBottom: 20 }}>Rang 1</Text>
+        <Text style={{ marginTop: 20, marginBottom: 20, color: "white" }}>
+          Rang {rank}
+        </Text>
         <Pressable onPress={() => props.navigation.navigate("AbzeichenScreen")}>
           <View style={styles.rowSpace2}>
-            <Text>Abzeichen</Text>
-            <Ionicons name="arrow-forward-outline" size={20} />
+            <Text style={{ color: "white" }}>Abzeichen</Text>
+            <Ionicons name="arrow-forward-outline" size={20} color="white" />
           </View>
         </Pressable>
       </View>
@@ -161,11 +198,13 @@ export default function Profile(props) {
           <Picker
             selectedValue={workoutPickerValue}
             onValueChange={onWorkoutChange}
+            mode="dialog"
           >
             <Picker.Item
               label="Wähle dein Workout aus"
               value="keinPlanAusgewählt"
               enabled={false}
+              color="lightgrey"
             />
             <Picker.Item label="Anfänger" value="Anfänger" />
             <Picker.Item label="Fortgeschritten" value="Fortgeschritten" />

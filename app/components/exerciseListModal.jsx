@@ -19,6 +19,7 @@ import Modal from "react-native-modal";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import { useNavigation } from "@react-navigation/native";
+import db from "../db";
 
 const ExerciseListModal = ({ day }, ref) => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -39,7 +40,7 @@ const ExerciseListModal = ({ day }, ref) => {
     if (!day) return;
     async function getTrainingDay() {
       try {
-        const db = await SQLite.openDatabaseAsync("training.db");
+        //const db = await SQLite.openDatabaseAsync("training.db");
         const sql = `SELECT * FROM trainings WHERE datestring = ?;`;
         const result = await db.getAllAsync(sql, [day]);
         //console.log("SQL:", sql, [day], "→", result);
@@ -70,7 +71,7 @@ const ExerciseListModal = ({ day }, ref) => {
   }
 
   async function deleteEntry(item) {
-    const db = await SQLite.openDatabaseAsync("training.db");
+    //const db = await SQLite.openDatabaseAsync("training.db");
     const query = `DELETE FROM trainings WHERE id=${item.id}`;
     console.log(query);
     const result = await db.execAsync(query);

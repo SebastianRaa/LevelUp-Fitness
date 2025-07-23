@@ -17,6 +17,7 @@ import {
 } from "react-native-calendars";
 import ExerciseListModal from "../components/exerciseListModal";
 import * as SQLite from "expo-sqlite";
+import db from "../db";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -81,7 +82,7 @@ const Ansicht1 = ({ route, navigation }) => {
   useEffect(() => {
     async function getTrainingDays() {
       try {
-        const db = await SQLite.openDatabaseAsync("training.db");
+        //const db = await SQLite.openDatabaseAsync("training.db");
         const result = await db.getAllAsync(
           `SELECT DISTINCT datestring FROM trainings`
         );
@@ -142,6 +143,7 @@ const Ansicht1 = ({ route, navigation }) => {
             }}
             firstDay={1}
             markedDates={markedDates}
+            enableSwipeMonths={true}
           />
         </View>
       </View>

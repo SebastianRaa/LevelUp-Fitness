@@ -12,7 +12,7 @@ const TraningsconceptScreen = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
       <Text>
-        <Text style={{ fontSize: 22 }}>Trainingskonzept</Text>
+        <Text style={styles.headline}>Trainingskonzept</Text>
         {"\n"}
         {"\n"}
       </Text>
@@ -50,6 +50,16 @@ const TraningsconceptScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   container: { padding: 20 },
+  headline: {
+    fontWeight: "bold",
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  subHeadline: {
+    fontWeight: "600",
+    fontSize: 18,
+    marginBottom: 20,
+  },
 });
 
 export default TraningsconceptScreen;

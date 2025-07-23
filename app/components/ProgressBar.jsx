@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Dimensions, Text } from "react-native";
+import colors from "../colors";
 
 //component used to display the level of the 6 basic exercises
 //props: fillWidth, label
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
   },
   progressBarFill: {
     height: "100%",
-    backgroundColor: "#007bff",
+    backgroundColor: colors.primary,
     //borderTopLeftRadius: 10,
     //borderBottomLeftRadius: 10,
   },

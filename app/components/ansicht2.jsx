@@ -80,7 +80,7 @@ export default Ansicht2;
  */
 
 /*async function getData() {
-    const db = await SQLite.openDatabaseAsync("training.db");
+    //const db = await SQLite.openDatabaseAsync("training.db");
     const result =
       await db.runAsync(`CREATE TABLE IF NOT EXISTS levels (id INTEGER PRIMARY KEY AUTOINCREMENT,
       pushups REAL,
