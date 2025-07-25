@@ -169,6 +169,10 @@ export default function ExerciseEntryScreen({ route, navigation }) {
 
   //save level of base exercise to key value storage
   async function saveToStorage() {
+    if (workLevel == 10) {
+      await Storage.setItem(`${grunduebung}`, `${workLevel}`);
+      return;
+    }
     const req = LevelUpRequirements[grunduebung][workLevel];
     //console.log("totalWorkReps: " + totalWorkReps);
     //console.log("req: " + req);
@@ -195,6 +199,7 @@ export default function ExerciseEntryScreen({ route, navigation }) {
         <Picker
           selectedValue={grunduebung}
           onValueChange={(newVal, itemIndex) => setGrunduebung(newVal)}
+          mode="dialog"
         >
           <Picker.Item
             label="- Grundübung wählen -"
@@ -219,6 +224,7 @@ export default function ExerciseEntryScreen({ route, navigation }) {
             <Picker
               selectedValue={grp.level}
               onValueChange={(val) => updateGroup(i, "level", val)}
+              mode="dialog"
             >
               <Picker.Item label="- Level wählen -" value={0} enabled={false} />
               {[...Array(10)].map((_, idx) => (
@@ -255,6 +261,7 @@ export default function ExerciseEntryScreen({ route, navigation }) {
           <Picker
             selectedValue={workLevel}
             onValueChange={(val) => setWorkLevel(val)}
+            mode="dialog"
           >
             <Picker.Item label="- Level wählen -" value={0} enabled={false} />
             {[...Array(10)].map((_, idx) => (

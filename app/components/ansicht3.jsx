@@ -19,6 +19,7 @@ const Ansicht3 = ({ route }) => {
   const [grunduebung, setGrunduebung] = useState("pushups");
   const [level, setLevel] = useState(1);
   const [data, setData] = useState([]);
+  const [stepValue, setStepValue] = useState(10);
   const ref = useRef(null);
 
   const lineData = [
@@ -72,6 +73,7 @@ const Ansicht3 = ({ route }) => {
       console.log(result);
       //console.log("result length: " + result.length);
       const newData = [];
+      let highestValue = 0;
       for (let i = 0; i < result.length; i++) {
         let totalWork = 0;
         let counter = 0;
@@ -89,11 +91,28 @@ const Ansicht3 = ({ route }) => {
           label: result[i].datestring.slice(0, 5),
           dataPointText: totalWork,
         });
+        if (totalWork > highestValue) highestValue = totalWork;
       }
       setData(newData);
+      if (highestValue < 25) setStepValue(5);
+      else if (highestValue < 50) setStepValue(10);
+      else if (highestValue < 75) setStepValue(15);
+      else if (highestValue < 100) setStepValue(20);
+      else if (highestValue < 125) setStepValue(25);
+      else if (highestValue < 150) setStepValue(30);
+      else if (highestValue < 175) setStepValue(35);
+      else if (highestValue < 200) setStepValue(40);
+      else if (highestValue < 225) setStepValue(45);
+      else if (highestValue < 250) setStepValue(50);
+      else setStepValue(100);
     }
     getData();
   }, [grunduebung, level]);
+
+  function yAxisLabelTextsGenerator(value) {
+    const newVal = value * stepValue;
+    return newVal.toString();
+  }
 
   return (
     <View style={styles.chartBackground}>
@@ -109,6 +128,7 @@ const Ansicht3 = ({ route }) => {
         <Picker
           selectedValue={grunduebung}
           onValueChange={(newVal, itemIndex) => setGrunduebung(newVal)}
+          mode="dialog"
         >
           <Picker.Item
             label="Wähle eine Grundübung aus"
@@ -130,6 +150,7 @@ const Ansicht3 = ({ route }) => {
         <Picker
           selectedValue={level}
           onValueChange={(newVal, itemIndex) => setLevel(newVal)}
+          mode="dialog"
         >
           <Picker.Item label="Wähle ein Level aus" value={0} enabled={false} />
           <Picker.Item label="1" value={1} />
@@ -148,13 +169,23 @@ const Ansicht3 = ({ route }) => {
         <LineChart
           scrollRef={ref}
           data={data}
-          //curved
           rotateLabel
           width={deviceWidth * 0.75}
           xAxisLabelsVerticalShift={10}
           initialSpacing={20}
           textShiftY={-10}
           overflowTop={10}
+          noOfSections={5}
+          stepValue={stepValue}
+          yAxisLabelTexts={[
+            "0",
+            yAxisLabelTextsGenerator(1),
+            yAxisLabelTextsGenerator(2),
+            yAxisLabelTextsGenerator(3),
+            yAxisLabelTextsGenerator(4),
+            yAxisLabelTextsGenerator(5),
+            yAxisLabelTextsGenerator(6),
+          ]}
         />
       </View>
     </View>

@@ -48,12 +48,12 @@ export default function Profile(props) {
         const storedPlan = await Storage.getItemAsync("Trainingsplan");
         const storedDays = await Storage.getItemAsync("Trainingstage");
         const storedName = await Storage.getItemAsync("name");
-        const pushups = JSON.parse(await Storage.getItemAsync("pushups"));
-        const squats = JSON.parse(await Storage.getItemAsync("squats"));
-        const pullups = JSON.parse(await Storage.getItemAsync("pullups"));
-        const leg_raises = JSON.parse(await Storage.getItemAsync("leg_raises"));
-        const bridges = JSON.parse(await Storage.getItemAsync("bridges"));
-        const handstand_pushups = JSON.parse(
+        let pushups = JSON.parse(await Storage.getItemAsync("pushups"));
+        let squats = JSON.parse(await Storage.getItemAsync("squats"));
+        let pullups = JSON.parse(await Storage.getItemAsync("pullups"));
+        let leg_raises = JSON.parse(await Storage.getItemAsync("leg_raises"));
+        let bridges = JSON.parse(await Storage.getItemAsync("bridges"));
+        let handstand_pushups = JSON.parse(
           await Storage.getItemAsync("handstand_pushups")
         );
         if (storedPlan) {
@@ -67,35 +67,26 @@ export default function Profile(props) {
           setTrainingDays(parsed);
         }
 
-        if (storedName) {
-          setName(storedName);
-        }
+        if (storedName) setName(storedName);
+
         if (!pushups) pushups = 1;
         if (!squats) squats = 1;
         if (!pullups) pullups = 1;
         if (!leg_raises) leg_raises = 1;
         if (!bridges) bridges = 1;
         if (!handstand_pushups) handstand_pushups = 1;
-        if (
-          pushups &&
-          squats &&
-          pullups &&
-          leg_raises &&
-          bridges &&
-          handstand_pushups
-        ) {
-          const sum =
-            1 +
-            Math.floor(pushups) +
-            Math.floor(squats) +
-            Math.floor(pullups) +
-            Math.floor(leg_raises) +
-            Math.floor(bridges) +
-            Math.floor(handstand_pushups) -
-            6;
-          //console.log(sum);
-          setRank(sum);
-        }
+
+        const sum =
+          1 +
+          Math.floor(pushups) +
+          Math.floor(squats) +
+          Math.floor(pullups) +
+          Math.floor(leg_raises) +
+          Math.floor(bridges) +
+          Math.floor(handstand_pushups) -
+          6;
+        //console.log(sum);
+        setRank(sum);
       } catch (e) {
         console.warn("Fehler beim Laden:", e);
       } finally {
@@ -204,7 +195,7 @@ export default function Profile(props) {
               label="Wähle dein Workout aus"
               value="keinPlanAusgewählt"
               enabled={false}
-              color="lightgrey"
+              //color={colors.primary}//leider buggy
             />
             <Picker.Item label="Anfänger" value="Anfänger" />
             <Picker.Item label="Fortgeschritten" value="Fortgeschritten" />

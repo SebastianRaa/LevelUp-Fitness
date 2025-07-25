@@ -18,6 +18,7 @@ import {
 import ExerciseListModal from "../components/exerciseListModal";
 import * as SQLite from "expo-sqlite";
 import db from "../db";
+import colors from "../colors";
 
 const deviceWidth = Dimensions.get("window").width;
 
@@ -76,7 +77,7 @@ const Ansicht1 = ({ route, navigation }) => {
     new Date().toLocaleDateString("de-DE")
   );
   const [markedDates, setMarkedDates] = useState({});
-  const defaultMarking = { selected: true, selectedColor: "lightgreen" };
+  const defaultMarking = { selected: true, selectedColor: colors.primary };
 
   //get every day on which the user did at least one exercise and use it for the calendar day markings
   useEffect(() => {

@@ -4,7 +4,7 @@
     "slug": "levelupfitness",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo-cut.png",
+    "icon": "./assets/images/logo-notext-512-v2.png",
     "scheme": "levelupfitness",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,15 +13,15 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/logo-notext-512-v2.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.levelupfitness"
+      "package": "com.sebastianraabe.LevelUpFitness"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/logo-notext-512-v2.png"
     },
     "plugins": [
       "expo-router",
@@ -44,7 +44,8 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-dev-client"
     ],
     "experiments": {
       "typedRoutes": true

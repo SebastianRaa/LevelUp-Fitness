@@ -109,6 +109,7 @@ Weitere Informationen, z.B. wie die Übungen durchzuführen sind oder wie das Tr
           <Picker
             selectedValue={workoutPickerValue}
             onValueChange={onWorkoutChange}
+            mode="dialog"
           >
             <Picker.Item
               label="Wähle dein Workout aus"

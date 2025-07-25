@@ -14,7 +14,11 @@ export default function WorkoutPicker({
   return (
     <View style={styles.container}>
       <View style={styles.picker}>
-        <Picker selectedValue={myPickerValue} onValueChange={onValueChange}>
+        <Picker
+          selectedValue={myPickerValue}
+          onValueChange={onValueChange}
+          mode="dialog"
+        >
           <Picker.Item
             label="Wähle dein Workout aus"
             value=""

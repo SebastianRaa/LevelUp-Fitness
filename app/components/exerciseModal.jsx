@@ -50,6 +50,7 @@ const exerciseModal = (props, ref) => {
           <Picker
             selectedValue={grunduebung}
             onValueChange={(newVal, itemIndex) => setGrunduebung(newVal)}
+            mode="dialog"
           >
             <Picker.Item
               label="Wähle eine Grundübung aus"
@@ -70,6 +71,7 @@ const exerciseModal = (props, ref) => {
             <Picker
               selectedValue={level}
               onValueChange={(newVal, itemIndex) => setLevel(newVal)}
+              mode="dialog"
             >
               <Picker.Item
                 label="Wähle ein Level aus"
