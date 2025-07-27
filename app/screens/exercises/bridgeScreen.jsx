@@ -1,5 +1,8 @@
 import React from "react";
-import { ScrollView, Text, StyleSheet } from "react-native";
+import { ScrollView, Text, StyleSheet, Image, Dimensions } from "react-native";
+
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 const BridgeScreen = ({ route }) => {
   return (
@@ -12,10 +15,8 @@ const BridgeScreen = ({ route }) => {
       </Text>
 
       {/* Level 1 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 1: Short Bridges (Kurze Brücken)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 1: Kurze Brücken</Text>
         {"\n"}Anleitung:
         {"\n"}Lege dich auf den Rücken, Füße flach auf dem Boden, ca.
         schulterbreit, Knie gebeugt. Die Fersen sind etwa 15–20 cm vom Gesäß
@@ -31,11 +32,20 @@ const BridgeScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/bridges_11-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/bridges_12-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+
       {/* Level 2 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 2: Straight Bridges (Gerade Brücken)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 2: Gerade Brücken</Text>
         {"\n"}Anleitung:
         {"\n"}Setze dich mit gestreckten Beinen auf den Boden, Hände neben der
         Hüfte mit Fingern zu den Zehen zeigend. Drücke dich hoch, bis der Körper
@@ -49,11 +59,20 @@ const BridgeScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/bridges_21-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/bridges_22-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+
       {/* Level 3 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 3: Angled Bridges (Abgewinkelte Brücken)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 3: Abgewinkelte Brücken</Text>
         {"\n"}Anleitung:
         {"\n"}Lege dich mit dem Rücken auf ein Bett oder eine Bank, Füße am
         Boden, Hände seitlich des Kopfs, Finger zeigen zu den Füßen. Drücke
@@ -69,10 +88,8 @@ const BridgeScreen = ({ route }) => {
       </Text>
 
       {/* Level 4 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 4: Head Bridges (Kopfbrücken)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 4: Kopfbrücken</Text>
         {"\n"}Anleitung:
         {"\n"}Lege dich flach mit dem Rücken auf den Boden, Hände neben dem
         Kopf, Finger zeigen zu den Füßen. Hebe Hüfte und Rücken, bis dein Körper
@@ -87,11 +104,20 @@ const BridgeScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/bridges_41-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/bridges_42-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+
       {/* Level 5 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 5: Half Bridges (Halbe Brücken mit Ball)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 5: Halbe Brücken mit Ball</Text>
         {"\n"}Anleitung:
         {"\n"}Lege dich mit einem Basketball unter dem unteren Rücken auf den
         Boden. Hände neben dem Kopf, Finger zeigen Richtung Füße, Füße flach.
@@ -107,10 +133,8 @@ const BridgeScreen = ({ route }) => {
       </Text>
 
       {/* Level 6 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 6: Full Bridges (Volle Brücken)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 6: Volle Brücken</Text>
         {"\n"}Anleitung:
         {"\n"}Lege dich auf den Rücken, Füße flach, Hände neben dem Kopf. Drücke
         dich mit Armen und Beinen hoch in eine volle Brücke. Die Arme und Beine
@@ -124,12 +148,15 @@ const BridgeScreen = ({ route }) => {
         {"\n"}Level-Up: 2 Sätze à 15 Wdh.
         {"\n"}
       </Text>
+      <Image
+        source={require("../../../assets/images/exercises/bridges_61-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
 
       {/* Level 7 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 7: Wall Walking Bridges (Down) (Wandabstieg)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 7:Wandabstieg</Text>
         {"\n"}Anleitung:
         {"\n"}Stelle dich ca. eine Armlänge vor eine Wand. Beuge dich langsam
         nach hinten, bis du mit den Händen die Wand berührst. „Laufe“ mit den
@@ -144,10 +171,8 @@ const BridgeScreen = ({ route }) => {
       </Text>
 
       {/* Level 8 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 8: Wall Walking Bridges (Up) (Wandaufstieg)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 8: Wandaufstieg</Text>
         {"\n"}Anleitung:
         {"\n"}Gehe wie bei Level 7 rückwärts an der Wand hinunter und dann in
         die Brücke. Dann kehrst du die Bewegung um und „läufst“ mit den Händen
@@ -162,10 +187,8 @@ const BridgeScreen = ({ route }) => {
       </Text>
 
       {/* Level 9 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 9: Closing Bridges (Rückwärts in die Brücke)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 9: Rückwärts in die Brücke</Text>
         {"\n"}Anleitung:
         {"\n"}Stehe aufrecht, Hände auf der Hüfte und schiebe dein Becken
         vorwärts. Beuge dich langsam nach hinten, bis du den Boden siehst, dann
@@ -181,10 +204,8 @@ const BridgeScreen = ({ route }) => {
       </Text>
 
       {/* Level 10 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 10: Stand-to-Stand Bridges (Stand-zu-Stand-Brücken)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 10: Stand-zu-Stand-Brücken</Text>
         {"\n"}Anleitung:
         {"\n"}Beuge dich aus dem Stand in die Brücke (wie Level 9) – und drücke
         dich dann direkt wieder in den Stand zurück. Diese Bewegung kombiniert
@@ -208,10 +229,26 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
   },
+  text: {
+    marginTop: 20,
+  },
   subHeadline: {
     fontWeight: "600",
     fontSize: 18,
     marginBottom: 20,
+  },
+  imageUpright: {
+    //height: deviceHeight * 0.4,
+    height: deviceHeight * 0.3,
+    aspectRatio: 9 / 16,
+    marginTop: 10,
+  },
+  imageHorizontal: {
+    //height: deviceHeight * 0.4,
+    height: deviceHeight * 0.15,
+    aspectRatio: 16 / 9,
+    marginTop: 10,
+    //alignSelf: "center",
   },
 });
 

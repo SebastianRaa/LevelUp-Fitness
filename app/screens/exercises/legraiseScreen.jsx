@@ -1,6 +1,8 @@
 import React from "react";
-import { ScrollView, Text, StyleSheet } from "react-native";
+import { ScrollView, Text, StyleSheet, Image, Dimensions } from "react-native";
 
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 const LegraiseScreen = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
@@ -12,8 +14,8 @@ const LegraiseScreen = ({ route }) => {
       </Text>
 
       {/* Level 1 */}
-      <Text>
-        <Text style={styles.subHeadline}>Level 1: Knee Tucks</Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 1: Sitzende Knieheber</Text>
         {"\n"}
         Setze dich auf die Kante eines Stuhls oder Bettes, lehne dich leicht
         zurück und halte dich an der Sitzkante fest. Strecke die Beine durch und
@@ -32,9 +34,20 @@ const LegraiseScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_11-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_12-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+
       {/* Level 2 */}
-      <Text>
-        <Text style={styles.subHeadline}>Level 2: Flat Knee Raises</Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 2: Liegende Knieheber</Text>
         {"\n"}
         Lege dich flach auf den Rücken, Beine zusammen, Arme seitlich am Boden.
         Beuge die Knie auf etwa 90 Grad, die Füße schweben ein bis zwei
@@ -54,9 +67,22 @@ const LegraiseScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_21-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_22-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+
       {/* Level 3 */}
-      <Text>
-        <Text style={styles.subHeadline}>Level 3: Flat Bent Leg Raises</Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>
+          Level 3: Liegende Beinheber mit gebeugten Knien
+        </Text>
         {"\n"}
         Lege dich auf den Rücken, die Beine ausgestreckt und die Hände seitlich
         auf dem Boden. Beuge die Knie leicht um etwa 45 Grad und halte die Füße
@@ -75,9 +101,22 @@ const LegraiseScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_31-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_32-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+
       {/* Level 4 */}
-      <Text>
-        <Text style={styles.subHeadline}>Level 4: Flat Frog Raises</Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>
+          Level 4: Liegende Froschbeinheber
+        </Text>
         {"\n"}
         Hebe deine angewinkelten Beine wie in Level 3 an und strecke sie oben
         vollständig, sodass sie senkrecht zum Boden stehen. Atme während dieser
@@ -96,10 +135,21 @@ const LegraiseScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_41-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_42-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+
       {/* Level 5 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 5: Flat Straight Leg Raises
+          Level 5: Liegendes gestrecktes Beinheben
         </Text>
         {"\n"}
         Lege dich auf den Rücken, die Beine ausgestreckt, die Füße zusammen und
@@ -120,9 +170,20 @@ const LegraiseScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_51-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_52-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+
       {/* Level 6 */}
-      <Text>
-        <Text style={styles.subHeadline}>Level 6: Hanging Knee Raises</Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 6: Hängende Knieheber</Text>
         {"\n"}
         Spring hoch und greife eine Klimmzugstange etwa schulterbreit. Hänge
         frei, halte deinen Körper gestreckt und die Schultern aktiv angespannt.
@@ -141,8 +202,10 @@ const LegraiseScreen = ({ route }) => {
       </Text>
 
       {/* Level 7 */}
-      <Text>
-        <Text style={styles.subHeadline}>Level 7: Hanging Bent Leg Raises</Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>
+          Level 7: Hängende Beinheber mit gebeugten Knien
+        </Text>
         {"\n"}
         Greife eine Klimmzugstange schulterbreit, halte deinen Körper gestreckt
         und die Schultern angespannt. Beuge deine Knie um etwa 45 Grad, sodass
@@ -162,8 +225,10 @@ const LegraiseScreen = ({ route }) => {
       </Text>
 
       {/* Level 8 */}
-      <Text>
-        <Text style={styles.subHeadline}>Level 8: Hanging Frog Raises</Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>
+          Level 8: Hängende Froschbeinheber
+        </Text>
         {"\n"}
         Beginne wie bei Level 7, hängend mit leicht gebeugten Knien. Ziehe deine
         Beine hoch, bis die Füße auf Höhe deines Beckens sind. Strecke dann die
@@ -185,9 +250,9 @@ const LegraiseScreen = ({ route }) => {
       </Text>
 
       {/* Level 9 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 9: Partial Straight Leg Raises
+          Level 9: Hängendes teilweise gestrecktes Beinheben
         </Text>
         {"\n"}
         Hänge dich an eine Klimmzugstange, halte den Körper gestreckt und die
@@ -208,9 +273,9 @@ const LegraiseScreen = ({ route }) => {
       </Text>
 
       {/* Level 10 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 10: Hanging Straight Leg Raises
+          Level 10: Hängendes gestrecktes Beinheben
         </Text>
         {"\n"}
         Greife eine hohe Klimmzugstange schulterbreit und hänge dich gestreckt
@@ -241,10 +306,39 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
   },
+  text: {
+    marginTop: 20,
+  },
   subHeadline: {
     fontWeight: "600",
     fontSize: 18,
     marginBottom: 20,
+  },
+  imageUpright: {
+    //height: deviceHeight * 0.4,
+    height: deviceHeight * 0.3,
+    aspectRatio: 9 / 16,
+    marginTop: 10,
+    //alignSelf: "center",
+  },
+  imageHorizontal: {
+    //height: deviceHeight * 0.4,
+    height: deviceHeight * 0.15,
+    aspectRatio: 16 / 9,
+    marginTop: 10,
+    //alignSelf: "center",
+  },
+  imageQuadratic: {
+    height: deviceHeight * 0.2,
+    aspectRatio: 1,
+    marginTop: 10,
+    //alignSelf: "center",
+  },
+  rowUpright: {
+    flexDirection: "row",
+    width: deviceWidth,
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

@@ -4,9 +4,12 @@ import {
   Button,
   ScrollView,
   Image,
+  Dimensions,
   StyleSheet,
 } from "react-native";
 import React from "react";
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 const PushupScreen = ({ route }) => {
   return (
@@ -16,10 +19,8 @@ const PushupScreen = ({ route }) => {
         {"\n"}
         {"\n"}
       </Text>
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 1: Wall Pushups (Wandliegestütze)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 1: Wandliegestütze</Text>
         {"\n"}Stell dich etwa eine Armlänge von einer stabilen Wand entfernt
         auf. Platziere deine Hände schulterbreit an der Wand auf Brusthöhe.
         Spanne deinen Körper an, halte ihn gerade wie ein Brett. Beuge langsam
@@ -30,14 +31,19 @@ const PushupScreen = ({ route }) => {
         {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 10 Wdh.{"\n"}
         Fortgeschritten: 2 Sätze à 25 Wdh.{"\n"}Level-Up: 3 Sätze à 50 Wdh.
         {"\n"}
-        <Image
-          source={require("../../../assets/images/react-logo.png")}
-          style={""}
-        />
-        {"\n"}
-        <Text style={styles.subHeadline}>
-          Level 2: Incline Pushups (Schräge Liegestütze)
-        </Text>
+      </Text>
+      <Image
+        source={require("../../../assets/images/exercises/pushups_11-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pushups_12-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 2: Schräge Liegestütze</Text>
         {"\n"}Finde eine stabile Oberfläche auf Hüfthöhe, etwa einen Tisch oder
         eine Bank. Setze deine Hände schulterbreit auf und stelle deine Füße
         weit nach hinten, bis dein Körper eine gerade Linie bildet. Senke deine
@@ -48,9 +54,19 @@ const PushupScreen = ({ route }) => {
         Fortgeschritten: 2 Sätze à 20 Wdh.{"\n"}Level-Up: 3 Sätze à 40 Wdh.
         {"\n"}
         {"\n"}
-        <Text style={styles.subHeadline}>
-          Level 3: Knee Pushups (Knie-Liegestütze)
-        </Text>
+      </Text>
+      <Image
+        source={require("../../../assets/images/exercises/pushups_21-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pushups_22-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 3: Knie-Liegestütze</Text>
         {"\n"}Gehe in eine klassische Liegestützposition, aber stütze deine Knie
         auf dem Boden ab. Deine Hände befinden sich leicht unter Schulterhöhe.
         Halte deinen Körper von den Schultern bis zu den Knien in einer geraden
@@ -61,9 +77,19 @@ const PushupScreen = ({ route }) => {
         Fortgeschritten: 2 Sätze à 15 Wdh.{"\n"}Level-Up: 3 Sätze à 30 Wdh.
         {"\n"}
         {"\n"}
-        <Text style={styles.subHeadline}>
-          Level 4: Half Pushups (Halbe Liegestütze)
-        </Text>
+      </Text>
+      <Image
+        source={require("../../../assets/images/exercises/pushups_31-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pushups_32-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 4: Halbe Liegestütze</Text>
         {"\n"}Nimm die klassische Liegestützposition ein: auf Händen und Füßen,
         Körper völlig gerade. Senke dich nur etwa bis zur Hälfte der normalen
         Tiefe ab. Halte kurz die Spannung unten und drücke dich wieder hoch.
@@ -74,9 +100,9 @@ const PushupScreen = ({ route }) => {
         Fortgeschritten: 2 Sätze à 12 Wdh.{"\n"}Level-Up: 2 Sätze à 25 Wdh.
         {"\n"}
         {"\n"}
-        <Text style={styles.subHeadline}>
-          Level 5: Full Pushups (Volle Liegestütze)
-        </Text>
+      </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 5: Volle Liegestütze</Text>
         {"\n"}Starte in der vollen Liegestützposition, Hände etwa schulterbreit
         auf dem Boden. Dein Körper bildet von Kopf bis Fersen eine Linie. Senke
         dich langsam und kontrolliert ab, bis deine Brust fast den Boden
@@ -87,9 +113,19 @@ const PushupScreen = ({ route }) => {
         Fortgeschritten: 2 Sätze à 10 Wdh.{"\n"}Level-Up: 2 Sätze à 20 Wdh.
         {"\n"}
         {"\n"}
-        <Text style={styles.subHeadline}>
-          Level 6: Close Pushups (Enge Liegestütze)
-        </Text>
+      </Text>
+      <Image
+        source={require("../../../assets/images/exercises/pushups_51-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pushups_52-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 6: Enge Liegestütze</Text>
         {"\n"}Setze deine Hände so nah zusammen, dass sich Daumen und
         Zeigefinger beinahe berühren. Spanne deinen Körper wieder wie ein Brett
         an. Senke deinen Oberkörper in einer geraden Linie nach unten. Die
@@ -101,9 +137,19 @@ const PushupScreen = ({ route }) => {
         Fortgeschritten: 2 Sätze à 10 Wdh.{"\n"}Level-Up: 2 Sätze à 20 Wdh.
         {"\n"}
         {"\n"}
-        <Text style={styles.subHeadline}>
-          Level 7: Uneven Pushups (Unebene Liegestütze)
-        </Text>
+      </Text>
+      <Image
+        source={require("../../../assets/images/exercises/pushups_61-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pushups_62-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 7: Unebene Liegestütze</Text>
         {"\n"}Lege eine Hand auf eine Erhöhung, etwa ein Buch oder einen Ball,
         die andere Hand bleibt am Boden. Dein Körper bleibt während der gesamten
         Bewegung gerade. Senke dich kontrolliert ab und drücke dich wieder nach
@@ -115,8 +161,10 @@ const PushupScreen = ({ route }) => {
         Fortgeschritten: 2 Sätze à 10 Wdh. pro Seite{"\n"}Level-Up: 2 Sätze à 20
         Wdh. pro Seite{"\n"}
         {"\n"}
+      </Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 8: Half One-Arm Pushups (Halbe einarmige Liegestütze)
+          Level 8: Halbe einarmige Liegestütze
         </Text>
         {"\n"}
         Stelle dich in eine breite Liegestützposition, wobei ein Arm hinter dem
@@ -130,9 +178,9 @@ const PushupScreen = ({ route }) => {
         Fortgeschritten: 2 Sätze à 10 Wdh. pro Seite{"\n"}Level-Up: 2 Sätze à 20
         Wdh. pro Seite{"\n"}
         {"\n"}
-        <Text style={styles.subHeadline}>
-          Level 9: Lever Pushups (Hebel Liegestütze)
-        </Text>
+      </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 9: Hebel Liegestütze</Text>
         {"\n"}Gehe in eine Liegestützposition mit einer Hand unter deinem
         Brustbein und der anderen auf einem Basketball seitlich neben dir. Beide
         Arme sind gestreckt, der Körper bleibt gerade. Senke dich langsam ab,
@@ -144,9 +192,9 @@ const PushupScreen = ({ route }) => {
         Fortgeschritten: 2 Sätze à 10 Wdh. pro Seite{"\n"}Level-Up: 2 Sätze à 20
         Wdh. pro Seite{"\n"}
         {"\n"}
-        <Text style={styles.subHeadline}>
-          Level 10: One-Arm Pushups (Einarmige Liegestütze)
-        </Text>
+      </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 10: Einarmige Liegestütze</Text>
         {"\n"}Stelle deine Füße leicht weiter auseinander für bessere
         Stabilität. Verstecke die freie Hand hinter deinem Rücken. Die
         arbeitende Hand steht direkt unter deiner Schulter. Senke dich langsam
@@ -158,6 +206,16 @@ const PushupScreen = ({ route }) => {
         Fortgeschritten: 2 Sätze à 10 Wdh. pro Seite{"\n"}Level-Up: 1 Sätze à
         100 Wdh. pro Seite{"\n"}
       </Text>
+      <Image
+        source={require("../../../assets/images/exercises/pushups_101-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pushups_102-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
     </ScrollView>
   );
 };
@@ -173,6 +231,32 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 18,
     marginBottom: 20,
+  },
+  text: {
+    marginTop: 20,
+  },
+  imageUpright: {
+    //height: deviceHeight * 0.4,
+    height: deviceHeight * 0.3,
+    aspectRatio: 9 / 16,
+    marginTop: 10,
+  },
+  imageHorizontal: {
+    //height: deviceHeight * 0.4,
+    height: deviceHeight * 0.15,
+    aspectRatio: 16 / 9,
+    marginTop: 10,
+  },
+  imageQuadratic: {
+    height: deviceHeight * 0.2,
+    aspectRatio: 1,
+    marginTop: 10,
+  },
+  rowUpright: {
+    flexDirection: "row",
+    width: deviceWidth,
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

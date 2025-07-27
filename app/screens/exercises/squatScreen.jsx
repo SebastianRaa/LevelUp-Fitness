@@ -1,6 +1,15 @@
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Image,
+  Dimensions,
+} from "react-native";
 import React from "react";
 
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 const SquatScreen = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
@@ -12,7 +21,7 @@ const SquatScreen = ({ route }) => {
       </Text>
 
       {/* Level 1 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
           Level 1: Shoulderstand Squats (Schulterstand-Kniebeugen)
         </Text>
@@ -32,11 +41,20 @@ const SquatScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/squats_11-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/squats_12-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+
       {/* Level 2 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 2: Jackknife Squats (Klappmesser-Kniebeugen)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 2: Klappmesser-Kniebeugen</Text>
         {"\n"}
         Stelle dich mit leicht gespreizten Beinen hin und halte dich an einer
         stabilen Erhöhung vor dir fest. Die Erhöhung sollte bis zu deinen
@@ -53,11 +71,19 @@ const SquatScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/squats_21-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/squats_22-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
       {/* Level 3 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 3: Supported Squats (Gestützte Kniebeugen)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 3: Gestützte Kniebeugen</Text>
         {"\n"}
         Stelle dich aufrecht hin, die Füße schulterbreit, und halte dich an
         einem stabilen Gegenstand vor dir fest (z. B. Tischkante). Beuge Knie
@@ -72,12 +98,19 @@ const SquatScreen = ({ route }) => {
         {"\n"}Level-Up: 3 Sätze à 30 Wdh.
         {"\n"}
       </Text>
-
+      <Image
+        source={require("../../../assets/images/exercises/squats_31-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/squats_32-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
       {/* Level 4 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 4: Half Squats (Halbe Kniebeugen)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 4: Halbe Kniebeugen</Text>
         {"\n"}
         Stelle dich mit den Füßen leicht nach außen gedreht schulterbreit auf.
         Beuge die Knie etwa bis 90 Grad, der Rücken bleibt gerade. Halte kurz in
@@ -92,11 +125,19 @@ const SquatScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/squats_41-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/squats_42-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
       {/* Level 5 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 5: Full Squats (Volle Kniebeugen)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 5: Volle Kniebeugen</Text>
         {"\n"}
         Füße schulterbreit, Arme vor der Brust. Beuge dich kontrolliert tief
         nach unten, bis deine Oberschenkel deine Waden berühren. Halte kurz
@@ -112,10 +153,8 @@ const SquatScreen = ({ route }) => {
       </Text>
 
       {/* Level 6 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 6: Close Squats (Enge Kniebeugen)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 6: Enge Kniebeugen</Text>
         {"\n"}
         Stelle deine Füße nah zusammen, Zehen zeigen leicht nach außen. Führe
         eine tiefe Kniebeuge mit geradem Rücken aus. Diese Variante erhöht die
@@ -130,10 +169,20 @@ const SquatScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/squats_61-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/squats_62-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
       {/* Level 7 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 7: Uneven Squats (Ungleichgewicht-Kniebeugen)
+          Level 7: Ungleichgewicht-Kniebeugen
         </Text>
         {"\n"}
         Stelle einen Fuß nach vorne gestreckt auf eine Erhöhung (z. B.
@@ -151,9 +200,9 @@ const SquatScreen = ({ route }) => {
       </Text>
 
       {/* Level 8 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 8: Half One-Leg Squats (Halbe Einbein-Kniebeugen)
+          Level 8: Halbe Einbein-Kniebeugen
         </Text>
         {"\n"}
         Stelle dich auf ein Bein, das andere bleibt gestreckt auf Höhe deiner
@@ -170,9 +219,9 @@ const SquatScreen = ({ route }) => {
       </Text>
 
       {/* Level 9 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 9: Assisted One-Leg Squats (Unterstützte Einbein-Kniebeugen)
+          Level 9: Unterstützte Einbein-Kniebeugen
         </Text>
         {"\n"}
         Stelle dich auf ein Bein und halte die andere Seite gestreckt nach
@@ -190,10 +239,8 @@ const SquatScreen = ({ route }) => {
       </Text>
 
       {/* Level 10 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 10: One-Leg Squats (Einbein-Kniebeugen)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 10: Einbein-Kniebeugen</Text>
         {"\n"}
         Stehe auf einem Bein, das andere Bein gestreckt vor dir in der Luft.
         Senke dich langsam ganz tief ab, bis dein Oberschenkel deine Wade
@@ -219,10 +266,36 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
   },
+  text: {
+    marginTop: 20,
+  },
   subHeadline: {
     fontWeight: "600",
     fontSize: 18,
     marginBottom: 20,
+  },
+  imageUpright: {
+    //height: deviceHeight * 0.4,
+    height: deviceHeight * 0.3,
+    aspectRatio: 9 / 16,
+    marginTop: 10,
+  },
+  imageHorizontal: {
+    //height: deviceHeight * 0.4,
+    height: deviceHeight * 0.15,
+    aspectRatio: 16 / 9,
+    marginTop: 10,
+  },
+  imageQuadratic: {
+    height: deviceHeight * 0.2,
+    aspectRatio: 1,
+    marginTop: 10,
+  },
+  rowUpright: {
+    flexDirection: "row",
+    width: deviceWidth,
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

@@ -1,6 +1,18 @@
 import React from "react";
-import { ScrollView, Text, StyleSheet } from "react-native";
+import {
+  ScrollView,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  View,
+} from "react-native";
 
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
+
+console.log("height: ", deviceHeight);
+console.log("width: ", deviceWidth);
 const PullupScreen = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
@@ -13,9 +25,7 @@ const PullupScreen = ({ route }) => {
 
       {/* Level 1 */}
       <Text>
-        <Text style={styles.subHeadline}>
-          Level 1: Vertical Pulls (Vertikale Züge)
-        </Text>
+        <Text style={styles.subHeadline}>Level 1: Vertikale Züge</Text>
         {"\n"}
         Anleitung:
         {"\n"}
@@ -33,11 +43,23 @@ const PullupScreen = ({ route }) => {
         {"\n"}Level-Up: 3 Sätze à 40 Wdh.
         {"\n"}
       </Text>
-
+      <View style={""}>
+        {/*styles.rowUpright*/}
+        <Image
+          source={require("../../../assets/images/exercises/pullups_11-min.jpg")}
+          resizeMode="contain"
+          style={styles.imageUpright}
+        />
+        <Image
+          source={require("../../../assets/images/exercises/pullups_12-min.jpg")}
+          resizeMode="contain"
+          style={styles.imageUpright}
+        />
+      </View>
       {/* Level 2 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 2: Horizontal Pulls (Waagrechte Züge / Tischziehen)
+          Level 2: Waagrechte Züge / Tischziehen
         </Text>
         {"\n"}
         Anleitung:
@@ -57,10 +79,8 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 3 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 3: Jackknife Pullups (Klappmesser-Klimmzüge)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 3: Klappmesser-Klimmzüge</Text>
         {"\n"}
         Anleitung:
         {"\n"}
@@ -79,18 +99,16 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 4 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 4: Half Pullups (Halbe Klimmzüge)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 4: Halbe Klimmzüge</Text>
         {"\n"}
         Anleitung:
         {"\n"}
         Springe an die Klimmzugstange und beginne mit gebeugten Armen (Oberarme
         parallel zum Boden). Ziehe dich bis zum Kinn über die Stange hoch. Senke
-        dich wieder in die Ausgangsposition ab, ohne ganz zu strecken.
-        Bewegungs­ radius: obere Hälfte der Zugbewegung. Dies trainiert Griff,
-        Rücken und Arme intensiv.
+        dich wieder in die Ausgangsposition ab, ohne ganz zu strecken. Bewegungs
+        radius: obere Hälfte der Zugbewegung. Dies trainiert Griff, Rücken und
+        Arme intensiv.
         {"\n"}
         {"\n"}
         Trainingsziele:
@@ -101,10 +119,8 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 5 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 5: Full Pullups (Klassische Klimmzüge)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 5: Klassische Klimmzüge</Text>
         {"\n"}
         Anleitung:
         {"\n"}
@@ -123,10 +139,8 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 6 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 6: Close Pullups (Enge Klimmzüge)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 6: Enge Klimmzüge</Text>
         {"\n"}
         Anleitung:
         {"\n"}
@@ -144,10 +158,8 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 7 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 7: Uneven Pullups (Ungleiche Klimmzüge)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 7: Ungleiche Klimmzüge</Text>
         {"\n"}
         Anleitung:
         {"\n"}
@@ -165,10 +177,8 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 8 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 8: Half One-Arm Pullups (Halbe Einarm-Klimmzüge)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 8: Halbe Einarm-Klimmzüge</Text>
         {"\n"}
         Anleitung:
         {"\n"}
@@ -187,9 +197,9 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 9 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 9: Assisted One-Arm Pullups (Unterstützte Einarm-Klimmzüge)
+          Level 9: Unterstützte Einarm-Klimmzüge
         </Text>
         {"\n"}
         Anleitung:
@@ -209,10 +219,8 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 10 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 10: One-Arm Pullups (Einarmige Klimmzüge – Master Step)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 10: Einarmige Klimmzüge</Text>
         {"\n"}
         Anleitung:
         {"\n"}
@@ -240,10 +248,31 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
   },
+  text: {
+    marginTop: 20,
+  },
   subHeadline: {
     fontWeight: "600",
     fontSize: 18,
     marginBottom: 20,
+  },
+  imageUpright: {
+    //height: deviceHeight * 0.4,
+    height: deviceHeight * 0.3,
+    aspectRatio: 9 / 16,
+    marginTop: 10,
+  },
+  imageHorizontal: {
+    //height: deviceHeight * 0.4,
+    height: deviceHeight * 0.15,
+    aspectRatio: 16 / 9,
+    marginTop: 10,
+  },
+  rowUpright: {
+    flexDirection: "row",
+    width: deviceWidth,
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

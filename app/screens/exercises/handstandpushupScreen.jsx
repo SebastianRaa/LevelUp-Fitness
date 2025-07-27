@@ -1,5 +1,8 @@
 import React from "react";
-import { ScrollView, Text, StyleSheet } from "react-native";
+import { ScrollView, Text, StyleSheet, Image, Dimensions } from "react-native";
+
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 const HandstandpushupScreen = ({ route }) => {
   return (
@@ -12,10 +15,8 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 1 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 1: Wall Headstands (Wand-Kopfstand)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 1: Wand-Kopfstand</Text>
         {"\n"}Anleitung:
         {"\n"}Platziere ein Kissen oder eine gefaltete Decke am Boden vor einer
         stabilen Wand. Knie dich hin, setze deine Hände etwa schulterbreit neben
@@ -33,11 +34,20 @@ const HandstandpushupScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/handstand_pushups_11-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/handstand_pushups_12-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+
       {/* Level 2 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 2: Crow Stands (Krähenstand)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 2: Krähenstand</Text>
         {"\n"}Anleitung:
         {"\n"}Hocke dich hin, Knie weit auseinander, Hände flach vor dir auf dem
         Boden. Lehne deinen Körper nach vorn, sodass deine Knie gegen die
@@ -53,11 +63,20 @@ const HandstandpushupScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/handstand_pushups_21-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/handstand_pushups_22-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+
       {/* Level 3 */}
-      <Text>
-        <Text style={styles.subHeadline}>
-          Level 3: Wall Handstands (Wand-Handstand)
-        </Text>
+      <Text style={styles.text}>
+        <Text style={styles.subHeadline}>Level 3: Wand-Handstand</Text>
         {"\n"}Anleitung:
         {"\n"}Stelle dich vor eine Wand. Setze die Hände schulterbreit und etwa
         20 cm von der Wand entfernt auf den Boden. Kicke dich in den Handstand,
@@ -72,10 +91,16 @@ const HandstandpushupScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/handstand_pushups_31-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+
       {/* Level 4 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 4: Half Handstand Pushups (Halbe Handstandliegestütze)
+          Level 4: Halbe Handstandliegestütze
         </Text>
         {"\n"}Anleitung:
         {"\n"}Gehe in den Wandhandstand mit Händen etwa 20 cm von der Wand
@@ -91,9 +116,9 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 5 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 5: Handstand Pushups (Volle Handstandliegestütze)
+          Level 5: Volle Handstandliegestütze
         </Text>
         {"\n"}Anleitung:
         {"\n"}Führe einen Wandhandstand aus, Hände etwa schulterbreit und 20 cm
@@ -110,9 +135,9 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 6 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 6: Close Handstand Pushups (Enge Handstandliegestütze)
+          Level 6: Enge Handstandliegestütze
         </Text>
         {"\n"}Anleitung:
         {"\n"}Gehe in den Wandhandstand, aber setze die Hände so nah wie möglich
@@ -128,9 +153,9 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 7 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 7: Uneven Handstand Pushups (Ungleiche Handstandliegestütze)
+          Level 7: Ungleiche Handstandliegestütze
         </Text>
         {"\n"}Anleitung:
         {"\n"}Gehe in den Wandhandstand und platziere eine Hand leicht seitlich
@@ -147,10 +172,9 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 8 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 8: Half One-Arm Handstand Pushups (Halbe einarmige
-          Handstandliegestütze)
+          Level 8: Halbe einarmige Handstandliegestütze
         </Text>
         {"\n"}Anleitung:
         {"\n"}Gehe in den Wandhandstand. Verlagere nach und nach dein ganzes
@@ -166,9 +190,9 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 9 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 9: Lever Handstand Pushups (Hebel-Handstandliegestütze)
+          Level 9: Hebel-Handstandliegestütze
         </Text>
         {"\n"}Anleitung:
         {"\n"}Im Wandhandstand platzierst du eine Hand normal auf dem Boden, die
@@ -186,9 +210,9 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 10 */}
-      <Text>
+      <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 10: One-Arm Handstand Pushups (Einarmige Handstandliegestütze)
+          Level 10: Einarmige Handstandliegestütze
         </Text>
         {"\n"}Anleitung:
         {"\n"}Gehe in den Wandhandstand, verlagere dein gesamtes Gewicht auf
@@ -214,10 +238,36 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
   },
+  text: {
+    marginTop: 20,
+  },
   subHeadline: {
     fontWeight: "600",
     fontSize: 18,
     marginBottom: 20,
+  },
+  imageUpright: {
+    //height: deviceHeight * 0.4,
+    height: deviceHeight * 0.3,
+    aspectRatio: 9 / 16,
+    marginTop: 10,
+  },
+  imageHorizontal: {
+    //height: deviceHeight * 0.4,
+    height: deviceHeight * 0.15,
+    aspectRatio: 16 / 9,
+    marginTop: 10,
+  },
+  imageQuadratic: {
+    height: deviceHeight * 0.2,
+    aspectRatio: 1,
+    marginTop: 10,
+  },
+  rowUpright: {
+    flexDirection: "row",
+    width: deviceWidth,
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 
