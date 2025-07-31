@@ -232,7 +232,7 @@ const HandstandpushupScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { padding: 20 },
+  container: { padding: 20, marginBottom: 10 },
   headline: {
     fontWeight: "bold",
     fontSize: 24,

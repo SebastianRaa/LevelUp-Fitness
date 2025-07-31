@@ -11,8 +11,8 @@ import {
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-console.log("height: ", deviceHeight);
-console.log("width: ", deviceWidth);
+//console.log("height: ", deviceHeight);
+//console.log("width: ", deviceWidth);
 const PullupScreen = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
@@ -78,6 +78,17 @@ const PullupScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/pullups_21-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pullups_22-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+
       {/* Level 3 */}
       <Text style={styles.text}>
         <Text style={styles.subHeadline}>Level 3: Klappmesser-Klimmzüge</Text>
@@ -118,6 +129,17 @@ const PullupScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/pullups_41-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pullups_42-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+
       {/* Level 5 */}
       <Text style={styles.text}>
         <Text style={styles.subHeadline}>Level 5: Klassische Klimmzüge</Text>
@@ -137,6 +159,16 @@ const PullupScreen = ({ route }) => {
         {"\n"}Level-Up: 2 Sätze à 10 Wdh.
         {"\n"}
       </Text>
+      <Image
+        source={require("../../../assets/images/exercises/pullups_51-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pullups_52-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
 
       {/* Level 6 */}
       <Text style={styles.text}>
@@ -156,6 +188,16 @@ const PullupScreen = ({ route }) => {
         {"\n"}Level-Up: 2 Sätze à 10 Wdh.
         {"\n"}
       </Text>
+      <Image
+        source={require("../../../assets/images/exercises/pullups_61-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pullups_62-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
 
       {/* Level 7 */}
       <Text style={styles.text}>
@@ -242,7 +284,7 @@ const PullupScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { padding: 20 },
+  container: { padding: 20, marginBottom: 10 },
   headline: {
     fontWeight: "bold",
     fontSize: 24,

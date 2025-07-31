@@ -132,6 +132,17 @@ const BridgeScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/bridges_51-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/bridges_52-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+
       {/* Level 6 */}
       <Text style={styles.text}>
         <Text style={styles.subHeadline}>Level 6: Volle Brücken</Text>
@@ -223,7 +234,7 @@ const BridgeScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { padding: 20 },
+  container: { padding: 20, marginBottom: 10 },
   headline: {
     fontWeight: "bold",
     fontSize: 24,

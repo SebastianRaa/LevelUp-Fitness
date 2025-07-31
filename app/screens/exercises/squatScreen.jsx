@@ -198,6 +198,11 @@ const SquatScreen = ({ route }) => {
         {"\n"}Level-Up: 2 Sätze à 20 Wdh. pro Seite
         {"\n"}
       </Text>
+      <Image
+        source={require("../../../assets/images/exercises/squats_71-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
 
       {/* Level 8 */}
       <Text style={styles.text}>
@@ -237,6 +242,11 @@ const SquatScreen = ({ route }) => {
         {"\n"}Level-Up: 2 Sätze à 20 Wdh. pro Seite
         {"\n"}
       </Text>
+      <Image
+        source={require("../../../assets/images/exercises/squats_91-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
 
       {/* Level 10 */}
       <Text style={styles.text}>
@@ -260,7 +270,7 @@ const SquatScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { padding: 20 },
+  container: { padding: 20, marginBottom: 10 },
   headline: {
     fontWeight: "bold",
     fontSize: 24,

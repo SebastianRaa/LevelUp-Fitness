@@ -41,27 +41,24 @@ const Home = ({ navigation }) => {
   const displayedDay = findNextTraining(today).slice(0, 2);
 
   useEffect(() => {
-    //check if the exercises for this day have been done already
-    async function exercisesDone() {
+    (async () => {
       if (!schedule) return;
       try {
+        let resultArray = [];
         let finishedArray = [];
         let exerciseLevelArray = [];
         const displayedDay = findNextTraining(today).slice(0, 2);
-        //console.log("displayedDay: " + displayedDay);
         const exercises = schedule[displayedDay];
-        //console.log(schedule);
-        //console.log(exercises);
 
-        //const db = await SQLite.openDatabaseAsync("training.db");
+        const query1 = `SELECT id FROM trainings WHERE baseExercise=? AND datestring=?`;
+        //get exercise levels and check if exercises have been done today already
         for (let i = 0; i < exercises.length; i++) {
           const storedExerciseLevel = await Storage.getItemAsync(exercises[i]);
           if (storedExerciseLevel) exerciseLevelArray.push(storedExerciseLevel);
-          const query = `SELECT id FROM trainings WHERE baseExercise=? AND datestring=?`;
           const values = [exercises[i], modalDay];
           //console.log(query);
           //console.log(values);
-          const result = await db.getAllAsync(query, values);
+          const result = await db.getAllAsync(query1, values);
           //console.log(result);
           if (result.length > 0) finishedArray.push(true);
           else finishedArray.push(false);
@@ -69,38 +66,31 @@ const Home = ({ navigation }) => {
         //console.log("final array of finished exercises: ", finishedArray);
         setExerciseLevels(exerciseLevelArray);
         setFinishedExercises(finishedArray);
+        //const db = await SQLite.openDatabaseAsync("training.db");
+        const query2 = `SELECT id, baseExercise, level, work1_rep, work2_rep, work3_rep, work4_rep, work5_rep, work6_rep FROM trainings WHERE baseExercise=? AND level=? ORDER BY id DESC LIMIT 3`;
+        for (let i = 0; i < exercises.length; i++) {
+          const values = [
+            exercises[i],
+            Number(exerciseLevelArray[i].slice(0, 1)),
+          ];
+          console.log("query2: ", query2);
+          console.log("values: ", values);
+          const result = await db.getAllAsync(query2, values);
+          console.log(result);
+          resultArray.push(result);
+        }
+        setRecommandationBasis(resultArray);
       } catch (e) {
-        console.warn("Fehler beim Laden (exercisesDone):", e);
+        console.warn("Fehler beim Laden (useEffect):", e);
       } finally {
         setLoading(false);
       }
-    }
-    exercisesDone();
-  }, [schedule]);
-
-  useEffect(() => {
-    (async () => {
-      if (!schedule) return;
-      const resultArray = [];
-      const displayedDay = findNextTraining(today).slice(0, 2);
-      const exercises = schedule[displayedDay];
-      //const db = await SQLite.openDatabaseAsync("training.db");
-      const query = `SELECT id, baseExercise, level, work1_rep, work2_rep, work3_rep, work4_rep, work5_rep, work6_rep FROM trainings WHERE baseExercise=? ORDER BY id DESC LIMIT 3`;
-      for (let i = 0; i < exercises.length; i++) {
-        const values = [exercises[i]];
-        console.log(query);
-        console.log(values);
-        const result = await db.getAllAsync(query, values);
-        console.log(result);
-        resultArray.push(result);
-      }
-      setRecommandationBasis(resultArray);
     })();
   }, [schedule]);
 
   useFocusEffect(
     useCallback(() => {
-      // läuft immer, wenn der Screen "focust" wird
+      // läuft immer, wenn der Screen "focused" wird
       (async () => {
         try {
           const storedPlan = await Storage.getItemAsync("Trainingsplan");
@@ -119,7 +109,7 @@ const Home = ({ navigation }) => {
 
           if (storedSchedule) {
             const parsed = JSON.parse(storedSchedule);
-            //console.log("log: ", parsed);
+            console.log("log: ", parsed);
             setSchedule(parsed);
           }
 
@@ -205,16 +195,17 @@ const Home = ({ navigation }) => {
     //console.log(secondSetReps);
     return (
       <View>
+        <Text style={styles.exercise}>{exercise}</Text>
         {firstSetLevel == secondSetLevel ? (
-          <Text>
+          <Text style={styles.textTabbedIn}>
             Warm-up: Level {firstSetLevel} - 2x{firstSetReps}
           </Text>
         ) : (
           <View>
-            <Text>
+            <Text style={styles.textTabbedIn}>
               Warm-up: Level {firstSetLevel} - 1x{firstSetReps}
             </Text>
-            <Text>
+            <Text style={styles.textTabbedIn}>
               Warm-up: Level {secondSetLevel} - 1x{secondSetReps}
             </Text>
           </View>
@@ -247,22 +238,146 @@ const Home = ({ navigation }) => {
           "Fortgeschritten"
         ]["sets"];
     } else {
-      //TODO: Scenario A, B, D, E
+      //Scenario A, B, D, E, F, G
       let totalWorkArray = [];
+      let totalWorkSetsArray = [];
+      let highestValueArray = [];
       for (let i = 0; i < recommandationBasis[order].length; i++) {
         totalWorkArray.push(0);
+        totalWorkSetsArray.push(0);
+        highestValueArray.push(0);
         for (let j = 1; j < 7; j++) {
-          if (recommandationBasis[order][i][`work${j}_rep`])
+          if (recommandationBasis[order][i][`work${j}_rep`]) {
+            totalWorkSetsArray[i] = totalWorkSetsArray[i] + 1;
             totalWorkArray[i] =
               totalWorkArray[i] +
               Number(recommandationBasis[order][i][`work${j}_rep`]);
+            if (
+              Number(recommandationBasis[order][i][`work${j}_rep`]) >
+              highestValueArray[i]
+            )
+              highestValueArray[i] = Number(
+                recommandationBasis[order][i][`work${j}_rep`]
+              );
+          }
         }
-        console.log(totalWorkArray);
+        //console.log("totalWorkArray: ", totalWorkArray);
+        //console.log("totalWorkSetsArray: ", totalWorkSetsArray);
+        //console.log("highestValueArray: ", highestValueArray);
       }
+      let len = totalWorkArray.length;
+      let newTotalReps = 0;
+      let diff = 0;
+
+      //leider nicht viele Daten zur Verfügung
+      //Sätze Anzahl bleibt gleich
+      //numOfSets = totalWorkSetsArray[len - 1];
+      //ansonsten minimal mehr reps
+      //numOfReps = Math.floor(totalWorkArray[len - 1] / numOfSets) + 2;
+      if (len == 1) diff = 2; //* totalWorkSetsArray.length;
+      //pro Satz 2 Wiederholungen mehr machen
+      else {
+        //diff = totalWorkArray[len - 1] - totalWorkArray[len - 2];
+        //TODO hier irgendwas ändern damit ein wechsel von 2 auf 3 Sätzen z.B. nicht alles zerstört
+        diff = highestValueArray[0] - highestValueArray[1];
+      }
+      if (diff == 0) diff = 2; //* totalWorkSetsArray.length; //pro Satz 2 Wiederholungen mehr machen
+      if (diff < 0) diff = diff * -1;
+      if (diff > 0) {
+        //Verbesserung
+        //newTotalReps = totalWorkArray[len - 1] + diff;
+        //hier +diff?
+        let averageReps = Math.ceil(totalWorkArray[0] / totalWorkSetsArray[0]);
+        averageReps = averageReps + diff;
+        console.log("diff ", diff);
+        console.log("avg ", averageReps);
+        if (
+          averageReps >=
+          levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
+            "reps"
+          ]
+        ) {
+          //Vorschlag würde über levelUpRequirements hinausgehen, deshalb stellen wir das Maximum ein
+          numOfReps =
+            levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
+              "reps"
+            ];
+          numOfSets =
+            levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
+              "sets"
+            ];
+        } else {
+          //Absoluter Normalfall: Steigerung aber kein Levelup
+          //evtl. müssen die reps und sets angepasst werden, weil man z.B. in die Fortgeschritten (Trainingsziel) Reichweite fällt
+          //mehr Sätze als beim letzes Mal nur wenn threshold erreicht
+          //ansonsten mehr reps
+
+          if (
+            averageReps <
+            levelUpRequirements[exercise][`level${currentLevel}`]["Anfänger"][
+              "reps"
+            ]
+          ) {
+            //wenn Nutzer 1 Satz macht dann macht er 1 Satz weiter, wenn er macht dann soll er ruhig weiter mehr machen
+            //Alternativ einfach auf 1 Satz setzen?
+            numOfSets =
+              levelUpRequirements[exercise][`level${currentLevel}`]["Anfänger"][
+                "sets"
+              ]; //totalWorkSetsArray[len - 1];
+            numOfReps = averageReps; //+ Math.ceil(diff / numOfSets);
+            //numOfReps = totalWorkArray[len - 1] + diff;
+            // numOfReps = Math.ceil(numOfReps / numOfSets);
+            //durch dieses Vorgehen mit floor kann durch Randfälle evtl. keine Steigerung in der Empfehlung zu sehen sein
+          } else if (
+            averageReps <
+            levelUpRequirements[exercise][`level${currentLevel}`][
+              "Fortgeschritten"
+            ]["reps"]
+          ) {
+            numOfSets =
+              levelUpRequirements[exercise][`level${currentLevel}`][
+                "Fortgeschritten"
+              ]["sets"];
+            numOfReps = averageReps; //+ Math.ceil(diff / numOfSets);
+          } else if (
+            averageReps <
+            levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
+              "reps"
+            ]
+          ) {
+            numOfSets =
+              levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
+                "sets"
+              ];
+            numOfReps = averageReps; //+ Math.ceil(diff / numOfSets);
+          } else {
+            numOfReps =
+              levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
+                "reps"
+              ];
+            numOfSets =
+              levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
+                "sets"
+              ];
+          }
+        }
+        //} else if (diff == 0) {
+        //Leistung gleichgeblieben
+        //Sätze Anzahl bleibt gleich
+        //numOfSets = totalWorkSetsArray[len - 1];
+        //ansonsten minimal mehr reps
+        //numOfReps = Math.floor(totalWorkArray[len - 1] / numOfSets) + 2;
+      } //else {
+      //F
+      //Verschlechterung
+      //numOfReps = totalWorkArray[len - 2];
+      //numOfSets = totalWorkSetsArray[len - 2];
+      //numOfReps = Math.floor(numOfReps / numOfSets);
+      //}
     }
     return (
       <View>
-        <Text>
+        <Text style={styles.textTabbedIn}>
           Work: Level {currentLevel} - {numOfSets}x{numOfReps}
         </Text>
       </View>
@@ -295,24 +410,22 @@ const Home = ({ navigation }) => {
         Dein nächstes Training am {findNextTraining(today)}
       </Text>
       <View style={styles.exerciseContainer}>
-        <Text style={styles.exercise}>Pullups</Text>
         {finishedExercises[0] && (
           <Ionicons name="checkmark-circle-outline" size={20} color="green" />
         )}
-        <Text style={styles.textTabbedIn}>Warm-up: Incline Push Up 1x15</Text>
-        <Text style={styles.textTabbedIn}>Warm-up: Wall Push Up 1x15</Text>
-        <Text style={styles.textTabbedIn}>Work: Kneeling Push Ups 2x20</Text>
+        {generateWarmup(0)}
+        {generateWork(0)}
       </View>
-      {generateWarmup(0)}
-      {generateWork(0)}
-
       <View style={styles.exerciseContainer}>
-        <Text style={styles.exercise}>Squats</Text>
-        <Text style={styles.textTabbedIn}>
-          Warm-up: Shoulderstand Squats 1x15
-        </Text>
-        <Text style={styles.textTabbedIn}>Warm-up: Jackknife Squats 1x15</Text>
-        <Text style={styles.textTabbedIn}>Work: Supported Squats 2x20</Text>
+        {finishedExercises[1] && (
+          <Ionicons name="checkmark-circle-outline" size={20} color="green" />
+        )}
+        {schedule[findNextTraining(today).slice(0, 2)].length >= 2
+          ? generateWarmup(1)
+          : ""}
+        {schedule[findNextTraining(today).slice(0, 2)].length >= 2
+          ? generateWork(1)
+          : ""}
       </View>
       <View style={styles.button}>
         <Button
@@ -338,6 +451,25 @@ const Home = ({ navigation }) => {
     </View>
   );
 };
+
+/*<View style={styles.exerciseContainer}>
+        <Text style={styles.exercise}>Pullups</Text>
+        {finishedExercises[0] && (
+          <Ionicons name="checkmark-circle-outline" size={20} color="green" />
+        )}
+        <Text style={styles.textTabbedIn}>Warm-up: Incline Push Up 1x15</Text>
+        <Text style={styles.textTabbedIn}>Warm-up: Wall Push Up 1x15</Text>
+        <Text style={styles.textTabbedIn}>Work: Kneeling Push Ups 2x20</Text>
+      </View>
+      
+      <View style={styles.exerciseContainer}>
+        <Text style={styles.exercise}>Squats</Text>
+        <Text style={styles.textTabbedIn}>
+          Warm-up: Shoulderstand Squats 1x15
+        </Text>
+        <Text style={styles.textTabbedIn}>Warm-up: Jackknife Squats 1x15</Text>
+        <Text style={styles.textTabbedIn}>Work: Supported Squats 2x20</Text>
+      </View>*/
 
 const styles = StyleSheet.create({
   exerciseContainer: {

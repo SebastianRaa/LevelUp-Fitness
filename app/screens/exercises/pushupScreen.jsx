@@ -101,6 +101,16 @@ const PushupScreen = ({ route }) => {
         {"\n"}
         {"\n"}
       </Text>
+      <Image
+        source={require("../../../assets/images/exercises/pushups_41-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pushups_42-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageHorizontal}
+      />
       <Text style={styles.text}>
         <Text style={styles.subHeadline}>Level 5: Volle Liegestütze</Text>
         {"\n"}Starte in der vollen Liegestützposition, Hände etwa schulterbreit
@@ -162,6 +172,16 @@ const PushupScreen = ({ route }) => {
         Wdh. pro Seite{"\n"}
         {"\n"}
       </Text>
+      <Image
+        source={require("../../../assets/images/exercises/pushups_71-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pushups_72-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
       <Text style={styles.text}>
         <Text style={styles.subHeadline}>
           Level 8: Halbe einarmige Liegestütze
@@ -179,6 +199,16 @@ const PushupScreen = ({ route }) => {
         Wdh. pro Seite{"\n"}
         {"\n"}
       </Text>
+      <Image
+        source={require("../../../assets/images/exercises/pushups_81-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/pushups_82-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
       <Text style={styles.text}>
         <Text style={styles.subHeadline}>Level 9: Hebel Liegestütze</Text>
         {"\n"}Gehe in eine Liegestützposition mit einer Hand unter deinem
@@ -193,6 +223,11 @@ const PushupScreen = ({ route }) => {
         Wdh. pro Seite{"\n"}
         {"\n"}
       </Text>
+      <Image
+        source={require("../../../assets/images/exercises/pushups_91-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
       <Text style={styles.text}>
         <Text style={styles.subHeadline}>Level 10: Einarmige Liegestütze</Text>
         {"\n"}Stelle deine Füße leicht weiter auseinander für bessere
@@ -221,7 +256,7 @@ const PushupScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { padding: 20 },
+  container: { padding: 20, marginBottom: 10 },
   headline: {
     fontWeight: "bold",
     fontSize: 24,

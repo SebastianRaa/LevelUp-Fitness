@@ -14,7 +14,7 @@ import colors from "../colors";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import * as SQLite from "expo-sqlite";
 import Storage from "expo-sqlite/kv-store";
-import LevelUpRequirements from "../data/exercises/levelUpRequirements";
+import levelUpRequirements from "../data/exercises/levelUpRequirements";
 import db from "../db";
 
 export default function ExerciseEntryScreen({ route, navigation }) {
@@ -26,6 +26,7 @@ export default function ExerciseEntryScreen({ route, navigation }) {
   const [workLevel, setWorkLevel] = useState(0);
   const [workReps, setWorkReps] = useState([""]);
   var totalWorkReps = 0;
+  var totalWorkSets = 0;
 
   const [date, setDate] = useState(
     new Date().toLocaleDateString("de-DE", {
@@ -131,6 +132,7 @@ export default function ExerciseEntryScreen({ route, navigation }) {
           values.push(value);
           //console.log("value " + value + typeof value);
           totalWorkReps = totalWorkReps + Number(value);
+          //totalWorkSets = totalWorkSets + 1;
         }
       });
 
@@ -169,18 +171,50 @@ export default function ExerciseEntryScreen({ route, navigation }) {
 
   //save level of base exercise to key value storage
   async function saveToStorage() {
+    console.log(workLevel);
     if (workLevel == 10) {
       await Storage.setItem(`${grunduebung}`, `${workLevel}`);
       return;
     }
-    const req = LevelUpRequirements[grunduebung][workLevel];
-    //console.log("totalWorkReps: " + totalWorkReps);
+    console.log("totalWorkReps: " + totalWorkReps);
+    let reqTotalReps = levelUpRequirements[grunduebung][workLevel];
+    console.log("reqTotalReps: " + reqTotalReps);
+    let reqRepsPerSet =
+      levelUpRequirements[grunduebung][`level${workLevel}`]["levelup"]["reps"];
+    console.log("reqRepsPerSet: " + reqRepsPerSet);
+    let reqSets =
+      levelUpRequirements[grunduebung][`level${workLevel}`]["levelup"]["sets"];
+    console.log("reqSets: " + reqSets);
     //console.log("req: " + req);
-    if (totalWorkReps >= req) {
-      const levelUp = workLevel + 1;
-      await Storage.setItem(`${grunduebung}`, `${levelUp}`);
+    //let averageReps = Math.floor(totalWorkReps/totalWorkSets)
+    let setGoalAchievedCounter = 0;
+    let max = 0;
+    if (totalWorkReps >= reqTotalReps) {
+      Object.entries(workReps).forEach(([key, value], index) => {
+        if (value) {
+          //totalWorkSets = totalWorkSets + 1;
+          if (value >= reqRepsPerSet)
+            setGoalAchievedCounter = setGoalAchievedCounter + 1;
+          console.log(setGoalAchievedCounter);
+          if (value > max) max = value;
+        }
+      });
+      //case 1: its legit -> levelUp!
+      if (setGoalAchievedCounter >= reqSets) {
+        console.log("case 1");
+        const levelUp = workLevel + 1;
+        await Storage.setItem(`${grunduebung}`, `${levelUp}`);
+      } else {
+        //case 2: its not legit (e.g. too many sets)
+        //we are most likely still very close to the level up
+        console.log("case 2");
+        var progress = max / reqRepsPerSet;
+        progress = progress.toFixed(1).slice(1); //should round to one decimal and get rid of 0 at the front
+        await Storage.setItem(`${grunduebung}`, `${workLevel + progress}`);
+      }
     } else {
-      var progress = totalWorkReps / req;
+      console.log("default case");
+      var progress = totalWorkReps / reqTotalReps;
       progress = progress.toFixed(1).slice(1); //should round to one decimal and get rid of 0 at the front
       await Storage.setItem(`${grunduebung}`, `${workLevel + progress}`);
       //console.log(progress);

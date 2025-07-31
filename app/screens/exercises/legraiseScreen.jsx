@@ -200,6 +200,16 @@ const LegraiseScreen = ({ route }) => {
         {"\n"}Level-Up: 2 Sätze à 15 Wdh.
         {"\n"}
       </Text>
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_61-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_62-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
 
       {/* Level 7 */}
       <Text style={styles.text}>
@@ -223,6 +233,16 @@ const LegraiseScreen = ({ route }) => {
         {"\n"}Level-Up: 2 Sätze à 15 Wdh.
         {"\n"}
       </Text>
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_71-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_72-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
 
       {/* Level 8 */}
       <Text style={styles.text}>
@@ -249,6 +269,22 @@ const LegraiseScreen = ({ route }) => {
         {"\n"}
       </Text>
 
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_81-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_82-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_101-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+
       {/* Level 9 */}
       <Text style={styles.text}>
         <Text style={styles.subHeadline}>
@@ -271,6 +307,17 @@ const LegraiseScreen = ({ route }) => {
         {"\n"}Level-Up: 2 Sätze à 15 Wdh.
         {"\n"}
       </Text>
+
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_91-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_92-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
 
       {/* Level 10 */}
       <Text style={styles.text}>
@@ -295,12 +342,23 @@ const LegraiseScreen = ({ route }) => {
         {"\n"}Level-Up: 2 Sätze à 30 Wdh.
         {"\n"}
       </Text>
+
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_101-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageUpright}
+      />
+      <Image
+        source={require("../../../assets/images/exercises/leg_raises_102-min.jpg")}
+        resizeMode="contain"
+        style={styles.imageQuadratic}
+      />
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { padding: 20 },
+  container: { padding: 20, marginBottom: 10 },
   headline: {
     fontWeight: "bold",
     fontSize: 24,
