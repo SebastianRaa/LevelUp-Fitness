@@ -12,6 +12,7 @@ export default {
     8: 40,
     9: 40,
     level1: {
+      name: "Wandliegestütze",
       Anfänger: {
         sets: 1,
         reps: 10,
@@ -26,6 +27,7 @@ export default {
       },
     },
     level2: {
+      name: "Schräge Liegestütze",
       Anfänger: {
         sets: 1,
         reps: 10,
@@ -40,6 +42,7 @@ export default {
       },
     },
     level3: {
+      name: "Knie-Liegestütze",
       Anfänger: {
         sets: 1,
         reps: 10,
@@ -54,6 +57,7 @@ export default {
       },
     },
     level4: {
+      name: "Halbe Liegestütze",
       Anfänger: {
         sets: 1,
         reps: 8,
@@ -68,6 +72,7 @@ export default {
       },
     },
     level5: {
+      name: "Volle Liegestütze",
       Anfänger: {
         sets: 1,
         reps: 5,
@@ -82,6 +87,7 @@ export default {
       },
     },
     level6: {
+      name: "Enge Liegestütze",
       Anfänger: {
         sets: 1,
         reps: 5,
@@ -96,6 +102,7 @@ export default {
       },
     },
     level7: {
+      name: "Unebene Liegestütze",
       Anfänger: {
         sets: 1,
         reps: 5,
@@ -110,6 +117,7 @@ export default {
       },
     },
     level8: {
+      name: "Halbe einarmige Liegestütze",
       Anfänger: {
         sets: 1,
         reps: 5,
@@ -124,6 +132,7 @@ export default {
       },
     },
     level9: {
+      name: "Hebel Liegestütze",
       Anfänger: {
         sets: 1,
         reps: 5,
@@ -138,6 +147,7 @@ export default {
       },
     },
     level10: {
+      name: "Einarmige Liegestütze",
       Anfänger: {
         sets: 1,
         reps: 5,
@@ -163,51 +173,61 @@ export default {
     8: 40,
     9: 40,
     level1: {
+      name: "Schulterstand-Kniebeugen",
       Anfänger: { sets: 1, reps: 10 },
       Fortgeschritten: { sets: 2, reps: 25 },
       levelup: { sets: 3, reps: 50 },
     },
     level2: {
+      name: "Klappmesser-Kniebeugen",
       Anfänger: { sets: 1, reps: 10 },
       Fortgeschritten: { sets: 2, reps: 20 },
       levelup: { sets: 3, reps: 40 },
     },
     level3: {
+      name: "Gestützte Kniebeugen",
       Anfänger: { sets: 1, reps: 10 },
       Fortgeschritten: { sets: 2, reps: 15 },
       levelup: { sets: 3, reps: 30 },
     },
     level4: {
+      name: "Halbe Kniebeugen",
       Anfänger: { sets: 1, reps: 8 },
       Fortgeschritten: { sets: 2, reps: 35 },
       levelup: { sets: 2, reps: 50 },
     },
     level5: {
+      name: "Volle Kniebeugen",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 30 },
     },
     level6: {
+      name: "Enge Kniebeugen",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 20 },
     },
     level7: {
+      name: "Ungleichgewicht-Kniebeugen",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 20 },
     },
     level8: {
+      name: "Halbe Einbein-Kniebeugen",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 20 },
     },
     level9: {
+      name: "Unterstützte Einbein-Kniebeugen",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 20 },
     },
     level10: {
+      name: "Einbein-Kniebeugen",
       Anfänger: { sets: 1, reps: 1 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 50 },
@@ -224,51 +244,61 @@ export default {
     8: 16,
     9: 14,
     level1: {
+      name: "Vertikale Züge",
       Anfänger: { sets: 1, reps: 10 },
       Fortgeschritten: { sets: 2, reps: 20 },
       levelup: { sets: 3, reps: 40 },
     },
     level2: {
+      name: "Waagrechte Züge",
       Anfänger: { sets: 1, reps: 10 },
       Fortgeschritten: { sets: 2, reps: 20 },
       levelup: { sets: 3, reps: 30 },
     },
     level3: {
+      name: "Klappmesser-Klimmzüge",
       Anfänger: { sets: 1, reps: 10 },
       Fortgeschritten: { sets: 2, reps: 15 },
       levelup: { sets: 3, reps: 20 },
     },
     level4: {
+      name: "Halbe Klimmzüge",
       Anfänger: { sets: 1, reps: 8 },
       Fortgeschritten: { sets: 2, reps: 11 },
       levelup: { sets: 2, reps: 15 },
     },
     level5: {
+      name: "Klassische Klimmzüge",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 8 },
       levelup: { sets: 2, reps: 10 },
     },
     level6: {
+      name: "Enge Klimmzüge",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 8 },
       levelup: { sets: 2, reps: 10 },
     },
     level7: {
+      name: "Ungleiche Klimmzüge",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 7 },
       levelup: { sets: 2, reps: 9 },
     },
     level8: {
+      name: "Halbe Einarm-Klimmzüge",
       Anfänger: { sets: 1, reps: 4 },
       Fortgeschritten: { sets: 2, reps: 6 },
       levelup: { sets: 2, reps: 8 },
     },
     level9: {
+      name: "Unterstützte Einarm-Klimmzüge",
       Anfänger: { sets: 1, reps: 3 },
       Fortgeschritten: { sets: 2, reps: 5 },
       levelup: { sets: 2, reps: 7 },
     },
     level10: {
+      name: "Einarmige Klimmzüge",
       Anfänger: { sets: 1, reps: 1 },
       Fortgeschritten: { sets: 2, reps: 3 },
       levelup: { sets: 2, reps: 6 },
@@ -285,51 +315,61 @@ export default {
     8: 30,
     9: 30,
     level1: {
+      name: "Sitzende Knieheber",
       Anfänger: { sets: 1, reps: 10 },
       Fortgeschritten: { sets: 2, reps: 25 },
       levelup: { sets: 3, reps: 40 },
     },
     level2: {
+      name: "Liegende Knieheber",
       Anfänger: { sets: 1, reps: 10 },
       Fortgeschritten: { sets: 2, reps: 20 },
       levelup: { sets: 3, reps: 35 },
     },
     level3: {
+      name: "Liegende Beinheber mit gebeugten Knien",
       Anfänger: { sets: 1, reps: 10 },
       Fortgeschritten: { sets: 2, reps: 15 },
       levelup: { sets: 3, reps: 30 },
     },
     level4: {
+      name: "Liegende Froschbeinheber",
       Anfänger: { sets: 1, reps: 8 },
       Fortgeschritten: { sets: 2, reps: 15 },
       levelup: { sets: 3, reps: 25 },
     },
     level5: {
+      name: "Liegendes gestrecktes Beinheben",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 20 },
     },
     level6: {
+      name: "Hängende Knieheber",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 15 },
     },
     level7: {
+      name: "Hängende Beinheber mit gebeugten Knien",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 15 },
     },
     level8: {
+      name: "Hängende Froschbeinheber",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 15 },
     },
     level9: {
+      name: "Hängendes teilweise gestrecktes Beinheben",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 15 },
     },
     level10: {
+      name: "Hängendes gestrecktes Beinheben",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 30 },
@@ -346,51 +386,61 @@ export default {
     8: 16,
     9: 12,
     level1: {
+      name: "Kurze Brücken",
       Anfänger: { sets: 1, reps: 10 },
       Fortgeschritten: { sets: 2, reps: 25 },
       levelup: { sets: 3, reps: 50 },
     },
     level2: {
+      name: "Gerade Brücken",
       Anfänger: { sets: 1, reps: 10 },
       Fortgeschritten: { sets: 2, reps: 20 },
       levelup: { sets: 3, reps: 40 },
     },
     level3: {
+      name: "Abgewinkelte Brücken",
       Anfänger: { sets: 1, reps: 8 },
       Fortgeschritten: { sets: 2, reps: 15 },
       levelup: { sets: 3, reps: 30 },
     },
     level4: {
+      name: "Kopfbrücken",
       Anfänger: { sets: 1, reps: 8 },
       Fortgeschritten: { sets: 2, reps: 15 },
       levelup: { sets: 2, reps: 25 },
     },
     level5: {
+      name: "Halbe Brücken mit Ball",
       Anfänger: { sets: 1, reps: 8 },
       Fortgeschritten: { sets: 2, reps: 15 },
       levelup: { sets: 2, reps: 20 },
     },
     level6: {
+      name: "Volle Brücken",
       Anfänger: { sets: 1, reps: 6 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 15 },
     },
     level7: {
+      name: "Wandabstieg",
       Anfänger: { sets: 1, reps: 3 },
       Fortgeschritten: { sets: 2, reps: 6 },
       levelup: { sets: 2, reps: 10 },
     },
     level8: {
+      name: "Wandaufstieg",
       Anfänger: { sets: 1, reps: 2 },
       Fortgeschritten: { sets: 2, reps: 4 },
       levelup: { sets: 2, reps: 8 },
     },
     level9: {
+      name: "Rückwärts in die Brücke",
       Anfänger: { sets: 1, reps: 1 },
       Fortgeschritten: { sets: 2, reps: 3 },
       levelup: { sets: 2, reps: 6 },
     },
     level10: {
+      name: "Stand-zu-Stand-Brücken",
       Anfänger: { sets: 1, reps: 1 },
       Fortgeschritten: { sets: 2, reps: 3 },
       levelup: { sets: 2, reps: "10-30" },
@@ -407,51 +457,61 @@ export default {
     8: 16,
     9: 12,
     level1: {
+      name: "Wand-Kopfstand",
       Anfänger: { sets: 1, reps: 30 },
       Fortgeschritten: { sets: 1, reps: 60 },
       levelup: { sets: 1, reps: 120 },
     },
     level2: {
+      name: "Krähenstand",
       Anfänger: { sets: 1, reps: 10 },
       Fortgeschritten: { sets: 1, reps: 30 },
       levelup: { sets: 1, reps: 60 },
     },
     level3: {
+      name: "Wand-Handstand",
       Anfänger: { sets: 1, reps: 30 },
       Fortgeschritten: { sets: 1, reps: 60 },
       levelup: { sets: 1, reps: 120 },
     },
     level4: {
+      name: "Halbe Handstandliegestütze",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 20 },
     },
     level5: {
+      name: "Volle Handstandliegestütze",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 10 },
       levelup: { sets: 2, reps: 15 },
     },
     level6: {
+      name: "Enge Handstandliegestütze",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 9 },
       levelup: { sets: 2, reps: 12 },
     },
     level7: {
+      name: "Ungleiche Handstandliegestütze",
       Anfänger: { sets: 1, reps: 5 },
       Fortgeschritten: { sets: 2, reps: 8 },
       levelup: { sets: 2, reps: 10 },
     },
     level8: {
+      name: "Halbe einarmige Handstandliegestütze",
       Anfänger: { sets: 1, reps: 4 },
       Fortgeschritten: { sets: 2, reps: 6 },
       levelup: { sets: 2, reps: 8 },
     },
     level9: {
+      name: "Hebel-Handstandliegestütze",
       Anfänger: { sets: 1, reps: 3 },
       Fortgeschritten: { sets: 2, reps: 4 },
       levelup: { sets: 2, reps: 6 },
     },
     level10: {
+      name: "Einarmige Handstandliegestütze",
       Anfänger: { sets: 1, reps: 1 },
       Fortgeschritten: { sets: 2, reps: 2 },
       levelup: { sets: 1, reps: 5 },

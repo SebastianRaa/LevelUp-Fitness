@@ -49,7 +49,7 @@ function Knowledge({ navigation }) {
           concept={trainingsempfehlung}
         />
         <ConceptCard
-          title="Warm-up"
+          title="Aufwärmen"
           navigation={navigation}
           navigationTarget={"WarmupScreen"}
           concept={warmup}

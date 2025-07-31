@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -41,6 +41,30 @@ export default function ExerciseEntryScreen({ route, navigation }) {
   // 2. Über die Trainingsverwaltung auf eine Übung klicken (training ist mindestens teilweise ausgefüllt)
   // 3. Über die Trainingsverwaltung auf ein beliebiges Datum klicken und neue Übung hinzufügen (date kommt rein, keine recommendations)
   const { item } = route.params ? route.params : "";
+  const { mode } = route.params ? route.params : "";
+  console.log(item);
+  console.log(mode);
+
+  useEffect(() => {
+    if (item) {
+      setGrunduebung(item.baseExercise);
+      setDate(item.datestring);
+
+      setWorkLevel(item.level);
+      let tmpWorkArray = [];
+      let tmpWarmupArray = [];
+      for (let i = 1; i < 7; i++) {
+        if (item[`warmup${i}_level`] && item[`warmup${i}_rep`])
+          tmpWarmupArray.push({
+            level: Number(item[`warmup${i}_level`]),
+            value: item[`warmup${i}_rep`],
+          });
+        if (item[`work${i}_rep`]) tmpWorkArray.push(item[`work${i}_rep`]);
+      }
+      setWarmupGroups(tmpWarmupArray);
+      setWorkReps(tmpWorkArray);
+    }
+  }, []);
 
   // Funktionen für Bereich 1
   const addGroup = () =>
@@ -95,7 +119,9 @@ export default function ExerciseEntryScreen({ route, navigation }) {
       return;
     }
     //Warten auf Ergebnis des DB-Inserts
-    const result = await saveToDB();
+    let result = 0;
+    if (mode == "update") result = await updateDB();
+    else result = await saveToDB();
     //erfolg
     if (result === 1) {
       await saveToStorage();
@@ -112,6 +138,49 @@ export default function ExerciseEntryScreen({ route, navigation }) {
         "Deine Eingaben konnten leider nicht gespeichert werden.",
         [{ text: "OK" }]
       );
+    }
+  }
+
+  async function updateDB() {
+    try {
+      const fields = [`baseExercise=?`, `level=?`];
+      const values = [grunduebung, workLevel];
+
+      //iterate over every work set
+      Object.entries(workReps).forEach(([key, value], index) => {
+        if (value) {
+          fields.push(`work${index + 1}_rep=?`);
+          values.push(value);
+          totalWorkReps = totalWorkReps + Number(value);
+        }
+      });
+
+      Object.entries(warmupGroups).forEach(([key, value], index) => {
+        if (value.level && value.value) {
+          fields.push(`warmup${index + 1}_level=?`);
+          fields.push(`warmup${index + 1}_rep=?`);
+          values.push(value.level);
+          values.push(value.value);
+        }
+      });
+
+      const query = `UPDATE trainings SET ${fields.join(", ")} WHERE id=${
+        item.id
+      }`;
+      console.log(query);
+      console.log(values);
+      const result = await db.runAsync(query, values);
+      console.log(result);
+      if (result.changes === 1) {
+        console.log("UPDATE war erfolgreich.");
+        return 1;
+      } else {
+        console.log("Keine Zeile gespeichert.");
+        return 0;
+      }
+    } catch (error) {
+      console.error("❌ Fehler beim UPDATE", error);
+      return 0;
     }
   }
 
@@ -157,14 +226,14 @@ export default function ExerciseEntryScreen({ route, navigation }) {
       const result = await db.runAsync(query, values);
       console.log(result);
       if (result.changes === 1) {
-        console.log("Speichern war erfolgreich.");
+        console.log("INSERT war erfolgreich.");
         return 1;
       } else {
         console.log("Keine Zeile gespeichert.");
         return 0;
       }
     } catch (error) {
-      console.error("❌ Fehler beim Speichern", error);
+      console.error("❌ Fehler beim INSERT", error);
       return 0;
     }
   }
@@ -228,6 +297,9 @@ export default function ExerciseEntryScreen({ route, navigation }) {
       </Pressable>
       {/* === BEREICH 1: dynamische Gruppen === */}
       <Text style={styles.headingBig}>Übungseintragung</Text>
+      <Text style={{ alignSelf: "center", marginTop: 5, marginBottom: 5 }}>
+        {date}
+      </Text>
       <Text style={styles.heading}>Grundübung</Text>
       <View style={styles.picker}>
         <Picker
@@ -251,7 +323,7 @@ export default function ExerciseEntryScreen({ route, navigation }) {
           />
         </Picker>
       </View>
-      <Text style={[styles.heading, { marginTop: 10 }]}>Warm-up</Text>
+      <Text style={[styles.heading, { marginTop: 10 }]}>Aufwärmen</Text>
       {warmupGroups.map((grp, i) => (
         <View key={i} style={styles.group}>
           <View style={styles.picker}>
@@ -283,9 +355,17 @@ export default function ExerciseEntryScreen({ route, navigation }) {
         </View>
       ))}
       <View style={styles.buttonsRow}>
-        <Button title="Satz hinzufügen" onPress={addGroup} />
+        <Button
+          title="Satz hinzufügen"
+          onPress={addGroup}
+          color={colors.primary}
+        />
         <View style={styles.spacer} />
-        <Button title="Satz entfernen" onPress={removeGroup} />
+        <Button
+          title="Satz entfernen"
+          onPress={removeGroup}
+          color={colors.primary}
+        />
       </View>
 
       {/* === BEREICH 2: Single Picker + flexible Zahl-Inputs === */}
@@ -316,12 +396,24 @@ export default function ExerciseEntryScreen({ route, navigation }) {
         />
       ))}
       <View style={styles.buttonsRow}>
-        <Button title="Satz hinzufügen" onPress={addWorkReps} />
+        <Button
+          title="Satz hinzufügen"
+          onPress={addWorkReps}
+          color={colors.primary}
+        />
         <View style={styles.spacer} />
-        <Button title="Satz entfernen" onPress={removeWorkReps} />
+        <Button
+          title="Satz entfernen"
+          onPress={removeWorkReps}
+          color={colors.primary}
+        />
       </View>
       <View style={styles.buttonWrapper}>
-        <Button title="Fertig" onPress={() => onPressFertig()} />
+        <Button
+          title="Fertig"
+          onPress={() => onPressFertig()}
+          color={colors.primary}
+        />
       </View>
     </ScrollView>
   );

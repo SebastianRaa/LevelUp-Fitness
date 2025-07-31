@@ -154,6 +154,24 @@ const Home = ({ navigation }) => {
     if (today == 6) return "Samstag";
   }
 
+  function getGermanName(exercise) {
+    if (exercise == "pushups") {
+      return "Liegestütze";
+    } else if (exercise == "squats") {
+      return "Kniebeuge";
+    } else if (exercise == "pullups") {
+      return "Klimmzüge";
+    } else if (exercise == "leg_raises") {
+      return "Beinheber";
+    } else if (exercise == "bridges") {
+      return "Brücken";
+    } else if (exercise == "handstand_pushups") {
+      return "Handstand Liegestütze";
+    } else {
+      return "Fehler";
+    }
+  }
+
   //pass order of exercises
   function generateWarmup(order) {
     /*console.log(
@@ -195,18 +213,24 @@ const Home = ({ navigation }) => {
     //console.log(secondSetReps);
     return (
       <View>
-        <Text style={styles.exercise}>{exercise}</Text>
+        <Text style={styles.exercise}>{getGermanName(exercise)}</Text>
         {firstSetLevel == secondSetLevel ? (
           <Text style={styles.textTabbedIn}>
-            Warm-up: Level {firstSetLevel} - 2x{firstSetReps}
+            Aufwärmen:{" "}
+            {levelUpRequirements[exercise][`level${firstSetLevel}`]["name"]}{" "}
+            (Level {firstSetLevel}) - 2x{firstSetReps}
           </Text>
         ) : (
           <View>
             <Text style={styles.textTabbedIn}>
-              Warm-up: Level {firstSetLevel} - 1x{firstSetReps}
+              Aufwärmen:{" "}
+              {levelUpRequirements[exercise][`level${firstSetLevel}`]["name"]}{" "}
+              (Level {firstSetLevel}) - 1x{firstSetReps}
             </Text>
             <Text style={styles.textTabbedIn}>
-              Warm-up: Level {secondSetLevel} - 1x{secondSetReps}
+              Aufwärmen:{" "}
+              {levelUpRequirements[exercise][`level${secondSetLevel}`]["name"]}{" "}
+              (Level {secondSetLevel}) - 1x{secondSetReps}
             </Text>
           </View>
         )}
@@ -378,7 +402,9 @@ const Home = ({ navigation }) => {
     return (
       <View>
         <Text style={styles.textTabbedIn}>
-          Work: Level {currentLevel} - {numOfSets}x{numOfReps}
+          Arbeitssätze:{" "}
+          {levelUpRequirements[exercise][`level${currentLevel}`]["name"]} (Level{" "}
+          {currentLevel}) - {numOfSets}x{numOfReps}
         </Text>
       </View>
     );
@@ -416,22 +442,34 @@ const Home = ({ navigation }) => {
         {generateWarmup(0)}
         {generateWork(0)}
       </View>
-      <View style={styles.exerciseContainer}>
-        {finishedExercises[1] && (
-          <Ionicons name="checkmark-circle-outline" size={20} color="green" />
-        )}
-        {schedule[findNextTraining(today).slice(0, 2)].length >= 2
-          ? generateWarmup(1)
-          : ""}
-        {schedule[findNextTraining(today).slice(0, 2)].length >= 2
-          ? generateWork(1)
-          : ""}
-      </View>
+      {schedule[findNextTraining(today).slice(0, 2)].length >= 2 && (
+        <View style={styles.exerciseContainer}>
+          {finishedExercises[1] && (
+            <Ionicons name="checkmark-circle-outline" size={20} color="green" />
+          )}
+          {schedule[findNextTraining(today).slice(0, 2)].length >= 2
+            ? generateWarmup(1)
+            : ""}
+          {schedule[findNextTraining(today).slice(0, 2)].length >= 2
+            ? generateWork(1)
+            : ""}
+          <Pressable onPress={() => navigation.navigate("ExerciseEntryScreen")}>
+            <View>
+              <Ionicons
+                style={{ padding: 5, borderWidth: 1, borderColor: "black" }}
+                name="checkmark-done-outline"
+                size={20}
+                color={colors.primary}
+              />
+            </View>
+          </Pressable>
+        </View>
+      )}
       <View style={styles.button}>
         <Button
           color={colors.primary}
           //onPress={() => childRef.current.toggleModal()}
-          onPress={() => navigation.navigate("ExerciseEntryScreen")}
+          onPress={() => navigation.navigate("ExerciseEntryScreen")} //, { item }
           title="Übung eintragen"
         ></Button>
       </View>

@@ -167,7 +167,7 @@ const BridgeScreen = ({ route }) => {
 
       {/* Level 7 */}
       <Text style={styles.text}>
-        <Text style={styles.subHeadline}>Level 7:Wandabstieg</Text>
+        <Text style={styles.subHeadline}>Level 7: Wandabstieg</Text>
         {"\n"}Anleitung:
         {"\n"}Stelle dich ca. eine Armlänge vor eine Wand. Beuge dich langsam
         nach hinten, bis du mit den Händen die Wand berührst. „Laufe“ mit den

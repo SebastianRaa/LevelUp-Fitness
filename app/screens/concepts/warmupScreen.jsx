@@ -12,14 +12,15 @@ const WarmupScreen = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
       <Text>
-        <Text style={styles.headline}>Warmup</Text>
+        <Text style={styles.headline}>Aufwärmen</Text>
         {"\n"}
         {"\n"}
       </Text>
       <Text>
-        Beim LevelUp Fitness Programm werden für jede Übung jeweils 2 Warmup
-        Sätze vorher gemacht. Diese sind von der gleichen Grundübung, aber man
-        sucht sich Übungen von deutlich einfacheren Leveln aus, soweit möglich.
+        Beim LevelUp Fitness Programm werden für jede Grundübung jeweils 2 Sätze
+        zum Aufwärmen vorher gemacht. Diese sind von der gleichen Grundübung,
+        aber man sucht sich Übungen von deutlich einfacheren Leveln aus, soweit
+        möglich.
         {"\n"}
         {"\n"}Beispiel:
         {"\n"}Warm Up: Wall Push Ups 1x15 (Level 1){"\n"}Warm Up: Incline Push

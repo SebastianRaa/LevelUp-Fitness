@@ -23,7 +23,7 @@ const SquatScreen = ({ route }) => {
       {/* Level 1 */}
       <Text style={styles.text}>
         <Text style={styles.subHeadline}>
-          Level 1: Shoulderstand Squats (Schulterstand-Kniebeugen)
+          Level 1: Schulterstand-Kniebeugen
         </Text>
         {"\n"}
         Lege dich auf den Rücken und stütze dich mit den Schultern am Boden ab,

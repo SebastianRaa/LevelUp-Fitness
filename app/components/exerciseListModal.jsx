@@ -108,7 +108,10 @@ const ExerciseListModal = ({ day }, ref) => {
               <View key={item.id} style={styles.group}>
                 <Pressable
                   onPress={() =>
-                    navigation.navigate("ExerciseEntryScreen", { item })
+                    navigation.navigate("ExerciseEntryScreen", {
+                      item,
+                      mode: "update",
+                    })
                   }
                 >
                   <Text>{getGermanName(item.baseExercise)}</Text>
