@@ -42,8 +42,10 @@ export default function ExerciseEntryScreen({ route, navigation }) {
   // 3. Über die Trainingsverwaltung auf ein beliebiges Datum klicken und neue Übung hinzufügen (date kommt rein, keine recommendations)
   const { item } = route.params ? route.params : "";
   const { mode } = route.params ? route.params : "";
-  console.log(item);
-  console.log(mode);
+  const { day } = route.params ? route.params : "";
+  console.log("item", item);
+  //console.log("mode", mode);
+  //console.log("day", day);
 
   useEffect(() => {
     if (item) {
@@ -59,10 +61,14 @@ export default function ExerciseEntryScreen({ route, navigation }) {
             level: Number(item[`warmup${i}_level`]),
             value: item[`warmup${i}_rep`],
           });
+
         if (item[`work${i}_rep`]) tmpWorkArray.push(item[`work${i}_rep`]);
       }
       setWarmupGroups(tmpWarmupArray);
       setWorkReps(tmpWorkArray);
+    }
+    if (mode == "createOnOldDate") {
+      setDate(day);
     }
   }, []);
 

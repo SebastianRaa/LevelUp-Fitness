@@ -93,7 +93,11 @@ export default function TestingScreen({ navigation }) {
   async function storageTest2() {
     //await Storage.setItem("levels", "abc");
     const levels = await Storage.getItem("handstand_pushups");
+    const levels2 = await Storage.getItem("pushups");
+    const levels3 = await Storage.getItem("squats");
     console.log(levels); // { entity: 'value' }
+    console.log(levels2); // { entity: 'value' }
+    console.log(levels3); // { entity: 'value' }
   }
 
   return (

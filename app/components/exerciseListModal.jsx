@@ -165,7 +165,13 @@ const ExerciseListModal = ({ day }, ref) => {
         >
           <Button
             title="Hinzufügen"
-            onPress={() => navigation.navigate("ExerciseEntryScreen")}
+            onPress={() =>
+              navigation.navigate("ExerciseEntryScreen", {
+                mode: "createOnOldDate",
+                day: day,
+              })
+            }
+            color={colors.primary}
           />
         </View>
       </View>

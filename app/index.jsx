@@ -46,14 +46,20 @@ export default function App() {
     initDb();
     (async () => {
       try {
-        const seen = await Storage.getItemAsync("has_seen_welcome");
-        if (seen) {
-          if (seen === "true") setShowWelcome(false);
-          //else setShowWelcome(true);
+        const has_seen_welcome = await Storage.getItemAsync("has_seen_welcome");
+        if (has_seen_welcome) {
+          if (has_seen_welcome === "true") setShowWelcome(false);
+        } else {
+          await Storage.setItem("pushups", "1.0");
+          await Storage.setItem("squats", "1.0");
+          await Storage.setItem("pullups", "1.0");
+          await Storage.setItem("leg_raises", "1.0");
+          await Storage.setItem("bridges", "1.0");
+          await Storage.setItem("handstand_pushups", "1.0");
         }
-        console.log(seen);
+        console.log("has_seen_welcome", has_seen_welcome);
       } catch (e) {
-        console.warn(e);
+        console.warn("Warnung aus index.js useEffect: ", e);
       } finally {
         setLoading(false);
       }

@@ -7,6 +7,7 @@ import {
   Pressable,
   Button,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import colors from "../colors";
@@ -18,6 +19,9 @@ import LevelUpRequirements from "../data/exercises/levelUpRequirements";
 import levelUpRequirements from "../data/exercises/levelUpRequirements";
 import { useFocusEffect } from "@react-navigation/native";
 import db from "../db";
+
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 //Tab 1
 const Home = ({ navigation }) => {
   const [name, setName] = useState();
@@ -39,6 +43,59 @@ const Home = ({ navigation }) => {
   const today = new Date().getDay();
 
   const displayedDay = findNextTraining(today).slice(0, 2);
+
+  let item = {
+    baseExercise: null,
+    datestring: modalDay,
+    id: null,
+    level: null,
+    warmup1_level: 0,
+    warmup1_rep: "",
+    warmup2_level: null,
+    warmup2_rep: null,
+    warmup3_level: null,
+    warmup3_rep: null,
+    warmup4_level: null,
+    warmup4_rep: null,
+    warmup5_level: null,
+    warmup5_rep: null,
+    warmup6_level: null,
+    warmup6_rep: null,
+    work1_rep: "",
+    work2_rep: null,
+    work3_rep: null,
+    work4_rep: null,
+    work5_rep: null,
+    work6_rep: null,
+  };
+
+  let exerciseOneWarmupArray = [];
+  let exerciseTwoWarmupArray = [];
+  let exerciseOneWorkArray = [];
+  let exerciseTwoWorkArray = [];
+
+  async function adjustItem(order) {
+    item.baseExercise = schedule[displayedDay][order];
+    if (order == 0) {
+      item.warmup1_level = exerciseOneWarmupArray[0];
+      item.warmup1_rep = exerciseOneWarmupArray[1].toString();
+      item.warmup2_level = exerciseOneWarmupArray[2];
+      item.warmup2_rep = exerciseOneWarmupArray[3].toString();
+      item.level = exerciseOneWorkArray[0];
+      for (let i = 1; i < exerciseOneWorkArray[1] + 1; i++) {
+        item[`work${i}_rep`] = exerciseOneWorkArray[2].toString();
+      }
+    } else {
+      item.warmup1_level = exerciseTwoWarmupArray[0];
+      item.warmup1_rep = exerciseTwoWarmupArray[1].toString();
+      item.warmup2_level = exerciseTwoWarmupArray[2];
+      item.warmup2_rep = exerciseTwoWarmupArray[3].toString();
+      item.level = exerciseTwoWorkArray[0];
+      for (let i = 1; i < exerciseTwoWorkArray[1] + 1; i++) {
+        item[`work${i}_rep`] = exerciseTwoWorkArray[2].toString();
+      }
+    }
+  }
 
   useEffect(() => {
     (async () => {
@@ -180,7 +237,13 @@ const Home = ({ navigation }) => {
     );*/
     if (!recommandationBasis[order]) return;
     if (!exerciseLevels[order]) return;
-    const currentLevel = Number(exerciseLevels[order].slice(0, 1));
+    let currentLevel = 0;
+
+    if (exerciseLevels[order].length == 3) {
+      currentLevel = Number(exerciseLevels[order].slice(0, 1));
+    } else {
+      currentLevel = Number(exerciseLevels[order]);
+    }
     let firstSetLevel = 0;
     let secondSetLevel = 0;
     //console.log(currentLevel);
@@ -211,6 +274,17 @@ const Home = ({ navigation }) => {
       ];
     //console.log(firstSetReps);
     //console.log(secondSetReps);
+    if (order == 0) {
+      exerciseOneWarmupArray.push(firstSetLevel);
+      exerciseOneWarmupArray.push(firstSetReps);
+      exerciseOneWarmupArray.push(secondSetLevel);
+      exerciseOneWarmupArray.push(secondSetReps);
+    } else {
+      exerciseTwoWarmupArray.push(firstSetLevel);
+      exerciseTwoWarmupArray.push(firstSetReps);
+      exerciseTwoWarmupArray.push(secondSetLevel);
+      exerciseTwoWarmupArray.push(secondSetReps);
+    }
     return (
       <View>
         <Text style={styles.exercise}>{getGermanName(exercise)}</Text>
@@ -241,7 +315,12 @@ const Home = ({ navigation }) => {
   function generateWork(order) {
     if (!recommandationBasis[order]) return;
     if (!exerciseLevels[order]) return;
-    const currentLevel = Number(exerciseLevels[order].slice(0, 1));
+    let currentLevel = 0;
+    if (exerciseLevels[order].length == 3) {
+      currentLevel = Number(exerciseLevels[order].slice(0, 1));
+    } else {
+      currentLevel = Number(exerciseLevels[order]);
+    }
     const exercise = schedule[displayedDay][order];
     //checken ob Level "ganz neu", also gerade erst aufgestiegen und noch keine Übung auf dem Level gemacht, dann auf Trainingsziel Fortgeschritten setzen
     let trainedOnCurrentLevel = false;
@@ -399,6 +478,15 @@ const Home = ({ navigation }) => {
       //numOfReps = Math.floor(numOfReps / numOfSets);
       //}
     }
+    if (order == 0) {
+      exerciseOneWorkArray.push(currentLevel);
+      exerciseOneWorkArray.push(numOfSets);
+      exerciseOneWorkArray.push(numOfReps);
+    } else {
+      exerciseTwoWorkArray.push(currentLevel);
+      exerciseTwoWorkArray.push(numOfSets);
+      exerciseTwoWorkArray.push(numOfReps);
+    }
     return (
       <View>
         <Text style={styles.textTabbedIn}>
@@ -441,25 +529,37 @@ const Home = ({ navigation }) => {
         )}
         {generateWarmup(0)}
         {generateWork(0)}
+        <Pressable
+          onPress={() => {
+            adjustItem(0);
+            navigation.navigate("ExerciseEntryScreen", { item });
+          }}
+        >
+          <View style={styles.exerciseCheckedButton}>
+            <Text style={{ color: "white" }}> Fertig?</Text>
+            <Ionicons name="checkmark-done-outline" size={20} color={"white"} />
+          </View>
+        </Pressable>
       </View>
       {schedule[findNextTraining(today).slice(0, 2)].length >= 2 && (
         <View style={styles.exerciseContainer}>
           {finishedExercises[1] && (
             <Ionicons name="checkmark-circle-outline" size={20} color="green" />
           )}
-          {schedule[findNextTraining(today).slice(0, 2)].length >= 2
-            ? generateWarmup(1)
-            : ""}
-          {schedule[findNextTraining(today).slice(0, 2)].length >= 2
-            ? generateWork(1)
-            : ""}
-          <Pressable onPress={() => navigation.navigate("ExerciseEntryScreen")}>
-            <View>
+          {generateWarmup(1)}
+          {generateWork(1)}
+          <Pressable
+            onPress={() => {
+              adjustItem(1);
+              navigation.navigate("ExerciseEntryScreen", { item });
+            }}
+          >
+            <View style={styles.exerciseCheckedButton}>
+              <Text style={{ color: "white" }}> Fertig?</Text>
               <Ionicons
-                style={{ padding: 5, borderWidth: 1, borderColor: "black" }}
                 name="checkmark-done-outline"
                 size={20}
-                color={colors.primary}
+                color={"white"}
               />
             </View>
           </Pressable>
@@ -469,8 +569,8 @@ const Home = ({ navigation }) => {
         <Button
           color={colors.primary}
           //onPress={() => childRef.current.toggleModal()}
-          onPress={() => navigation.navigate("ExerciseEntryScreen")} //, { item }
-          title="Übung eintragen"
+          onPress={() => navigation.navigate("ExerciseEntryScreen")}
+          title="Weitere Übung eintragen"
         ></Button>
       </View>
       <View style={styles.button}>
@@ -530,6 +630,18 @@ const styles = StyleSheet.create({
   },
   modalBackground: {
     backgroundColor: "white",
+  },
+  exerciseCheckedButton: {
+    marginTop: 10,
+    padding: 5,
+    width: deviceWidth * 0.25,
+    height: deviceWidth * 0.08,
+    backgroundColor: colors.primary,
+    position: "relative",
+    right: deviceWidth * -0.6,
+    elevation: 2,
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
 });
 

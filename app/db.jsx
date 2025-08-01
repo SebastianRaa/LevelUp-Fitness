@@ -1,4 +1,5 @@
 import * as SQLite from "expo-sqlite";
+import Storage from "expo-sqlite/kv-store";
 
 function getRandomInt(min, max) {
   // liefert eine ganze Zahl zwischen min und max (beide inklusiv)
@@ -9,7 +10,8 @@ const db = SQLite.openDatabaseSync("training.db");
 
 export function initDb() {
   console.log("initDb starting");
-  db.runSync(`CREATE TABLE IF NOT EXISTS trainings (
+  try {
+    db.runSync(`CREATE TABLE IF NOT EXISTS trainings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     datestring TEXT,
     baseExercise INTEGER,
@@ -32,8 +34,12 @@ export function initDb() {
     warmup5_rep TEXT,
     warmup6_level TEXT,
     warmup6_rep TEXT
-);`);
+    );`);
+  } catch (e) {
+    console.warn("InitDb Warning: ", e);
+  }
 
+  /*
   const randomExerciseAdd = getRandomInt(1, 6);
   let baseExercise = "handstand_pushups";
   if (randomExerciseAdd == 1) baseExercise = "pushups";
@@ -55,7 +61,7 @@ export function initDb() {
     getRandomInt(5, 30),
     getRandomInt(5, 30)
   );
-  console.log(result.lastInsertRowId, result.changes);
+  console.log(result.lastInsertRowId, result.changes);*/
 }
 
 export default db;
