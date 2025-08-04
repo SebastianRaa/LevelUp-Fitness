@@ -13,6 +13,7 @@ import { Picker } from "@react-native-picker/picker";
 import colors from "../colors";
 import * as SQLite from "expo-sqlite";
 import db from "../db";
+import levelUpRequirements from "../data/exercises/levelUpRequirements";
 const deviceWidth = Dimensions.get("window").width;
 
 const Ansicht3 = ({ route }) => {
@@ -153,16 +154,18 @@ const Ansicht3 = ({ route }) => {
           mode="dialog"
         >
           <Picker.Item label="Wähle ein Level aus" value={0} enabled={false} />
-          <Picker.Item label="1" value={1} />
-          <Picker.Item label="2" value={2} />
-          <Picker.Item label="3" value={3} />
-          <Picker.Item label="4" value={4} />
-          <Picker.Item label="5" value={5} />
-          <Picker.Item label="6" value={6} />
-          <Picker.Item label="7" value={7} />
-          <Picker.Item label="8" value={8} />
-          <Picker.Item label="9" value={9} />
-          <Picker.Item label="10" value={10} />
+          {[...Array(10)].map((_, idx) => (
+            <Picker.Item
+              key={idx + 1}
+              label={
+                grunduebung
+                  ? `L${idx + 1}: ` +
+                    levelUpRequirements[grunduebung][`level${idx + 1}`]["name"]
+                  : `L${idx + 1}`
+              }
+              value={idx + 1}
+            />
+          ))}
         </Picker>
       </View>
       <View style={styles.chartContainer}>

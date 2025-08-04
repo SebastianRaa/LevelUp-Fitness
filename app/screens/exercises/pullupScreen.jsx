@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
 import {
   ScrollView,
   Text,
@@ -11,11 +12,23 @@ import {
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-//console.log("height: ", deviceHeight);
-//console.log("width: ", deviceWidth);
-const PullupScreen = ({ route }) => {
+const PullupScreen = () => {
+  const route = useRoute();
+  const scrollRef = useRef(null);
+
+  const [positions, setPositions] = useState({});
+
+  useFocusEffect(
+    useCallback(() => {
+      const anchor = route.params?.anchor;
+      const y = positions[anchor];
+      if (anchor && typeof y === "number") {
+        scrollRef.current?.scrollTo({ y, animated: true });
+      }
+    }, [route.params, positions])
+  );
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} ref={scrollRef}>
       {/* Hauptüberschrift */}
       <Text>
         <Text style={styles.headline}>Klimmzüge</Text>
@@ -24,7 +37,15 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 1 */}
-      <Text>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level1 == null) {
+            setPositions((p) => ({ ...p, level1: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 1: Vertikale Züge</Text>
         {"\n"}
         Anleitung:
@@ -57,7 +78,15 @@ const PullupScreen = ({ route }) => {
         />
       </View>
       {/* Level 2 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level2 == null) {
+            setPositions((p) => ({ ...p, level2: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>
           Level 2: Waagrechte Züge / Tischziehen
         </Text>
@@ -90,7 +119,15 @@ const PullupScreen = ({ route }) => {
       />
 
       {/* Level 3 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level3 == null) {
+            setPositions((p) => ({ ...p, level3: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 3: Klappmesser-Klimmzüge</Text>
         {"\n"}
         Anleitung:
@@ -110,7 +147,15 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 4 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level4 == null) {
+            setPositions((p) => ({ ...p, level4: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 4: Halbe Klimmzüge</Text>
         {"\n"}
         Anleitung:
@@ -141,7 +186,15 @@ const PullupScreen = ({ route }) => {
       />
 
       {/* Level 5 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level5 == null) {
+            setPositions((p) => ({ ...p, level5: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 5: Klassische Klimmzüge</Text>
         {"\n"}
         Anleitung:
@@ -171,7 +224,15 @@ const PullupScreen = ({ route }) => {
       />
 
       {/* Level 6 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level6 == null) {
+            setPositions((p) => ({ ...p, level6: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 6: Enge Klimmzüge</Text>
         {"\n"}
         Anleitung:
@@ -200,7 +261,15 @@ const PullupScreen = ({ route }) => {
       />
 
       {/* Level 7 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level7 == null) {
+            setPositions((p) => ({ ...p, level7: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 7: Ungleiche Klimmzüge</Text>
         {"\n"}
         Anleitung:
@@ -219,7 +288,15 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 8 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level8 == null) {
+            setPositions((p) => ({ ...p, level8: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 8: Halbe Einarm-Klimmzüge</Text>
         {"\n"}
         Anleitung:
@@ -239,7 +316,15 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 9 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level9 == null) {
+            setPositions((p) => ({ ...p, level9: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>
           Level 9: Unterstützte Einarm-Klimmzüge
         </Text>
@@ -261,7 +346,15 @@ const PullupScreen = ({ route }) => {
       </Text>
 
       {/* Level 10 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level10 == null) {
+            setPositions((p) => ({ ...p, level10: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 10: Einarmige Klimmzüge</Text>
         {"\n"}
         Anleitung:

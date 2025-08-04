@@ -56,6 +56,7 @@ export default function App() {
           await Storage.setItem("leg_raises", "1.0");
           await Storage.setItem("bridges", "1.0");
           await Storage.setItem("handstand_pushups", "1.0");
+          await Storage.setItem("name", "Max Mustermann");
         }
         console.log("has_seen_welcome", has_seen_welcome);
       } catch (e) {

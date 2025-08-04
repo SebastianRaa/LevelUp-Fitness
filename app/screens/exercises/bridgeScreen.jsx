@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
 import { ScrollView, Text, StyleSheet, Image, Dimensions } from "react-native";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-const BridgeScreen = ({ route }) => {
+const BridgeScreen = () => {
+  const route = useRoute();
+  const scrollRef = useRef(null);
+
+  const [positions, setPositions] = useState({});
+
+  useFocusEffect(
+    useCallback(() => {
+      const anchor = route.params?.anchor;
+      const y = positions[anchor];
+      if (anchor && typeof y === "number") {
+        scrollRef.current?.scrollTo({ y, animated: true });
+      }
+    }, [route.params, positions])
+  );
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} ref={scrollRef}>
       {/* Hauptüberschrift */}
       <Text>
         <Text style={styles.headline}>Brücken</Text>
@@ -15,7 +30,15 @@ const BridgeScreen = ({ route }) => {
       </Text>
 
       {/* Level 1 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level1 == null) {
+            setPositions((p) => ({ ...p, level1: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 1: Kurze Brücken</Text>
         {"\n"}Anleitung:
         {"\n"}Lege dich auf den Rücken, Füße flach auf dem Boden, ca.
@@ -44,7 +67,15 @@ const BridgeScreen = ({ route }) => {
       />
 
       {/* Level 2 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level2 == null) {
+            setPositions((p) => ({ ...p, level2: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 2: Gerade Brücken</Text>
         {"\n"}Anleitung:
         {"\n"}Setze dich mit gestreckten Beinen auf den Boden, Hände neben der
@@ -71,7 +102,15 @@ const BridgeScreen = ({ route }) => {
       />
 
       {/* Level 3 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level3 == null) {
+            setPositions((p) => ({ ...p, level3: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 3: Abgewinkelte Brücken</Text>
         {"\n"}Anleitung:
         {"\n"}Lege dich mit dem Rücken auf ein Bett oder eine Bank, Füße am
@@ -88,7 +127,15 @@ const BridgeScreen = ({ route }) => {
       </Text>
 
       {/* Level 4 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level4 == null) {
+            setPositions((p) => ({ ...p, level4: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 4: Kopfbrücken</Text>
         {"\n"}Anleitung:
         {"\n"}Lege dich flach mit dem Rücken auf den Boden, Hände neben dem
@@ -116,7 +163,15 @@ const BridgeScreen = ({ route }) => {
       />
 
       {/* Level 5 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level5 == null) {
+            setPositions((p) => ({ ...p, level5: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 5: Halbe Brücken mit Ball</Text>
         {"\n"}Anleitung:
         {"\n"}Lege dich mit einem Basketball unter dem unteren Rücken auf den
@@ -144,7 +199,15 @@ const BridgeScreen = ({ route }) => {
       />
 
       {/* Level 6 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level6 == null) {
+            setPositions((p) => ({ ...p, level6: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 6: Volle Brücken</Text>
         {"\n"}Anleitung:
         {"\n"}Lege dich auf den Rücken, Füße flach, Hände neben dem Kopf. Drücke
@@ -166,7 +229,15 @@ const BridgeScreen = ({ route }) => {
       />
 
       {/* Level 7 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level7 == null) {
+            setPositions((p) => ({ ...p, level7: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 7: Wandabstieg</Text>
         {"\n"}Anleitung:
         {"\n"}Stelle dich ca. eine Armlänge vor eine Wand. Beuge dich langsam
@@ -182,7 +253,15 @@ const BridgeScreen = ({ route }) => {
       </Text>
 
       {/* Level 8 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level8 == null) {
+            setPositions((p) => ({ ...p, level8: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 8: Wandaufstieg</Text>
         {"\n"}Anleitung:
         {"\n"}Gehe wie bei Level 7 rückwärts an der Wand hinunter und dann in
@@ -198,7 +277,15 @@ const BridgeScreen = ({ route }) => {
       </Text>
 
       {/* Level 9 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level9 == null) {
+            setPositions((p) => ({ ...p, level9: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 9: Rückwärts in die Brücke</Text>
         {"\n"}Anleitung:
         {"\n"}Stehe aufrecht, Hände auf der Hüfte und schiebe dein Becken
@@ -215,7 +302,15 @@ const BridgeScreen = ({ route }) => {
       </Text>
 
       {/* Level 10 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level10 == null) {
+            setPositions((p) => ({ ...p, level10: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 10: Stand-zu-Stand-Brücken</Text>
         {"\n"}Anleitung:
         {"\n"}Beuge dich aus dem Stand in die Brücke (wie Level 9) – und drücke

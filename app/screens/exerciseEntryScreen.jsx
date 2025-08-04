@@ -98,6 +98,72 @@ export default function ExerciseEntryScreen({ route, navigation }) {
     setWorkReps((arr) => arr.map((v, i) => (i === idx ? cleaned : v)));
   };
 
+  function parseGermanDate(str) {
+    console.log("parseGermanDate", str);
+    if (typeof str !== "string") return null;
+    const parts = str.trim().split(".");
+    if (parts.length !== 3) return null;
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const year = parseInt(parts[2], 10);
+    if (
+      isNaN(day) ||
+      isNaN(month) ||
+      isNaN(year) ||
+      day < 1 ||
+      day > 31 ||
+      month < 0 ||
+      month > 11
+    )
+      return null;
+    return new Date(Date.UTC(year, month, day));
+  }
+
+  async function isMostRecentDate() {
+    console.log("isMostRecentDate");
+    const query = `SELECT datestring, id
+                  FROM trainings
+                  WHERE baseExercise = ?
+                  ORDER BY
+                    substr(datestring, 7, 4) || '-' ||  
+                    substr(datestring, 4, 2) || '-' ||  
+                    substr(datestring, 1, 2) DESC,
+                    id DESC
+                  LIMIT 1;`;
+    const result = await db.getAllAsync(query, grunduebung);
+    console.log("query:", query, grunduebung, "→", result);
+    if (!result || result.length == 0) return true;
+    const d1 = parseGermanDate(result[0].datestring);
+    const d2 = parseGermanDate(date);
+    if (d1.valueOf() === d2.valueOf()) {
+      //passt, kein Problem
+      console.log("==");
+
+      //nur wenn update gemacht wird kann es sein, das ein id check nötig ist, um zu bestimmen, welches training das aktuellste ist
+      if (mode == "update") {
+        const id1 = result[0].id;
+        const id2 = item.id;
+        console.log("ru");
+        console.log("id1", id1);
+        console.log("id2", id2);
+        if (id2 >= id1) {
+          console.log("ruri");
+          return true;
+        } else {
+          console.log("ruriru");
+          return false;
+        }
+      }
+      return true;
+    } else if (d1.valueOf() > d2.valueOf()) {
+      console.log("d1 ist später als d2");
+      return false;
+    } else {
+      console.log("d2 später als d1");
+      return true;
+    }
+  }
+
   async function onPressFertig() {
     //User-Error handling: Keine Grundübung ausgewählt
     if (grunduebung === 0) {
@@ -124,13 +190,18 @@ export default function ExerciseEntryScreen({ route, navigation }) {
       );
       return;
     }
+    let storageUpdateRequired = true;
+    if (!(await isMostRecentDate())) {
+      console.log("no storage level update req.");
+      storageUpdateRequired = false;
+    }
     //Warten auf Ergebnis des DB-Inserts
     let result = 0;
     if (mode == "update") result = await updateDB();
     else result = await saveToDB();
     //erfolg
     if (result === 1) {
-      await saveToStorage();
+      if (storageUpdateRequired) await saveToStorage();
       Alert.alert(
         "Eintrag abgeschlossen",
         "Deine Eingaben wurden gespeichert.",
@@ -173,10 +244,10 @@ export default function ExerciseEntryScreen({ route, navigation }) {
       const query = `UPDATE trainings SET ${fields.join(", ")} WHERE id=${
         item.id
       }`;
-      console.log(query);
-      console.log(values);
+      //console.log(query);
+      //console.log(values);
       const result = await db.runAsync(query, values);
-      console.log(result);
+      //console.log(result);
       if (result.changes === 1) {
         console.log("UPDATE war erfolgreich.");
         return 1;
@@ -226,11 +297,11 @@ export default function ExerciseEntryScreen({ route, navigation }) {
       const query = `INSERT INTO trainings (datestring, baseExercise, level, ${fields.join(
         ", "
       )}) VALUES (${placeholders.join(", ")})`;
-      console.log(query);
-      console.log(values);
+      //console.log(query);
+      //console.log(values);
       //const db = await SQLite.openDatabaseAsync("training.db");
       const result = await db.runAsync(query, values);
-      console.log(result);
+      //console.log(result);
       if (result.changes === 1) {
         console.log("INSERT war erfolgreich.");
         return 1;
@@ -246,20 +317,20 @@ export default function ExerciseEntryScreen({ route, navigation }) {
 
   //save level of base exercise to key value storage
   async function saveToStorage() {
-    console.log(workLevel);
+    console.log("worklevel", workLevel);
     if (workLevel == 10) {
       await Storage.setItem(`${grunduebung}`, `${workLevel}`);
       return;
     }
-    console.log("totalWorkReps: " + totalWorkReps);
+    //console.log("totalWorkReps: " + totalWorkReps);
     let reqTotalReps = levelUpRequirements[grunduebung][workLevel];
-    console.log("reqTotalReps: " + reqTotalReps);
+    //console.log("reqTotalReps: " + reqTotalReps);
     let reqRepsPerSet =
       levelUpRequirements[grunduebung][`level${workLevel}`]["levelup"]["reps"];
-    console.log("reqRepsPerSet: " + reqRepsPerSet);
+    //console.log("reqRepsPerSet: " + reqRepsPerSet);
     let reqSets =
       levelUpRequirements[grunduebung][`level${workLevel}`]["levelup"]["sets"];
-    console.log("reqSets: " + reqSets);
+    //console.log("reqSets: " + reqSets);
     //console.log("req: " + req);
     //let averageReps = Math.floor(totalWorkReps/totalWorkSets)
     let setGoalAchievedCounter = 0;
@@ -270,25 +341,25 @@ export default function ExerciseEntryScreen({ route, navigation }) {
           //totalWorkSets = totalWorkSets + 1;
           if (value >= reqRepsPerSet)
             setGoalAchievedCounter = setGoalAchievedCounter + 1;
-          console.log(setGoalAchievedCounter);
+          //console.log(setGoalAchievedCounter);
           if (value > max) max = value;
         }
       });
       //case 1: its legit -> levelUp!
       if (setGoalAchievedCounter >= reqSets) {
-        console.log("case 1");
+        //console.log("case 1");
         const levelUp = workLevel + 1;
         await Storage.setItem(`${grunduebung}`, `${levelUp}`);
       } else {
         //case 2: its not legit (e.g. too many sets)
         //we are most likely still very close to the level up
-        console.log("case 2");
+        //console.log("case 2");
         var progress = max / reqRepsPerSet;
         progress = progress.toFixed(1).slice(1); //should round to one decimal and get rid of 0 at the front
         await Storage.setItem(`${grunduebung}`, `${workLevel + progress}`);
       }
     } else {
-      console.log("default case");
+      //console.log("default case");
       var progress = totalWorkReps / reqTotalReps;
       progress = progress.toFixed(1).slice(1); //should round to one decimal and get rid of 0 at the front
       await Storage.setItem(`${grunduebung}`, `${workLevel + progress}`);
@@ -342,7 +413,14 @@ export default function ExerciseEntryScreen({ route, navigation }) {
               {[...Array(10)].map((_, idx) => (
                 <Picker.Item
                   key={idx + 1}
-                  label={`${idx + 1}`}
+                  label={
+                    grunduebung
+                      ? `L${idx + 1}: ` +
+                        levelUpRequirements[grunduebung][`level${idx + 1}`][
+                          "name"
+                        ]
+                      : `L${idx + 1}`
+                  }
                   value={idx + 1}
                 />
               ))}
@@ -385,7 +463,18 @@ export default function ExerciseEntryScreen({ route, navigation }) {
           >
             <Picker.Item label="- Level wählen -" value={0} enabled={false} />
             {[...Array(10)].map((_, idx) => (
-              <Picker.Item key={idx + 1} label={`${idx + 1}`} value={idx + 1} />
+              <Picker.Item
+                key={idx + 1}
+                label={
+                  grunduebung
+                    ? `L${idx + 1}: ` +
+                      levelUpRequirements[grunduebung][`level${idx + 1}`][
+                        "name"
+                      ]
+                    : `L${idx + 1}`
+                }
+                value={idx + 1}
+              />
             ))}
           </Picker>
         </View>

@@ -64,7 +64,7 @@ const ExerciseListModal = ({ day }, ref) => {
     } else if (exercise == "bridges") {
       return "Brücken";
     } else if (exercise == "handstand_pushups") {
-      return "Handstand Liegestütze";
+      return "Handst. Liegest."; //return "Handstand Liegestütze";
     } else {
       return "Fehler";
     }
@@ -114,7 +114,9 @@ const ExerciseListModal = ({ day }, ref) => {
                     })
                   }
                 >
-                  <Text>{getGermanName(item.baseExercise)}</Text>
+                  <Text>
+                    {getGermanName(item.baseExercise)} (Lv. {item.level})
+                  </Text>
                 </Pressable>
                 <Text>
                   {item.work1_rep ? item.work1_rep : ""}

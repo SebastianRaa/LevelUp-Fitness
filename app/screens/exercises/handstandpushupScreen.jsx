@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
 import { ScrollView, Text, StyleSheet, Image, Dimensions } from "react-native";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-const HandstandpushupScreen = ({ route }) => {
+const HandstandpushupScreen = () => {
+  const route = useRoute();
+  const scrollRef = useRef(null);
+
+  const [positions, setPositions] = useState({});
+
+  useFocusEffect(
+    useCallback(() => {
+      const anchor = route.params?.anchor;
+      const y = positions[anchor];
+      if (anchor && typeof y === "number") {
+        scrollRef.current?.scrollTo({ y, animated: true });
+      }
+    }, [route.params, positions])
+  );
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} ref={scrollRef}>
       {/* Hauptüberschrift */}
       <Text>
         <Text style={styles.headline}>Handstand Liegestütze</Text>
@@ -15,7 +30,15 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 1 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level1 == null) {
+            setPositions((p) => ({ ...p, level1: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 1: Wand-Kopfstand</Text>
         {"\n"}Anleitung:
         {"\n"}Platziere ein Kissen oder eine gefaltete Decke am Boden vor einer
@@ -46,7 +69,15 @@ const HandstandpushupScreen = ({ route }) => {
       />
 
       {/* Level 2 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level2 == null) {
+            setPositions((p) => ({ ...p, level2: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 2: Krähenstand</Text>
         {"\n"}Anleitung:
         {"\n"}Hocke dich hin, Knie weit auseinander, Hände flach vor dir auf dem
@@ -75,7 +106,15 @@ const HandstandpushupScreen = ({ route }) => {
       />
 
       {/* Level 3 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level3 == null) {
+            setPositions((p) => ({ ...p, level3: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 3: Wand-Handstand</Text>
         {"\n"}Anleitung:
         {"\n"}Stelle dich vor eine Wand. Setze die Hände schulterbreit und etwa
@@ -98,7 +137,15 @@ const HandstandpushupScreen = ({ route }) => {
       />
 
       {/* Level 4 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level4 == null) {
+            setPositions((p) => ({ ...p, level4: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>
           Level 4: Halbe Handstandliegestütze
         </Text>
@@ -116,7 +163,15 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 5 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level5 == null) {
+            setPositions((p) => ({ ...p, level5: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>
           Level 5: Volle Handstandliegestütze
         </Text>
@@ -135,7 +190,15 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 6 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level6 == null) {
+            setPositions((p) => ({ ...p, level6: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>
           Level 6: Enge Handstandliegestütze
         </Text>
@@ -153,7 +216,15 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 7 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level7 == null) {
+            setPositions((p) => ({ ...p, level7: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>
           Level 7: Ungleiche Handstandliegestütze
         </Text>
@@ -172,7 +243,15 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 8 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level8 == null) {
+            setPositions((p) => ({ ...p, level8: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>
           Level 8: Halbe einarmige Handstandliegestütze
         </Text>
@@ -190,7 +269,15 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 9 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level9 == null) {
+            setPositions((p) => ({ ...p, level9: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>
           Level 9: Hebel-Handstandliegestütze
         </Text>
@@ -210,7 +297,15 @@ const HandstandpushupScreen = ({ route }) => {
       </Text>
 
       {/* Level 10 */}
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level10 == null) {
+            setPositions((p) => ({ ...p, level10: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>
           Level 10: Einarmige Handstandliegestütze
         </Text>

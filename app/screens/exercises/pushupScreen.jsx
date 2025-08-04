@@ -7,19 +7,46 @@ import {
   Dimensions,
   StyleSheet,
 } from "react-native";
-import React from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
+import { useRoute, useFocusEffect } from "@react-navigation/native";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-const PushupScreen = ({ route }) => {
+const PushupScreen = () => {
+  const route = useRoute();
+  const scrollRef = useRef(null);
+
+  const [positions, setPositions] = useState({});
+
+  // Jedes Mal, wenn der Screen im Vordergrund ist, gucken wir,
+  // ob ein "anchor" übergeben wurde und scrollen dann dorthin.
+  useFocusEffect(
+    useCallback(() => {
+      const anchor = route.params?.anchor;
+      const y = positions[anchor];
+      if (anchor && typeof y === "number") {
+        scrollRef.current?.scrollTo({ y, animated: true });
+      }
+    }, [route.params, positions])
+  );
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} ref={scrollRef}>
       <Text>
         <Text style={styles.headline}>Liegestütze</Text>
         {"\n"}
         {"\n"}
       </Text>
-      <Text style={styles.text}>
+
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level1 == null) {
+            setPositions((p) => ({ ...p, level1: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 1: Wandliegestütze</Text>
         {"\n"}Stell dich etwa eine Armlänge von einer stabilen Wand entfernt
         auf. Platziere deine Hände schulterbreit an der Wand auf Brusthöhe.
@@ -42,7 +69,15 @@ const PushupScreen = ({ route }) => {
         resizeMode="contain"
         style={styles.imageUpright}
       />
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level2 == null) {
+            setPositions((p) => ({ ...p, level2: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 2: Schräge Liegestütze</Text>
         {"\n"}Finde eine stabile Oberfläche auf Hüfthöhe, etwa einen Tisch oder
         eine Bank. Setze deine Hände schulterbreit auf und stelle deine Füße
@@ -65,7 +100,16 @@ const PushupScreen = ({ route }) => {
         resizeMode="contain"
         style={styles.imageQuadratic}
       />
-      <Text style={styles.text}>
+
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level3 == null) {
+            setPositions((p) => ({ ...p, level3: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 3: Knie-Liegestütze</Text>
         {"\n"}Gehe in eine klassische Liegestützposition, aber stütze deine Knie
         auf dem Boden ab. Deine Hände befinden sich leicht unter Schulterhöhe.
@@ -88,7 +132,15 @@ const PushupScreen = ({ route }) => {
         resizeMode="contain"
         style={styles.imageHorizontal}
       />
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level4 == null) {
+            setPositions((p) => ({ ...p, level4: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 4: Halbe Liegestütze</Text>
         {"\n"}Nimm die klassische Liegestützposition ein: auf Händen und Füßen,
         Körper völlig gerade. Senke dich nur etwa bis zur Hälfte der normalen
@@ -111,7 +163,15 @@ const PushupScreen = ({ route }) => {
         resizeMode="contain"
         style={styles.imageHorizontal}
       />
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level5 == null) {
+            setPositions((p) => ({ ...p, level5: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 5: Volle Liegestütze</Text>
         {"\n"}Starte in der vollen Liegestützposition, Hände etwa schulterbreit
         auf dem Boden. Dein Körper bildet von Kopf bis Fersen eine Linie. Senke
@@ -134,7 +194,15 @@ const PushupScreen = ({ route }) => {
         resizeMode="contain"
         style={styles.imageQuadratic}
       />
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level6 == null) {
+            setPositions((p) => ({ ...p, level6: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 6: Enge Liegestütze</Text>
         {"\n"}Setze deine Hände so nah zusammen, dass sich Daumen und
         Zeigefinger beinahe berühren. Spanne deinen Körper wieder wie ein Brett
@@ -158,7 +226,15 @@ const PushupScreen = ({ route }) => {
         resizeMode="contain"
         style={styles.imageQuadratic}
       />
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level7 == null) {
+            setPositions((p) => ({ ...p, level7: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 7: Unebene Liegestütze</Text>
         {"\n"}Lege eine Hand auf eine Erhöhung, etwa ein Buch oder einen Ball,
         die andere Hand bleibt am Boden. Dein Körper bleibt während der gesamten
@@ -182,7 +258,15 @@ const PushupScreen = ({ route }) => {
         resizeMode="contain"
         style={styles.imageQuadratic}
       />
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level8 == null) {
+            setPositions((p) => ({ ...p, level8: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>
           Level 8: Halbe einarmige Liegestütze
         </Text>
@@ -209,7 +293,15 @@ const PushupScreen = ({ route }) => {
         resizeMode="contain"
         style={styles.imageQuadratic}
       />
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level9 == null) {
+            setPositions((p) => ({ ...p, level9: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 9: Hebel Liegestütze</Text>
         {"\n"}Gehe in eine Liegestützposition mit einer Hand unter deinem
         Brustbein und der anderen auf einem Basketball seitlich neben dir. Beide
@@ -228,7 +320,15 @@ const PushupScreen = ({ route }) => {
         resizeMode="contain"
         style={styles.imageQuadratic}
       />
-      <Text style={styles.text}>
+      <Text
+        style={styles.text}
+        onLayout={(e) => {
+          const y = e.nativeEvent?.layout?.y;
+          if (typeof y === "number" && positions.level10 == null) {
+            setPositions((p) => ({ ...p, level10: y }));
+          }
+        }}
+      >
         <Text style={styles.subHeadline}>Level 10: Einarmige Liegestütze</Text>
         {"\n"}Stelle deine Füße leicht weiter auseinander für bessere
         Stabilität. Verstecke die freie Hand hinter deinem Rücken. Die

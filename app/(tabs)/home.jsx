@@ -580,6 +580,15 @@ const Home = ({ navigation }) => {
           title="Heutiges Training verwalten"
         ></Button>
       </View>
+      <View style={styles.button}>
+        <Button
+          color={colors.primary}
+          onPress={() =>
+            navigation.navigate("HandstandpushupScreen", { anchor: "level3" })
+          }
+          title="Springe zu X"
+        ></Button>
+      </View>
 
       <ExerciseListModal
         navigation={navigation}
