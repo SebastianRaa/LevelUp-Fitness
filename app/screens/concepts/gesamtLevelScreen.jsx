@@ -4,13 +4,13 @@ import {
   Button,
   ScrollView,
   Image,
-  StyleSheet,
   Pressable,
+  StyleSheet,
 } from "react-native";
 import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-const TrainingsempfehlungScreen = ({ route, navigation }) => {
+const GesamtLevelScreen = ({ route, navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <Pressable
@@ -20,16 +20,19 @@ const TrainingsempfehlungScreen = ({ route, navigation }) => {
         <Ionicons name="arrow-back" size={16} />
       </Pressable>
       <Text>
-        <Text style={styles.headline}>Trainingsempfehlungen</Text>
+        <Text style={styles.headline}>Gesamt-Level</Text>
         {"\n"}
         {"\n"}
-      </Text>
-      <Text>
-        Die Trainingsempfehlungen werden auf Basis deiner letzten Trainings und
-        deines Trainingsplans generiert. Dadurch hast du zu jederzeit ein
-        konkretes Trainingsziel vor Augen und weißt, was du als nächstes zu tun
-        hast. Die Empehlungen sind allerdings optional und müssen nicht beachtet
-        werden.
+        Das Gesamt-Level auf dem Profil stellt deinen Fortschritt innerhalb des
+        gesamten Trainingskonzepts dar. Jeder fängt auf Gesamt-Level 1 an,
+        Maximum ist 55. Dabei werden die aktuellen Level der 6 Grundübungen
+        aufsummiert. Wenn du beispielsweise bei den Kniebeugen ein Level
+        aufsteigst, dann steigt auch dein Gesamt-Level um 1 an.
+        {"\n"}
+        {"\n"}
+        {"\n"}
+        {"\n"}
+        {"\n"}
       </Text>
     </ScrollView>
   );
@@ -49,6 +52,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TrainingsempfehlungScreen;
+export default GesamtLevelScreen;
 /*
  */

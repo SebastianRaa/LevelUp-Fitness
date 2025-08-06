@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, Text } from "react-native";
+import { View, StyleSheet, Dimensions, Text, PixelRatio } from "react-native";
 import colors from "../colors";
 
 //component used to display the level of the 6 basic exercises
@@ -11,6 +11,7 @@ const ProgressBar = (props) => {
   const barWidth = deviceWidth < maxBarWidth ? deviceWidth * 0.9 : maxBarWidth;
   const fillWidth = (props.fillWidth / 10) * barWidth;
 
+  const stripeWidth = 1;
   const stripesCount = 9; // stripes at 10%, 20%, ..., 90%
   const allStripesPositions = Array.from(
     { length: stripesCount },
@@ -32,12 +33,18 @@ const ProgressBar = (props) => {
         <View style={[styles.progressBar, { width: barWidth }]}>
           <View style={[styles.progressBarFill, { width: fillWidth }]} />
           <View style={[styles.stripesContainer, { width: barWidth }]}>
-            {stripesVisible.map((leftPos, index) => (
-              <View
-                key={index}
-                style={[styles.stripe, { left: leftPos - 0.5 }]}
-              />
-            ))}
+            {stripesVisible.map((pos, idx) => {
+              // pos in Pixelrundung bringen:
+              const left = PixelRatio.roundToNearestPixel(
+                pos - stripeWidth / 2
+              );
+              return (
+                <View
+                  key={idx}
+                  style={[styles.stripe, { left, width: stripeWidth }]}
+                />
+              );
+            })}
           </View>
         </View>
         <Text style={styles.percentageText}>{props.fillWidth}</Text>
@@ -54,6 +61,7 @@ const styles = StyleSheet.create({
   label: {
     marginTop: 10,
     marginBottom: 5,
+    fontSize: 16,
   },
   progressBar: {
     height: 20,
@@ -73,7 +81,6 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     height: "100%",
-    pointerEvents: "none",
   },
   stripe: {
     position: "absolute",

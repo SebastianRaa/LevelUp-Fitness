@@ -1,11 +1,19 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { useRoute, useFocusEffect } from "@react-navigation/native";
-import { ScrollView, Text, StyleSheet, Image, Dimensions } from "react-native";
+import {
+  ScrollView,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  Dimensions,
+} from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-const BridgeScreen = () => {
+const BridgeScreen = ({ navigation }) => {
   const route = useRoute();
   const scrollRef = useRef(null);
 
@@ -23,6 +31,12 @@ const BridgeScreen = () => {
   return (
     <ScrollView style={styles.container} ref={scrollRef}>
       {/* Hauptüberschrift */}
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={{ alignSelf: "flex-start", marginBottom: 10 }}
+      >
+        <Ionicons name="arrow-back" size={16} />
+      </Pressable>
       <Text>
         <Text style={styles.headline}>Brücken</Text>
         {"\n"}
@@ -42,15 +56,15 @@ const BridgeScreen = () => {
         <Text style={styles.subHeadline}>Level 1: Kurze Brücken</Text>
         {"\n"}Anleitung:
         {"\n"}Lege dich auf den Rücken, Füße flach auf dem Boden, ca.
-        schulterbreit, Knie gebeugt. Die Fersen sind etwa 15–20 cm vom Gesäß
+        schulterbreit, Knie gebeugt. Die Fersen sind etwa 15-20 cm vom Gesäß
         entfernt. Hebe langsam Hüften und unteren Rücken an, bis Schultern und
         Füße das Körpergewicht tragen. Der Rumpf bildet eine gerade Linie von
         Knien bis Schultern. Halte kurz die Position, senke dich dann
         kontrolliert wieder ab. Atme beim Heben aus, beim Senken ein.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 10 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 25 Wdh.
+        {"\n"}Einstieg: 1 Satz à 10 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 25 Wdh.
         {"\n"}Level-Up: 3 Sätze à 50 Wdh.
         {"\n"}
       </Text>
@@ -84,8 +98,8 @@ const BridgeScreen = () => {
         Spannung, Blick zur Decke. Senke dich dann wieder langsam ab.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 10 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 20 Wdh.
+        {"\n"}Einstieg: 1 Satz à 10 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 20 Wdh.
         {"\n"}Level-Up: 3 Sätze à 40 Wdh.
         {"\n"}
       </Text>
@@ -120,8 +134,8 @@ const BridgeScreen = () => {
         wieder ab.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 8 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 15 Wdh.
+        {"\n"}Einstieg: 1 Satz à 8 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 15 Wdh.
         {"\n"}Level-Up: 3 Sätze à 30 Wdh.
         {"\n"}
       </Text>
@@ -145,8 +159,8 @@ const BridgeScreen = () => {
         Atme ruhig und gleichmäßig.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 8 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 15 Wdh.
+        {"\n"}Einstieg: 1 Satz à 8 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 15 Wdh.
         {"\n"}Level-Up: 2 Sätze à 25 Wdh.
         {"\n"}
       </Text>
@@ -181,8 +195,8 @@ const BridgeScreen = () => {
         abzulegen.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 8 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 15 Wdh.
+        {"\n"}Einstieg: 1 Satz à 8 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 15 Wdh.
         {"\n"}Level-Up: 2 Sätze à 20 Wdh.
         {"\n"}
       </Text>
@@ -217,8 +231,8 @@ const BridgeScreen = () => {
         Brückenformen.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 6 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh.
+        {"\n"}Einstieg: 1 Satz à 6 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh.
         {"\n"}Level-Up: 2 Sätze à 15 Wdh.
         {"\n"}
       </Text>
@@ -246,8 +260,8 @@ const BridgeScreen = () => {
         dich dann in Rückenlage sinken.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 3 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 6 Wdh.
+        {"\n"}Einstieg: 1 Satz à 3 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 6 Wdh.
         {"\n"}Level-Up: 2 Sätze à 10 Wdh.
         {"\n"}
       </Text>
@@ -270,8 +284,8 @@ const BridgeScreen = () => {
         und steigere langsam die Tiefe.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 2 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 4 Wdh.
+        {"\n"}Einstieg: 1 Satz à 2 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 4 Wdh.
         {"\n"}Level-Up: 2 Sätze à 8 Wdh.
         {"\n"}
       </Text>
@@ -295,8 +309,8 @@ const BridgeScreen = () => {
         und Mut.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 1 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 3 Wdh.
+        {"\n"}Einstieg: 1 Satz à 1 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 3 Wdh.
         {"\n"}Level-Up: 2 Sätze à 6 Wdh.
         {"\n"}
       </Text>
@@ -313,15 +327,15 @@ const BridgeScreen = () => {
       >
         <Text style={styles.subHeadline}>Level 10: Stand-zu-Stand-Brücken</Text>
         {"\n"}Anleitung:
-        {"\n"}Beuge dich aus dem Stand in die Brücke (wie Level 9) – und drücke
+        {"\n"}Beuge dich aus dem Stand in die Brücke (wie Level 9) - und drücke
         dich dann direkt wieder in den Stand zurück. Diese Bewegung kombiniert
         Kraft, Beweglichkeit und Balance in höchster Form. Keine Schwungbewegung
-        – alles erfolgt kontrolliert.
+        - alles erfolgt kontrolliert.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 1 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 3 Wdh.
-        {"\n"}Level-Up: 2 Sätze à 10–30 Wdh.
+        {"\n"}Einstieg: 1 Satz à 1 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 3 Wdh.
+        {"\n"}Level-Up: 2 Sätze à 10-30 Wdh.
         {"\n"}
       </Text>
     </ScrollView>

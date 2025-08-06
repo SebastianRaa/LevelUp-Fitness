@@ -27,6 +27,7 @@ import WarmupScreen from "./screens/concepts/warmupScreen";
 import TrainingsconceptScreen from "./screens/concepts/trainingsconceptScreen";
 import TrainingsempfehlungScreen from "./screens/concepts/trainingsempfehlungScreen";
 import TrainingsplaeneScreen from "./screens/concepts/trainingsplaeneScreen";
+import GesamtLevelScreen from "./screens/concepts/gesamtLevelScreen";
 import AbzeichenScreen from "./screens/abzeichenScreen";
 import WelcomeScreen from "./screens/welcomeScreen";
 import colors from "./colors";
@@ -121,6 +122,7 @@ export default function App() {
           name="TrainingsplaeneScreen"
           component={TrainingsplaeneScreen}
         />
+        <Stack.Screen name="GesamtLevelScreen" component={GesamtLevelScreen} />
         <Stack.Screen name="AbzeichenScreen" component={AbzeichenScreen} />
         <Stack.Screen name="TestingScreen" component={TestingScreen} />
         <Stack.Screen

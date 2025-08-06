@@ -5,14 +5,16 @@ import {
   ScrollView,
   Image,
   Dimensions,
+  Pressable,
   StyleSheet,
 } from "react-native";
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { useRoute, useFocusEffect } from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-const PushupScreen = () => {
+const PushupScreen = ({ navigation }) => {
   const route = useRoute();
   const scrollRef = useRef(null);
 
@@ -32,6 +34,12 @@ const PushupScreen = () => {
 
   return (
     <ScrollView style={styles.container} ref={scrollRef}>
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={{ alignSelf: "flex-start", marginBottom: 10 }}
+      >
+        <Ionicons name="arrow-back" size={16} />
+      </Pressable>
       <Text>
         <Text style={styles.headline}>Liegestütze</Text>
         {"\n"}
@@ -55,8 +63,8 @@ const PushupScreen = () => {
         kraftvoll zurück in die Ausgangsposition. Atme beim Absenken ein und
         beim Hochdrücken aus. Halte deinen ganzen Körper während der Bewegung
         angespannt.{"\n"}
-        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 10 Wdh.{"\n"}
-        Fortgeschritten: 2 Sätze à 25 Wdh.{"\n"}Level-Up: 3 Sätze à 50 Wdh.
+        {"\n"}Trainingsziele:{"\n"}Einstieg: 1 Satz à 10 Wdh.{"\n"}
+        Aufbau: 2 Sätze à 25 Wdh.{"\n"}Level-Up: 3 Sätze à 50 Wdh.
         {"\n"}
       </Text>
       <Image
@@ -85,8 +93,8 @@ const PushupScreen = () => {
         Brust kontrolliert zur Kante ab. Drücke dich kraftvoll wieder hoch, ohne
         ins Hohlkreuz zu fallen. Achte darauf, dass deine Ellbogen beim Beugen
         etwa 45 Grad vom Körper abstehen. Spannung im Rumpf halten.{"\n"}
-        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 10 Wdh.{"\n"}
-        Fortgeschritten: 2 Sätze à 20 Wdh.{"\n"}Level-Up: 3 Sätze à 40 Wdh.
+        {"\n"}Trainingsziele:{"\n"}Einstieg: 1 Satz à 10 Wdh.{"\n"}
+        Aufbau: 2 Sätze à 20 Wdh.{"\n"}Level-Up: 3 Sätze à 40 Wdh.
         {"\n"}
         {"\n"}
       </Text>
@@ -117,8 +125,8 @@ const PushupScreen = () => {
         Linie. Senke deinen Oberkörper kontrolliert Richtung Boden, ohne ins
         Hohlkreuz zu fallen. Drücke dich aus der Brust- und Armmuskulatur wieder
         hoch. Atme beim Absenken ein und beim Hochdrücken aus.{"\n"}
-        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 10 Wdh.{"\n"}
-        Fortgeschritten: 2 Sätze à 15 Wdh.{"\n"}Level-Up: 3 Sätze à 30 Wdh.
+        {"\n"}Trainingsziele:{"\n"}Einstieg: 1 Satz à 10 Wdh.{"\n"}
+        Aufbau: 2 Sätze à 15 Wdh.{"\n"}Level-Up: 3 Sätze à 30 Wdh.
         {"\n"}
         {"\n"}
       </Text>
@@ -148,8 +156,8 @@ const PushupScreen = () => {
         Achte darauf, dass deine Hüfte nicht durchhängt. Ellbogen bleiben leicht
         am Körper geführt. Führe die Bewegung langsam und bewusst aus.
         {"\n"}
-        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 8 Wdh.{"\n"}
-        Fortgeschritten: 2 Sätze à 12 Wdh.{"\n"}Level-Up: 2 Sätze à 25 Wdh.
+        {"\n"}Trainingsziele:{"\n"}Einstieg: 1 Satz à 8 Wdh.{"\n"}
+        Aufbau: 2 Sätze à 12 Wdh.{"\n"}Level-Up: 2 Sätze à 25 Wdh.
         {"\n"}
         {"\n"}
       </Text>
@@ -179,8 +187,8 @@ const PushupScreen = () => {
         berührt. Drücke dich mit voller Kraft wieder nach oben. Halte Spannung
         im gesamten Körper, besonders im Rumpf. Vermeide es, die Ellbogen zu
         weit auszustellen. Atme während der Bewegung ruhig und rhythmisch.{"\n"}
-        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh.{"\n"}
-        Fortgeschritten: 2 Sätze à 10 Wdh.{"\n"}Level-Up: 2 Sätze à 20 Wdh.
+        {"\n"}Trainingsziele:{"\n"}Einstieg: 1 Satz à 5 Wdh.{"\n"}
+        Aufbau: 2 Sätze à 10 Wdh.{"\n"}Level-Up: 2 Sätze à 20 Wdh.
         {"\n"}
         {"\n"}
       </Text>
@@ -211,8 +219,8 @@ const PushupScreen = () => {
         ohne Schwung zu holen. Achte besonders auf Rumpfspannung, um
         durchzuhängen zu vermeiden. Diese Variante fordert Trizeps und Brust
         besonders stark.{"\n"}
-        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh.{"\n"}
-        Fortgeschritten: 2 Sätze à 10 Wdh.{"\n"}Level-Up: 2 Sätze à 20 Wdh.
+        {"\n"}Trainingsziele:{"\n"}Einstieg: 1 Satz à 5 Wdh.{"\n"}
+        Aufbau: 2 Sätze à 10 Wdh.{"\n"}Level-Up: 2 Sätze à 20 Wdh.
         {"\n"}
         {"\n"}
       </Text>
@@ -243,9 +251,9 @@ const PushupScreen = () => {
         Wechsel nach der gewünschten Wiederholungszahl die Seiten. Halte Hüfte
         und Schultern parallel zum Boden. Arbeite langsam und präzise, um die
         Belastung zu kontrollieren.{"\n"}
-        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh. pro Seite{"\n"}
-        Fortgeschritten: 2 Sätze à 10 Wdh. pro Seite{"\n"}Level-Up: 2 Sätze à 20
-        Wdh. pro Seite{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Einstieg: 1 Satz à 5 Wdh. pro Seite{"\n"}
+        Aufbau: 2 Sätze à 10 Wdh. pro Seite{"\n"}Level-Up: 2 Sätze à 20 Wdh. pro
+        Seite{"\n"}
         {"\n"}
       </Text>
       <Image
@@ -278,9 +286,9 @@ const PushupScreen = () => {
         kraftvollen, stabilen Position wieder hoch. Halte deinen ganzen Körper
         angespannt, insbesondere die Körpermitte. Arbeite an Gleichgewicht und
         Kontrolle.{"\n"}
-        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh. pro Seite{"\n"}
-        Fortgeschritten: 2 Sätze à 10 Wdh. pro Seite{"\n"}Level-Up: 2 Sätze à 20
-        Wdh. pro Seite{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Einstieg: 1 Satz à 5 Wdh. pro Seite{"\n"}
+        Aufbau: 2 Sätze à 10 Wdh. pro Seite{"\n"}Level-Up: 2 Sätze à 20 Wdh. pro
+        Seite{"\n"}
         {"\n"}
       </Text>
       <Image
@@ -310,9 +318,9 @@ const PushupScreen = () => {
         Basketball rollt dabei leicht seitlich mit. Zur Kontrolle der Tiefe
         kannst du einen Baseball oder Tennisball nutzen. Halte kurz unten inne.
         Drücke dich dann kontrolliert zurück in die Ausgangsposition.{"\n"}
-        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh. pro Seite{"\n"}
-        Fortgeschritten: 2 Sätze à 10 Wdh. pro Seite{"\n"}Level-Up: 2 Sätze à 20
-        Wdh. pro Seite{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Einstieg: 1 Satz à 5 Wdh. pro Seite{"\n"}
+        Aufbau: 2 Sätze à 10 Wdh. pro Seite{"\n"}Level-Up: 2 Sätze à 20 Wdh. pro
+        Seite{"\n"}
         {"\n"}
       </Text>
       <Image
@@ -337,9 +345,9 @@ const PushupScreen = () => {
         angespannt und gerade, ohne seitlich wegzukippen. Drücke dich kraftvoll
         aus Brust und Trizeps wieder hoch. Diese Übung erfordert höchste
         Körperspannung und Präzision.{"\n"}
-        {"\n"}Trainingsziele:{"\n"}Anfänger: 1 Satz à 5 Wdh. pro Seite{"\n"}
-        Fortgeschritten: 2 Sätze à 10 Wdh. pro Seite{"\n"}Level-Up: 1 Sätze à
-        100 Wdh. pro Seite{"\n"}
+        {"\n"}Trainingsziele:{"\n"}Einstieg: 1 Satz à 5 Wdh. pro Seite{"\n"}
+        Aufbau: 2 Sätze à 10 Wdh. pro Seite{"\n"}Level-Up: 1 Sätze à 100 Wdh.
+        pro Seite{"\n"}
       </Text>
       <Image
         source={require("../../../assets/images/exercises/pushups_101-min.jpg")}

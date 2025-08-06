@@ -8,6 +8,7 @@ import {
   ScrollView,
   Alert,
   Pressable,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import colors from "../colors";
@@ -16,6 +17,12 @@ import * as SQLite from "expo-sqlite";
 import Storage from "expo-sqlite/kv-store";
 import levelUpRequirements from "../data/exercises/levelUpRequirements";
 import db from "../db";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {
+  getRandomPositiveMessage,
+  getGermanName,
+  getRandomLevelUpEmoji,
+} from "../components/messages";
 
 export default function ExerciseEntryScreen({ route, navigation }) {
   const [grunduebung, setGrunduebung] = useState(0);
@@ -35,6 +42,8 @@ export default function ExerciseEntryScreen({ route, navigation }) {
       year: "numeric",
     })
   );
+
+  const [levelUpFlag, setLevelUpFlag] = useState(false);
 
   //Es gibt 3 Arten zu diesem Screen zu kommen:
   // 1. Über den Button Übung eintragen (kann einfach heutiges date verwendet werden, recommendations kommen mit)
@@ -195,17 +204,44 @@ export default function ExerciseEntryScreen({ route, navigation }) {
       console.log("no storage level update req.");
       storageUpdateRequired = false;
     }
+    let levelflag = false;
+    if (workLevel > (await Storage.getItemAsync(grunduebung))) levelflag = true;
     //Warten auf Ergebnis des DB-Inserts
     let result = 0;
     if (mode == "update") result = await updateDB();
     else result = await saveToDB();
     //erfolg
     if (result === 1) {
-      if (storageUpdateRequired) await saveToStorage();
+      let secondarylevelflag = false;
+      if (storageUpdateRequired) {
+        secondarylevelflag = await saveToStorage();
+      }
+      await calculateAbzeichen();
+      console.log("levelflag", levelflag);
+      console.log("secondarylevelflag", secondarylevelflag);
+      console.log("worklevel", workLevel);
+      let levelupscreen = levelflag || secondarylevelflag;
+      //if(await Storage.getItemAsync(grunduebung) > workLevel) ->LU
       Alert.alert(
-        "Eintrag abgeschlossen",
+        getRandomPositiveMessage(),
         "Deine Eingaben wurden gespeichert.",
-        [{ text: "OK" }]
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              {
+                levelupscreen &&
+                  Alert.alert(
+                    `Level Up! ${getRandomLevelUpEmoji()}`,
+                    `Glückwunsch! 🎉\nDu bist bei den ${getGermanName(
+                      grunduebung
+                    )} nun auf Level ${levelflag ? workLevel : workLevel + 1}.`,
+                    [{ text: "OK" }]
+                  );
+              }
+            },
+          },
+        ]
       );
       navigation.navigate("TabHome");
     } else {
@@ -297,11 +333,7 @@ export default function ExerciseEntryScreen({ route, navigation }) {
       const query = `INSERT INTO trainings (datestring, baseExercise, level, ${fields.join(
         ", "
       )}) VALUES (${placeholders.join(", ")})`;
-      //console.log(query);
-      //console.log(values);
-      //const db = await SQLite.openDatabaseAsync("training.db");
       const result = await db.runAsync(query, values);
-      //console.log(result);
       if (result.changes === 1) {
         console.log("INSERT war erfolgreich.");
         return 1;
@@ -320,7 +352,7 @@ export default function ExerciseEntryScreen({ route, navigation }) {
     console.log("worklevel", workLevel);
     if (workLevel == 10) {
       await Storage.setItem(`${grunduebung}`, `${workLevel}`);
-      return;
+      return false;
     }
     //console.log("totalWorkReps: " + totalWorkReps);
     let reqTotalReps = levelUpRequirements[grunduebung][workLevel];
@@ -347,9 +379,10 @@ export default function ExerciseEntryScreen({ route, navigation }) {
       });
       //case 1: its legit -> levelUp!
       if (setGoalAchievedCounter >= reqSets) {
-        //console.log("case 1");
+        console.log("case 1");
         const levelUp = workLevel + 1;
         await Storage.setItem(`${grunduebung}`, `${levelUp}`);
+        return true;
       } else {
         //case 2: its not legit (e.g. too many sets)
         //we are most likely still very close to the level up
@@ -365,10 +398,103 @@ export default function ExerciseEntryScreen({ route, navigation }) {
       await Storage.setItem(`${grunduebung}`, `${workLevel + progress}`);
       //console.log(progress);
     }
+    return false;
+  }
+
+  async function calculateAbzeichen() {
+    const rank = Number(await Storage.getItemAsync("rank"));
+    if (rank >= 10) {
+      console.log("Neuling");
+      await Storage.setItemAsync("abzeichen0", "1");
+    } else if (rank >= 30) {
+      console.log("Adept");
+      await Storage.setItemAsync("abzeichen1", "1");
+    } else if (rank >= 50) {
+      console.log("Meister");
+      await Storage.setItemAsync("abzeichen2", "1");
+    }
+    const exerciseNamesArray = [
+      "pushups",
+      "squats",
+      "pullups",
+      "leg_raises",
+      "bridges",
+      "handstand_pushups",
+    ];
+    let counter3 = 0;
+    let counter6 = 0;
+    let counter10 = 0;
+    let tmpLevel = 0;
+    for (let i = 0; i < 6; i++) {
+      try {
+        tmpLevel = Number(await Storage.getItemAsync(exerciseNamesArray[i]));
+        console.log("tmplevel: ", exerciseNamesArray[i], tmpLevel);
+      } catch (e) {
+        console.warn(e);
+      }
+      if (tmpLevel >= 3) {
+        counter3 = counter3 + 1;
+      }
+      if (tmpLevel >= 6) {
+        counter6 = counter6 + 1;
+      }
+      if (tmpLevel >= 10) {
+        counter10 = counter10 + 1;
+      }
+    }
+    if (counter3 >= 1) {
+      console.log("Hungrig auf mehr");
+      await Storage.setItemAsync("abzeichen3", "1");
+    }
+    if (counter6 >= 1) {
+      console.log("Akrobat");
+      await Storage.setItemAsync("abzeichen4", "1");
+    }
+    if (counter10 >= 1) {
+      console.log("Eroberer");
+      await Storage.setItemAsync("abzeichen5", "1");
+    }
+
+    if (counter3 >= 6) {
+      console.log("Drachenzähmer");
+      await Storage.setItemAsync("abzeichen6", "1");
+    }
+    if (counter6 >= 6) {
+      console.log("Drachenfreund");
+      await Storage.setItemAsync("abzeichen7", "1");
+    }
+    if (counter10 >= 6) {
+      console.log("Drachenmeister");
+      await Storage.setItemAsync("abzeichen8", "1");
+    }
+    try {
+      const result = await db.getAllAsync("SELECT id FROM trainings LIMIT 100");
+      console.log("result length", result.length);
+      if (result.length >= 10) {
+        console.log("Immer weiter");
+        await Storage.setItemAsync("abzeichen9", "1");
+      }
+      if (result.length >= 50) {
+        console.log("Ausdauer");
+        await Storage.setItemAsync("abzeichen10", "1");
+      }
+      if (result.length >= 100) {
+        console.log("Training ist alles");
+        await Storage.setItemAsync("abzeichen11", "1");
+      }
+    } catch (e) {
+      console.warn(e);
+    }
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <KeyboardAwareScrollView
+      style={{ flex: 1 }}
+      contentContainerStyle={styles.container}
+      enableOnAndroid={true}
+      //extraScrollHeight={20} // Platz über dem aktiven Input
+      keyboardShouldPersistTaps="handled"
+    >
       <Pressable onPress={() => navigation.navigate("TabHome")}>
         <Ionicons name="close-outline" />
       </Pressable>
@@ -510,7 +636,7 @@ export default function ExerciseEntryScreen({ route, navigation }) {
           color={colors.primary}
         />
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 

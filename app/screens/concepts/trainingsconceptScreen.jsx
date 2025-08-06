@@ -5,12 +5,20 @@ import {
   ScrollView,
   Image,
   StyleSheet,
+  Pressable,
 } from "react-native";
 import React from "react";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-const TraningsconceptScreen = ({ route }) => {
+const TraningsconceptScreen = ({ route, navigation }) => {
   return (
     <ScrollView style={styles.container}>
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={{ alignSelf: "flex-start", marginBottom: 10 }}
+      >
+        <Ionicons name="arrow-back" size={16} />
+      </Pressable>
       <Text>
         <Text style={styles.headline}>Trainingskonzept</Text>
         {"\n"}
@@ -26,7 +34,7 @@ const TraningsconceptScreen = ({ route }) => {
         {"\n"}Pushups{"\n"}Squats{"\n"}Pullups{"\n"}Leg Raises{"\n"}Bridges
         {"\n"}Handstand Pushups{"\n"}
         {"\n"}Jede dieser sechs Übungen ist in zehn aufeinander aufbauende Level
-        (Schwierigkeitsgrade) unterteilt – von einfacheren Einstiegsvarianten
+        (Schwierigkeitsgrade) unterteilt - von einfacheren Einstiegsvarianten
         wie Wall-Pushups bis extrem schwierige Übungen wie einarmige Klimmzüge.
         Dabei fängt man bei jeder Grundübung auf dem ersten Level an und geht
         erst zum nächsten Level über, wenn man alle "Level-Up" Sätze mit der
@@ -35,14 +43,13 @@ const TraningsconceptScreen = ({ route }) => {
         errreicht hat. Zu beachten ist auch, dass Fortschritt nicht linear und
         nicht vergleichbar ist: Jeder Mensch hat individuelle Stärken und
         Schwächen. Manche steigen bei Pushups schnell auf, brauchen bei Brücken
-        aber länger – und das ist völlig normal. Die meisten Sportler sollten
+        aber länger - und das ist völlig normal. Die meisten Sportler sollten
         mit dem Anfänger Trainingsplan einsteigen (siehe Trainingspläne).{"\n"}
         {"\n"}Wichtig ist auch die Konzentration auf Technik, Gelenkgesundheit
         und Körperspannung. Es wird nicht auf maximale Wiederholungen oder
         Zeitdruck trainiert, sondern auf Sauberkeit der Ausführung. Des Weiteren
-        werden nicht die Muskeln allein trainiert, sondern auch Sehnen, Bänder,
-        Gelenke und das zentrale Nervensystem – um alltagstaugliche Stärke zu
-        entwickeln.
+        werden nicht die Muskeln allein trainiert, sondern auch Sehnen, Bänder
+        und Gelenke, um alltagstaugliche Stärke zu entwickeln.
       </Text>
     </ScrollView>
   );

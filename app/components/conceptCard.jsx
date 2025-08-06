@@ -17,9 +17,7 @@ function ConceptCard(props) {
   return (
     <View>
       <Pressable
-        onPress={() =>
-          props.navigation.navigate(props.navigationTarget, props.concept)
-        }
+        onPress={() => props.navigation.navigate(props.navigationTarget)}
         style={styles.pressable}
       >
         <View style={styles.card}>

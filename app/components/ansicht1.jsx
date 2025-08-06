@@ -21,6 +21,7 @@ import db from "../db";
 import colors from "../colors";
 
 const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 //config for calendar
 LocaleConfig.locales["de"] = {
@@ -119,7 +120,7 @@ const Ansicht1 = ({ route, navigation }) => {
         <ExerciseListModal
           navigation={navigation}
           ref={childRef}
-          day={modalDay} //funktioniert gerade noch nicht
+          day={modalDay}
         />
         <View
           style={{
@@ -145,6 +146,7 @@ const Ansicht1 = ({ route, navigation }) => {
             firstDay={1}
             markedDates={markedDates}
             enableSwipeMonths={true}
+            style={{ borderRadius: 5 }}
           />
         </View>
       </View>
@@ -162,7 +164,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   calendarContainer: {
-    width: deviceWidth * 0.8,
+    marginTop: deviceHeight * 0.05,
+    width: deviceWidth * 0.9,
+    borderWidth: 1,
+    borderColor: colors.primary,
+    borderRadius: 5,
   },
 });
 export default Ansicht1;

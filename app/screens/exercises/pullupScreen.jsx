@@ -6,13 +6,14 @@ import {
   StyleSheet,
   Image,
   Dimensions,
+  Pressable,
   View,
 } from "react-native";
-
+import Ionicons from "react-native-vector-icons/Ionicons";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-const PullupScreen = () => {
+const PullupScreen = ({ navigation }) => {
   const route = useRoute();
   const scrollRef = useRef(null);
 
@@ -29,6 +30,12 @@ const PullupScreen = () => {
   );
   return (
     <ScrollView style={styles.container} ref={scrollRef}>
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={{ alignSelf: "flex-start", marginBottom: 10 }}
+      >
+        <Ionicons name="arrow-back" size={16} />
+      </Pressable>
       {/* Hauptüberschrift */}
       <Text>
         <Text style={styles.headline}>Klimmzüge</Text>
@@ -59,8 +66,8 @@ const PullupScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 10 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 20 Wdh.
+        {"\n"}Einstieg: 1 Satz à 10 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 20 Wdh.
         {"\n"}Level-Up: 3 Sätze à 40 Wdh.
         {"\n"}
       </Text>
@@ -101,8 +108,8 @@ const PullupScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 10 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 20 Wdh.
+        {"\n"}Einstieg: 1 Satz à 10 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 20 Wdh.
         {"\n"}Level-Up: 3 Sätze à 30 Wdh.
         {"\n"}
       </Text>
@@ -140,8 +147,8 @@ const PullupScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 10 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 15 Wdh.
+        {"\n"}Einstieg: 1 Satz à 10 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 15 Wdh.
         {"\n"}Level-Up: 3 Sätze à 20 Wdh.
         {"\n"}
       </Text>
@@ -168,8 +175,8 @@ const PullupScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 8 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 11 Wdh.
+        {"\n"}Einstieg: 1 Satz à 8 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 11 Wdh.
         {"\n"}Level-Up: 2 Sätze à 15 Wdh.
         {"\n"}
       </Text>
@@ -207,8 +214,8 @@ const PullupScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 8 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 8 Wdh.
         {"\n"}Level-Up: 2 Sätze à 10 Wdh.
         {"\n"}
       </Text>
@@ -237,15 +244,15 @@ const PullupScreen = () => {
         {"\n"}
         Anleitung:
         {"\n"}
-        Greife die Stange mit sehr engem Griff – maximal 10 cm Abstand zwischen
+        Greife die Stange mit sehr engem Griff - maximal 10 cm Abstand zwischen
         den Händen. Ziehe dich mit hoher Körperspannung kontrolliert nach oben.
         Diese Variante beansprucht die Bizeps deutlich stärker. Achte darauf,
         die Ellbogen nicht nach außen kippen zu lassen.
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 8 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 8 Wdh.
         {"\n"}Level-Up: 2 Sätze à 10 Wdh.
         {"\n"}
       </Text>
@@ -281,8 +288,8 @@ const PullupScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh. pro Seite
-        {"\n"}Fortgeschritten: 2 Sätze à 7 Wdh. pro Seite
+        {"\n"}Einstieg: 1 Satz à 5 Wdh. pro Seite
+        {"\n"}Aufbau: 2 Sätze à 7 Wdh. pro Seite
         {"\n"}Level-Up: 2 Sätze à 9 Wdh. pro Seite
         {"\n"}
       </Text>
@@ -309,8 +316,8 @@ const PullupScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 4 Wdh. pro Seite
-        {"\n"}Fortgeschritten: 2 Sätze à 6 Wdh. pro Seite
+        {"\n"}Einstieg: 1 Satz à 4 Wdh. pro Seite
+        {"\n"}Aufbau: 2 Sätze à 6 Wdh. pro Seite
         {"\n"}Level-Up: 2 Sätze à 8 Wdh. pro Seite
         {"\n"}
       </Text>
@@ -339,8 +346,8 @@ const PullupScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 3 Wdh. pro Seite
-        {"\n"}Fortgeschritten: 2 Sätze à 5 Wdh. pro Seite
+        {"\n"}Einstieg: 1 Satz à 3 Wdh. pro Seite
+        {"\n"}Aufbau: 2 Sätze à 5 Wdh. pro Seite
         {"\n"}Level-Up: 2 Sätze à 7 Wdh. pro Seite
         {"\n"}
       </Text>
@@ -362,13 +369,13 @@ const PullupScreen = () => {
         Hänge frei an der Stange mit nur einer Hand, der Körper ist komplett
         angespannt. Ziehe dich aus der Kraft des einen Arms kontrolliert nach
         oben, bis das Kinn über der Stange ist. Halte kurz, dann senke dich
-        langsam und mit Muskelkontrolle wieder ab. Kein Schwung, keine Hilfen –
+        langsam und mit Muskelkontrolle wieder ab. Kein Schwung, keine Hilfen -
         nur pure Kraft.
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 1 Wdh. pro Seite
-        {"\n"}Fortgeschritten: 2 Sätze à 3 Wdh. pro Seite
+        {"\n"}Einstieg: 1 Satz à 1 Wdh. pro Seite
+        {"\n"}Aufbau: 2 Sätze à 3 Wdh. pro Seite
         {"\n"}Level-Up: 2 Sätze à 6 Wdh. pro Seite
         {"\n"}
       </Text>

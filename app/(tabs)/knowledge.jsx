@@ -34,25 +34,26 @@ function Knowledge({ navigation }) {
           title="Trainingskonzept"
           navigation={navigation}
           navigationTarget={"TrainingsconceptScreen"}
-          concept={trainingsconcept}
         />
         <ConceptCard
           title="Trainingspläne"
           navigation={navigation}
           navigationTarget={"TrainingsplaeneScreen"}
-          concept={trainingsplaene}
         />
         <ConceptCard
           title="Trainingsempfehlungen"
           navigation={navigation}
           navigationTarget={"TrainingsempfehlungScreen"}
-          concept={trainingsempfehlung}
         />
         <ConceptCard
           title="Aufwärmen"
           navigation={navigation}
           navigationTarget={"WarmupScreen"}
-          concept={warmup}
+        />
+        <ConceptCard
+          title="Gesamt-Level"
+          navigation={navigation}
+          navigationTarget={"GesamtLevelScreen"}
         />
       </View>
 

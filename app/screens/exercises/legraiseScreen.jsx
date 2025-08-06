@@ -1,10 +1,17 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { useRoute, useFocusEffect } from "@react-navigation/native";
-import { ScrollView, Text, StyleSheet, Image, Dimensions } from "react-native";
-
+import {
+  ScrollView,
+  Text,
+  Pressable,
+  StyleSheet,
+  Image,
+  Dimensions,
+} from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
-const LegraiseScreen = () => {
+const LegraiseScreen = ({ navigation }) => {
   const route = useRoute();
   const scrollRef = useRef(null);
 
@@ -21,6 +28,12 @@ const LegraiseScreen = () => {
   );
   return (
     <ScrollView style={styles.container} ref={scrollRef}>
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={{ alignSelf: "flex-start", marginBottom: 10 }}
+      >
+        <Ionicons name="arrow-back" size={16} />
+      </Pressable>
       {/* Hauptüberschrift */}
       <Text>
         <Text style={styles.headline}>Beinheber</Text>
@@ -51,8 +64,8 @@ const LegraiseScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 10 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 25 Wdh.
+        {"\n"}Einstieg: 1 Satz à 10 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 25 Wdh.
         {"\n"}Level-Up: 3 Sätze à 40 Wdh.
         {"\n"}
       </Text>
@@ -92,8 +105,8 @@ const LegraiseScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 10 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 20 Wdh.
+        {"\n"}Einstieg: 1 Satz à 10 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 20 Wdh.
         {"\n"}Level-Up: 3 Sätze à 35 Wdh.
         {"\n"}
       </Text>
@@ -134,8 +147,8 @@ const LegraiseScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 10 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 15 Wdh.
+        {"\n"}Einstieg: 1 Satz à 10 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 15 Wdh.
         {"\n"}Level-Up: 3 Sätze à 30 Wdh.
         {"\n"}
       </Text>
@@ -176,8 +189,8 @@ const LegraiseScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 8 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 15 Wdh.
+        {"\n"}Einstieg: 1 Satz à 8 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 15 Wdh.
         {"\n"}Level-Up: 3 Sätze à 25 Wdh.
         {"\n"}
       </Text>
@@ -219,8 +232,8 @@ const LegraiseScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh.
         {"\n"}Level-Up: 2 Sätze à 20 Wdh.
         {"\n"}
       </Text>
@@ -258,8 +271,8 @@ const LegraiseScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh.
         {"\n"}Level-Up: 2 Sätze à 15 Wdh.
         {"\n"}
       </Text>
@@ -299,8 +312,8 @@ const LegraiseScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh.
         {"\n"}Level-Up: 2 Sätze à 15 Wdh.
         {"\n"}
       </Text>
@@ -342,8 +355,8 @@ const LegraiseScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh.
         {"\n"}Level-Up: 2 Sätze à 15 Wdh.
         {"\n"}
       </Text>
@@ -389,8 +402,8 @@ const LegraiseScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh.
         {"\n"}Level-Up: 2 Sätze à 15 Wdh.
         {"\n"}
       </Text>
@@ -421,19 +434,19 @@ const LegraiseScreen = () => {
         </Text>
         {"\n"}
         Greife eine hohe Klimmzugstange schulterbreit und hänge dich gestreckt
-        daran. Halte deine Schultern angespannt – das ist die Startposition.
+        daran. Halte deine Schultern angespannt - das ist die Startposition.
         Hebe deine gestreckten Beine langsam innerhalb von mindestens zwei
         Sekunden an, bis sie parallel zum Boden stehen. Atme dabei vollständig
         aus, um deine Bauchmuskeln maximal anzuspannen. Pausiere kurz in der
         Endposition. Senke die Beine ebenso kontrolliert in mindestens zwei
         Sekunden zurück in die Startposition. Atme während des Absenkens ruhig
         ein. Halte deinen Körper und die Beine stets unter Spannung. Benutze
-        keine Schwungkraft – nur reine Muskelarbeit ist erlaubt.
+        keine Schwungkraft - nur reine Muskelarbeit ist erlaubt.
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh.
         {"\n"}Level-Up: 2 Sätze à 30 Wdh.
         {"\n"}
       </Text>

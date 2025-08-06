@@ -4,13 +4,21 @@ import {
   Button,
   ScrollView,
   Image,
+  Pressable,
   StyleSheet,
 } from "react-native";
 import React from "react";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-const TrainingsplaeneScreen = ({ route }) => {
+const TrainingsplaeneScreen = ({ route, navigation }) => {
   return (
     <ScrollView style={styles.container}>
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={{ alignSelf: "flex-start", marginBottom: 10 }}
+      >
+        <Ionicons name="arrow-back" size={16} />
+      </Pressable>
       <Text>
         <Text style={styles.headline}>Trainingspläne</Text>
         {"\n"}
@@ -24,16 +32,18 @@ const TrainingsplaeneScreen = ({ route }) => {
         {"\n"}Anfänger ist ein Trainingsplan für Einsteiger und alle, die ganz
         neu mit Körpergewichtstraining oder sportlicher Aktivität beginnen. Es
         handelt sich um eine einfache Zwei-Tage-pro-Woche-Routine, die vier der
-        sechs Grundübungen abdeckt: Pushups, Pullups, Squats und Leg Raises. Die
-        Übungen werden jeweils mit 2-3 Arbeitssätzen trainiert. Brücken und
-        Handstand-Liegestütze werden in diesem Stadium noch ausgelassen, da sie
-        ein höheres Maß an Kraft und Gelenkfestigkeit erfordern. Diese Routine
-        ermöglicht dem Körper - insbesondere den Sehnen, Gelenken und Bändern -
-        ausreichend Erholung und Anpassung. Das Programm ist besonders geeignet
-        für den Einstieg in das System und sollte so lange verfolgt werden, bis
-        mindestens Schritt 6 in den vier Übungen erreicht ist.{"\n"}
-        {"\n"}Trainingsaufbau:{"\n"}Montag: Pushups & Leg Raises (je 2-3
-        Arbeitssätze){"\n"}Freitag: Pullups & Squats (je 2-3 Arbeitssätze){"\n"}
+        sechs Grundübungen abdeckt: Liegestütze, Klimmzüge, Kniebeuge und
+        Beinheber. Die Übungen werden jeweils mit 2-3 Arbeitssätzen trainiert.
+        Brücken und Handstand-Liegestütze werden in diesem Stadium noch
+        ausgelassen, da sie ein höheres Maß an Kraft und Gelenkfestigkeit
+        erfordern. Diese Routine ermöglicht dem Körper - insbesondere den
+        Sehnen, Gelenken und Bändern - ausreichend Erholung und Anpassung. Das
+        Programm ist besonders geeignet für den Einstieg in das System und
+        sollte so lange verfolgt werden, bis mindestens Level 6 in den vier
+        Grundübungen erreicht ist.{"\n"}
+        {"\n"}Trainingsaufbau:{"\n"}Montag: Liegestütze & Beinheber (je 2-3
+        Arbeitssätze){"\n"}Freitag: Klimmzüge & Kniebeuge (je 2-3 Arbeitssätze)
+        {"\n"}
         Alle anderen Tage: Pause{"\n"}
         {"\n"}
         <Text style={styles.subHeadline}>Fortgeschritten</Text>
@@ -46,26 +56,34 @@ const TrainingsplaeneScreen = ({ route }) => {
         effizient und lässt sich gut in einen vollen Terminkalender integrieren.
         Wer langfristige Kraftzuwächse mit wenig Risiko für Überlastung sucht,
         ist hier genau richtig.{"\n"}
-        {"\n"}Trainingsaufbau:{"\n"}Montag: Pushups & Leg Raises (je 2
-        Arbeitssätze){"\n"}Mittwoch: Pullups & Squats (je 2 Arbeitssätze){"\n"}
-        Freitag: Handstand Pushups & Bridges (je 2 Arbeitssätze){"\n"}Alle
+        {"\n"}Trainingsaufbau:{"\n"}Montag: Liegestütze & Beinheber (je 2
+        Arbeitssätze){"\n"}Mittwoch: Klimmzüge & Kniebeuge (je 2 Arbeitssätze)
+        {"\n"}
+        Freitag: Handstand Liegestütze & Brücken (je 2 Arbeitssätze){"\n"}Alle
         anderen Tage: Pause{"\n"}
         {"\n"}
         <Text style={styles.subHeadline}>Profi</Text>
         {"\n"}Profi ist ein Sechs-Tage-pro-Woche-Plan für Sportler mit guter
         Regenerationsfähigkeit und Trainingserfahrung. Jeden Tag wird nur eine
         der sechs Grundübungen trainiert - mit voller Konzentration auf Qualität
-        und Leistung. Die Einheiten sind sehr kurz (oft unter 7 Minuten), aber
-        intensiv. Die Struktur stellt sicher, dass nie direkt zwei benachbarte
-        Muskelgruppen an aufeinanderfolgenden Tagen belastet werden, was für
-        eine optimale Erholung sorgt. Der siebte Tag (Sonntag) ist Ruhetag.
-        Ideal für alle, die mit maximalem Fokus an einer Technik arbeiten
-        wollen, ohne den Körper zu überlasten.{"\n"}
-        {"\n"}Trainingsaufbau:{"\n"}Montag: Pullups (je 2-3 Arbeitssätze){"\n"}
-        Dienstag: Bridges (je 2-3 Arbeitssätze){"\n"}Mittwoch: Handstand Pushups
-        (je 2-3 Arbeitssätze){"\n"}Donnerstag: Leg Raises (je 2-3 Arbeitssätze)
-        {"\n"}Freitag: Squats (je 2-3 Arbeitssätze){"\n"}Samstag: Pushups (je
-        2-3 Arbeitssätze){"\n"}Sonntag: Pause
+        und Leistung. Die Einheiten sind sehr kurz, aber intensiv. Die Struktur
+        stellt sicher, dass nie direkt zwei benachbarte Muskelgruppen an
+        aufeinanderfolgenden Tagen belastet werden, was für eine optimale
+        Erholung sorgt. Der siebte Tag ist Ruhetag. Ideal für alle, die mit
+        maximalem Fokus an einer Technik arbeiten wollen, ohne den Körper zu
+        überlasten.{"\n"}
+        {"\n"}Trainingsaufbau:{"\n"}Montag: Klimmzüge (je 2-3 Arbeitssätze)
+        {"\n"}
+        Dienstag: Brücken (je 2-3 Arbeitssätze){"\n"}Mittwoch: Handstand
+        Liegestütze (je 2-3 Arbeitssätze){"\n"}Donnerstag: Beinheber (je 2-3
+        Arbeitssätze)
+        {"\n"}Freitag: Kniebeuge (je 2-3 Arbeitssätze){"\n"}Samstag: Liegestütze
+        (je 2-3 Arbeitssätze){"\n"}Sonntag: Pause{"\n"}
+        {"\n"}
+        {"\n"}
+        {"\n"}
+        {"\n"}
+        {"\n"}
       </Text>
     </ScrollView>
   );

@@ -63,7 +63,6 @@ export default function WelcomeScreen({ onDone }) {
 
   const renderItem = ({ item }) => (
     <View style={styles.slide}>
-      {/*<Image source={item.image} style={styles.image} />*/}
       <Text style={styles.title}>{item.title}</Text>
       <View style={styles.textBox}>
         <Text style={styles.description}>{item.description}</Text>
@@ -76,32 +75,29 @@ export default function WelcomeScreen({ onDone }) {
     {
       key: "1",
       title: "LevelUp Fitness",
-      image: require("../../assets/images/react-logo.png"),
-      description: `Hi! Diese App nutzt ein algorithmisches Konzept zum Trainieren. Dabei gibt es 6 Grundübungen, die auf 10 verschiedenen Levels durchgeführt werden:
+      description: `Hi! Diese App nutzt ein algorithmisches Konzept zum Trainieren. Dabei gibt es 6 Grundübungen, die auf 10 verschiedenen Levels (Schwierigkeitsstufen) trainiert werden können:
       
-  Pushups
-  Squats
-  Pullups
-  Leg Raises
-  Bridges
-  Handstand Pushups
+  Liegestütze
+  Kniebeuge
+  Klimmzüge
+  Beinheber
+  Brücken
+  Handstand Liegestütze
   
-Umso höher das Level der Übung, desto schwieriger wird diese. Wir empfehlen dir, bei jeder Übung auf Level 1 anzufangen und dich dann hochzuarbeiten.`,
+Umso höher das Level einer Übung, desto schwieriger wird diese. Beispielsweise reichen die Level der Liegestütze von Liegestütze gegen die Wand bis zu einarmigen Liegestützen. Wir empfehlen dir, bei jeder Übung auf Level 1 anzufangen und dich dann hochzuarbeiten.`,
     },
     {
       key: "2",
       title: "LevelUp Fitness",
-      image: require("../../assets/images/react-logo.png"),
       description: `Wir geben dir immer Empfehlungen für dein nächstes Training, aber letztendlich kannst du selbst entscheiden wie du trainierst.
   
-Wenn du mit dem Training fertig bist, kannst du es im Home Bildschirm eintragen.
+Wenn du mit dem Training fertig bist, kannst du es im Home Bildschirm eintragen. Statistiken zu deinem Training findest du im zweiten Tab, der Trainingshistorie. 
 
-Weitere Informationen, z.B. wie die Übungen durchzuführen sind oder wie das Trainingskonzept genau funktioniert, findest du in der App.`,
+Weitere Informationen, z.B. wie die Übungen durchzuführen sind oder wie das Trainingskonzept genau funktioniert, findest du in dann der App.`,
     },
     {
       key: "3",
       title: "LevelUp Fitness",
-      image: require("../../assets/images/react-logo.png"),
       description:
         "Die Übungsauswahl ist für alle Trainingspläne gleich, außer dass beim Anfänger Plan erstmal nur 4 der 6 Grundübungen trainiert werden.",
       bonus: (
@@ -126,7 +122,6 @@ Weitere Informationen, z.B. wie die Übungen durchzuführen sind oder wie das Tr
     {
       key: "4",
       title: "LevelUp Fitness",
-      image: require("../../assets/images/react-logo.png"),
       description: "Wähle deine Trainingstage: ",
       bonus: (
         <DayPickerVariant
@@ -140,8 +135,7 @@ Weitere Informationen, z.B. wie die Übungen durchzuführen sind oder wie das Tr
     {
       key: "5",
       title: "LevelUp Fitness",
-      image: require("../../assets/images/react-logo.png"),
-      description: "Na dann mal los!",
+      description: "Na dann mal los! 🔥",
     },
   ];
 

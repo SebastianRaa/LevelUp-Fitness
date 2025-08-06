@@ -3,15 +3,16 @@ import {
   Text,
   ScrollView,
   StyleSheet,
+  Pressable,
   Image,
   Dimensions,
 } from "react-native";
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { useRoute, useFocusEffect } from "@react-navigation/native";
-
+import Ionicons from "react-native-vector-icons/Ionicons";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
-const SquatScreen = () => {
+const SquatScreen = ({ navigation }) => {
   const route = useRoute();
   const scrollRef = useRef(null);
 
@@ -28,6 +29,12 @@ const SquatScreen = () => {
   );
   return (
     <ScrollView style={styles.container} ref={scrollRef}>
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={{ alignSelf: "flex-start", marginBottom: 10 }}
+      >
+        <Ionicons name="arrow-back" size={16} />
+      </Pressable>
       {/* Hauptüberschrift */}
       <Text>
         <Text style={styles.headline}>Kniebeuge</Text>
@@ -58,8 +65,8 @@ const SquatScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 10 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 25 Wdh.
+        {"\n"}Einstieg: 1 Satz à 10 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 25 Wdh.
         {"\n"}Level-Up: 3 Sätze à 50 Wdh.
         {"\n"}
       </Text>
@@ -96,8 +103,8 @@ const SquatScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 10 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 20 Wdh.
+        {"\n"}Einstieg: 1 Satz à 10 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 20 Wdh.
         {"\n"}Level-Up: 3 Sätze à 40 Wdh.
         {"\n"}
       </Text>
@@ -132,8 +139,8 @@ const SquatScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 10 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 15 Wdh.
+        {"\n"}Einstieg: 1 Satz à 10 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 15 Wdh.
         {"\n"}Level-Up: 3 Sätze à 30 Wdh.
         {"\n"}
       </Text>
@@ -166,8 +173,8 @@ const SquatScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 8 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 35 Wdh.
+        {"\n"}Einstieg: 1 Satz à 8 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 35 Wdh.
         {"\n"}Level-Up: 2 Sätze à 50 Wdh.
         {"\n"}
       </Text>
@@ -201,8 +208,8 @@ const SquatScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh.
         {"\n"}Level-Up: 2 Sätze à 30 Wdh.
         {"\n"}
       </Text>
@@ -226,8 +233,8 @@ const SquatScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh.
         {"\n"}Level-Up: 2 Sätze à 20 Wdh.
         {"\n"}
       </Text>
@@ -264,8 +271,8 @@ const SquatScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh. pro Seite
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh. pro Seite
+        {"\n"}Einstieg: 1 Satz à 5 Wdh. pro Seite
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh. pro Seite
         {"\n"}Level-Up: 2 Sätze à 20 Wdh. pro Seite
         {"\n"}
       </Text>
@@ -296,8 +303,8 @@ const SquatScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh. pro Seite
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh. pro Seite
+        {"\n"}Einstieg: 1 Satz à 5 Wdh. pro Seite
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh. pro Seite
         {"\n"}Level-Up: 2 Sätze à 20 Wdh. pro Seite
         {"\n"}
       </Text>
@@ -324,8 +331,8 @@ const SquatScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh. pro Seite
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh. pro Seite
+        {"\n"}Einstieg: 1 Satz à 5 Wdh. pro Seite
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh. pro Seite
         {"\n"}Level-Up: 2 Sätze à 20 Wdh. pro Seite
         {"\n"}
       </Text>
@@ -355,8 +362,8 @@ const SquatScreen = () => {
         {"\n"}
         {"\n"}
         Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 1 Wdh. pro Seite
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh. pro Seite
+        {"\n"}Einstieg: 1 Satz à 1 Wdh. pro Seite
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh. pro Seite
         {"\n"}Level-Up: 2 Sätze à 50 Wdh. pro Seite
         {"\n"}
       </Text>

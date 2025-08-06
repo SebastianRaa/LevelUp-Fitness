@@ -5,12 +5,20 @@ import {
   ScrollView,
   Image,
   StyleSheet,
+  Pressable,
 } from "react-native";
 import React from "react";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-const WarmupScreen = ({ route }) => {
+const WarmupScreen = ({ route, navigation }) => {
   return (
     <ScrollView style={styles.container}>
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={{ alignSelf: "flex-start", marginBottom: 10 }}
+      >
+        <Ionicons name="arrow-back" size={16} />
+      </Pressable>
       <Text>
         <Text style={styles.headline}>Aufwärmen</Text>
         {"\n"}
@@ -18,13 +26,13 @@ const WarmupScreen = ({ route }) => {
       </Text>
       <Text>
         Beim LevelUp Fitness Programm werden für jede Grundübung jeweils 2 Sätze
-        zum Aufwärmen vorher gemacht. Diese sind von der gleichen Grundübung,
-        aber man sucht sich Übungen von deutlich einfacheren Leveln aus, soweit
+        zum Aufwärmen gemacht. Diese sind von der gleichen Grundübung, aber man
+        sucht sich hierfür Übungen von deutlich einfacheren Leveln aus, soweit
         möglich.
         {"\n"}
-        {"\n"}Beispiel:
-        {"\n"}Warm Up: Wall Push Ups 1x15 (Level 1){"\n"}Warm Up: Incline Push
-        Ups 1x15 (Level 2){"\n"}Work: Kneeling Push Ups 2x20 (Level 3)
+        {"\n"}Beispiel für Liegestütze Level 3:
+        {"\n"}Aufwärmen: Wandliegestütze (L1) 1x10 {"\n"}Aufwärmen: Schräge
+        Liegestütze (L2) 1x10
       </Text>
     </ScrollView>
   );

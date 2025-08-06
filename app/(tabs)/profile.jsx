@@ -86,6 +86,7 @@ export default function Profile(props) {
           Math.floor(handstand_pushups) -
           6;
         //console.log(sum);
+        await Storage.setItem("rank", `${sum}`);
         setRank(sum);
       } catch (e) {
         console.warn("Fehler beim Laden:", e);
@@ -132,9 +133,11 @@ export default function Profile(props) {
       {/* Oberer Bereich: Profil */}
       <View style={styles.profileContainer}>
         <View style={styles.rowSpace}>
-          <Text style={{ marginRight: 15, color: "white" }}>{name}</Text>
+          <Text style={{ marginRight: 15, color: "white", fontSize: 16 }}>
+            {name}
+          </Text>
           <Pressable onPress={toggleModal}>
-            <Ionicons name="create-outline" size={16} color="white" />
+            <Ionicons name="create-outline" size={18} color="white" />
           </Pressable>
         </View>
 
@@ -153,17 +156,26 @@ export default function Profile(props) {
                   toggleModal();
                   saveNameToStorage();
                 }}
+                color={colors.primary}
               />
             </View>
           </View>
         </Modal>
 
-        <Text style={{ marginTop: 20, marginBottom: 20, color: "white" }}>
-          Rang {rank}
+        <Text
+          style={{
+            marginTop: 20,
+            marginBottom: 20,
+            color: "white",
+            fontSize: 16,
+          }}
+        >
+          Gesamt-Level{" "}
+          <Text style={{ fontWeight: "bold", fontSize: 20 }}>{rank}</Text>
         </Text>
         <Pressable onPress={() => props.navigation.navigate("AbzeichenScreen")}>
           <View style={styles.rowSpace2}>
-            <Text style={{ color: "white" }}>Abzeichen</Text>
+            <Text style={{ color: "white", fontSize: 16 }}>Abzeichen 🏅</Text>
             <Ionicons name="arrow-forward-outline" size={20} color="white" />
           </View>
         </Pressable>
@@ -173,7 +185,7 @@ export default function Profile(props) {
       <View style={styles.settingsContainer}>
         <Text style={styles.headline}>Einstellungen</Text>
 
-        <TextSwitch
+        {/*<TextSwitch
           text="Trainingserinnerung"
           value={notification}
           onValueChange={setNotification}
@@ -183,8 +195,8 @@ export default function Profile(props) {
           <View style={styles.notificationBox}>
             <MyTimePicker />
           </View>
-        )}
-
+        )}*/}
+        <Text style={{ fontSize: 16, marginBottom: 15 }}>Trainingsplan:</Text>
         <View style={styles.picker}>
           <Picker
             selectedValue={workoutPickerValue}
@@ -203,7 +215,7 @@ export default function Profile(props) {
           </Picker>
         </View>
 
-        <Text style={{ paddingLeft: 20 }}>Trainingstage:</Text>
+        <Text style={{ fontSize: 16 }}>Trainingstage:</Text>
         <DayPicker
           workoutPickerValue={workoutPickerValue}
           daysRequired={daysRequired}
@@ -257,6 +269,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     marginBottom: 15,
+    fontSize: 18,
     fontWeight: "bold",
   },
   headline: {
@@ -265,7 +278,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   settingsContainer: {
-    paddingTop: deviceHeight * 0.1,
+    marginTop: deviceHeight * 0.1,
   },
   notificationBox: {
     marginBottom: 20,

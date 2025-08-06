@@ -1,6 +1,7 @@
 import {
   Text,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Image,
   View,
@@ -130,10 +131,10 @@ const Home = ({ navigation }) => {
             exercises[i],
             Number(exerciseLevelArray[i].slice(0, 1)),
           ];
-          console.log("query2: ", query2);
-          console.log("values: ", values);
+          //console.log("query2: ", query2);
+          //console.log("values: ", values);
           const result = await db.getAllAsync(query2, values);
-          console.log(result);
+          //console.log(result);
           resultArray.push(result);
         }
         setRecommandationBasis(resultArray);
@@ -166,7 +167,7 @@ const Home = ({ navigation }) => {
 
           if (storedSchedule) {
             const parsed = JSON.parse(storedSchedule);
-            console.log("log: ", parsed);
+            //console.log("log: ", parsed);
             setSchedule(parsed);
           }
 
@@ -229,6 +230,24 @@ const Home = ({ navigation }) => {
     }
   }
 
+  function getScreenName(exercise) {
+    if (exercise == "pushups") {
+      return "PushupScreen";
+    } else if (exercise == "squats") {
+      return "SquatScreen";
+    } else if (exercise == "pullups") {
+      return "PullupScreen";
+    } else if (exercise == "leg_raises") {
+      return "LegraiseScreen";
+    } else if (exercise == "bridges") {
+      return "BridgeScreen";
+    } else if (exercise == "handstand_pushups") {
+      return "HandstandpushupScreen";
+    } else {
+      return "PushupScreen";
+    }
+  }
+
   //pass order of exercises
   function generateWarmup(order) {
     /*console.log(
@@ -287,25 +306,68 @@ const Home = ({ navigation }) => {
     }
     return (
       <View>
-        <Text style={styles.exercise}>{getGermanName(exercise)}</Text>
-        {firstSetLevel == secondSetLevel ? (
-          <Text style={styles.textTabbedIn}>
-            Aufwärmen:{" "}
-            {levelUpRequirements[exercise][`level${firstSetLevel}`]["name"]}{" "}
-            (Level {firstSetLevel}) - 2x{firstSetReps}
+        <View style={styles.exerciseHeader}>
+          <Text style={styles.exercise}>
+            {getGermanName(exercise)} (L{currentLevel})
           </Text>
+          {finishedExercises[order] && (
+            <Ionicons
+              name="checkmark-circle-outline"
+              size={20}
+              color="green"
+              style={{ alignSelf: "center", marginLeft: 10 }}
+            />
+          )}
+        </View>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.textTabbedIn}>Aufwärmen</Text>
+          <Pressable
+            onPress={() =>
+              navigation.navigate(getScreenName(exercise), {
+                anchor: `level${firstSetLevel}`,
+              })
+            }
+          >
+            <Ionicons
+              name="information-circle-outline"
+              size={20}
+              color={colors.primary}
+              style={{ alignSelf: "center", marginLeft: 10 }}
+            />
+          </Pressable>
+        </View>
+
+        {firstSetLevel == secondSetLevel ? (
+          <View style={styles.exerciseHeader}>
+            <Text style={styles.textWarmup}>
+              {levelUpRequirements[exercise][`level${firstSetLevel}`]["name"]}{" "}
+              (L
+              {firstSetLevel})
+            </Text>
+            <Text> 2x{firstSetReps}</Text>
+          </View>
         ) : (
           <View>
-            <Text style={styles.textTabbedIn}>
-              Aufwärmen:{" "}
-              {levelUpRequirements[exercise][`level${firstSetLevel}`]["name"]}{" "}
-              (Level {firstSetLevel}) - 1x{firstSetReps}
-            </Text>
-            <Text style={styles.textTabbedIn}>
-              Aufwärmen:{" "}
-              {levelUpRequirements[exercise][`level${secondSetLevel}`]["name"]}{" "}
-              (Level {secondSetLevel}) - 1x{secondSetReps}
-            </Text>
+            <View style={styles.exerciseHeader}>
+              <Text style={styles.textWarmup}>
+                {levelUpRequirements[exercise][`level${firstSetLevel}`]["name"]}{" "}
+                (L
+                {firstSetLevel})
+              </Text>
+              <Text> 1x{firstSetReps}</Text>
+            </View>
+            <View style={styles.exerciseHeader}>
+              <Text style={styles.textWarmup}>
+                {
+                  levelUpRequirements[exercise][`level${secondSetLevel}`][
+                    "name"
+                  ]
+                }{" "}
+                (L
+                {secondSetLevel})
+              </Text>
+              <Text> 1x{secondSetReps}</Text>
+            </View>
           </View>
         )}
       </View>
@@ -373,27 +435,26 @@ const Home = ({ navigation }) => {
       let diff = 0;
 
       //leider nicht viele Daten zur Verfügung
-      //Sätze Anzahl bleibt gleich
-      //numOfSets = totalWorkSetsArray[len - 1];
-      //ansonsten minimal mehr reps
-      //numOfReps = Math.floor(totalWorkArray[len - 1] / numOfSets) + 2;
-      if (len == 1) diff = 2; //* totalWorkSetsArray.length;
-      //pro Satz 2 Wiederholungen mehr machen
+      if (len == 1)
+        diff = Math.ceil(
+          levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
+            "reps"
+          ] * 0.1
+        );
       else {
-        //diff = totalWorkArray[len - 1] - totalWorkArray[len - 2];
-        //TODO hier irgendwas ändern damit ein wechsel von 2 auf 3 Sätzen z.B. nicht alles zerstört
         diff = highestValueArray[0] - highestValueArray[1];
       }
-      if (diff == 0) diff = 2; //* totalWorkSetsArray.length; //pro Satz 2 Wiederholungen mehr machen
+      if (diff == 0)
+        diff = Math.ceil(
+          levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
+            "reps"
+          ] * 0.1
+        );
       if (diff < 0) diff = diff * -1;
       if (diff > 0) {
         //Verbesserung
-        //newTotalReps = totalWorkArray[len - 1] + diff;
-        //hier +diff?
         let averageReps = Math.ceil(totalWorkArray[0] / totalWorkSetsArray[0]);
         averageReps = averageReps + diff;
-        console.log("diff ", diff);
-        console.log("avg ", averageReps);
         if (
           averageReps >=
           levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
@@ -412,8 +473,6 @@ const Home = ({ navigation }) => {
         } else {
           //Absoluter Normalfall: Steigerung aber kein Levelup
           //evtl. müssen die reps und sets angepasst werden, weil man z.B. in die Fortgeschritten (Trainingsziel) Reichweite fällt
-          //mehr Sätze als beim letzes Mal nur wenn threshold erreicht
-          //ansonsten mehr reps
 
           if (
             averageReps <
@@ -426,10 +485,8 @@ const Home = ({ navigation }) => {
             numOfSets =
               levelUpRequirements[exercise][`level${currentLevel}`]["Anfänger"][
                 "sets"
-              ]; //totalWorkSetsArray[len - 1];
-            numOfReps = averageReps; //+ Math.ceil(diff / numOfSets);
-            //numOfReps = totalWorkArray[len - 1] + diff;
-            // numOfReps = Math.ceil(numOfReps / numOfSets);
+              ];
+            numOfReps = averageReps;
             //durch dieses Vorgehen mit floor kann durch Randfälle evtl. keine Steigerung in der Empfehlung zu sehen sein
           } else if (
             averageReps <
@@ -441,7 +498,7 @@ const Home = ({ navigation }) => {
               levelUpRequirements[exercise][`level${currentLevel}`][
                 "Fortgeschritten"
               ]["sets"];
-            numOfReps = averageReps; //+ Math.ceil(diff / numOfSets);
+            numOfReps = averageReps;
           } else if (
             averageReps <
             levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
@@ -452,7 +509,7 @@ const Home = ({ navigation }) => {
               levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
                 "sets"
               ];
-            numOfReps = averageReps; //+ Math.ceil(diff / numOfSets);
+            numOfReps = averageReps;
           } else {
             numOfReps =
               levelUpRequirements[exercise][`level${currentLevel}`]["levelup"][
@@ -464,19 +521,7 @@ const Home = ({ navigation }) => {
               ];
           }
         }
-        //} else if (diff == 0) {
-        //Leistung gleichgeblieben
-        //Sätze Anzahl bleibt gleich
-        //numOfSets = totalWorkSetsArray[len - 1];
-        //ansonsten minimal mehr reps
-        //numOfReps = Math.floor(totalWorkArray[len - 1] / numOfSets) + 2;
-      } //else {
-      //F
-      //Verschlechterung
-      //numOfReps = totalWorkArray[len - 2];
-      //numOfSets = totalWorkSetsArray[len - 2];
-      //numOfReps = Math.floor(numOfReps / numOfSets);
-      //}
+      }
     }
     if (order == 0) {
       exerciseOneWorkArray.push(currentLevel);
@@ -489,11 +534,32 @@ const Home = ({ navigation }) => {
     }
     return (
       <View>
-        <Text style={styles.textTabbedIn}>
-          Arbeitssätze:{" "}
-          {levelUpRequirements[exercise][`level${currentLevel}`]["name"]} (Level{" "}
-          {currentLevel}) - {numOfSets}x{numOfReps}
-        </Text>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.textTabbedIn}>Arbeitssätze</Text>
+          <Pressable
+            onPress={() =>
+              navigation.navigate(getScreenName(exercise), {
+                anchor: `level${currentLevel}`,
+              })
+            }
+          >
+            <Ionicons
+              name="information-circle-outline"
+              size={20}
+              color={colors.primary}
+              style={{ alignSelf: "center", marginLeft: 10 }}
+            />
+          </Pressable>
+        </View>
+        <View style={styles.exerciseHeader}>
+          <Text style={styles.textWarmup}>
+            {levelUpRequirements[exercise][`level${currentLevel}`]["name"]} (L
+            {currentLevel})
+          </Text>
+          <Text>
+            {numOfSets}x{numOfReps}
+          </Text>
+        </View>
       </View>
     );
   }
@@ -508,8 +574,8 @@ const Home = ({ navigation }) => {
   }
 
   return (
-    <View
-      style={{
+    <ScrollView
+      contentContainerStyle={{
         flex: 1,
         flexDirection: "column",
         justifyContent: "flex-start",
@@ -524,33 +590,12 @@ const Home = ({ navigation }) => {
         Dein nächstes Training am {findNextTraining(today)}
       </Text>
       <View style={styles.exerciseContainer}>
-        {finishedExercises[0] && (
-          <Ionicons name="checkmark-circle-outline" size={20} color="green" />
-        )}
         {generateWarmup(0)}
         {generateWork(0)}
-        <Pressable
-          onPress={() => {
-            adjustItem(0);
-            navigation.navigate("ExerciseEntryScreen", { item });
-          }}
-        >
-          <View style={styles.exerciseCheckedButton}>
-            <Text style={{ color: "white" }}> Fertig?</Text>
-            <Ionicons name="checkmark-done-outline" size={20} color={"white"} />
-          </View>
-        </Pressable>
-      </View>
-      {schedule[findNextTraining(today).slice(0, 2)].length >= 2 && (
-        <View style={styles.exerciseContainer}>
-          {finishedExercises[1] && (
-            <Ionicons name="checkmark-circle-outline" size={20} color="green" />
-          )}
-          {generateWarmup(1)}
-          {generateWork(1)}
+        <View style={styles.bottomRow}>
           <Pressable
             onPress={() => {
-              adjustItem(1);
+              adjustItem(0);
               navigation.navigate("ExerciseEntryScreen", { item });
             }}
           >
@@ -563,6 +608,29 @@ const Home = ({ navigation }) => {
               />
             </View>
           </Pressable>
+        </View>
+      </View>
+      {schedule[findNextTraining(today).slice(0, 2)].length >= 2 && (
+        <View style={styles.exerciseContainer}>
+          {generateWarmup(1)}
+          {generateWork(1)}
+          <View style={styles.bottomRow}>
+            <Pressable
+              onPress={() => {
+                adjustItem(1);
+                navigation.navigate("ExerciseEntryScreen", { item });
+              }}
+            >
+              <View style={styles.exerciseCheckedButton}>
+                <Text style={{ color: "white" }}> Fertig?</Text>
+                <Ionicons
+                  name="checkmark-done-outline"
+                  size={20}
+                  color={"white"}
+                />
+              </View>
+            </Pressable>
+          </View>
         </View>
       )}
       <View style={styles.button}>
@@ -580,22 +648,13 @@ const Home = ({ navigation }) => {
           title="Heutiges Training verwalten"
         ></Button>
       </View>
-      <View style={styles.button}>
-        <Button
-          color={colors.primary}
-          onPress={() =>
-            navigation.navigate("HandstandpushupScreen", { anchor: "level3" })
-          }
-          title="Springe zu X"
-        ></Button>
-      </View>
 
       <ExerciseListModal
         navigation={navigation}
         ref={childRef}
         day={modalDay}
       />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -622,20 +681,35 @@ const styles = StyleSheet.create({
   exerciseContainer: {
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: colors.primary,
     backgroundColor: "white",
     padding: 10,
     marginTop: 30,
+    width: "100%",
   },
   exercise: {
     fontSize: 17,
+    fontWeight: "700",
+  },
+  exerciseHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    marginTop: 10,
   },
   textTabbedIn: {
     fontSize: 15,
-    marginLeft: 30,
+    marginLeft: 5,
+  },
+  textWarmup: {
+    fontSize: 15,
+    marginLeft: 10,
   },
   button: {
-    marginTop: 20,
+    marginTop: 15,
+    borderRadius: 5,
   },
   modalBackground: {
     backgroundColor: "white",
@@ -646,12 +720,14 @@ const styles = StyleSheet.create({
     width: deviceWidth * 0.25,
     height: deviceWidth * 0.08,
     backgroundColor: colors.primary,
-    position: "relative",
-    right: deviceWidth * -0.6,
+    //position: "relative",
+    //right: deviceWidth * -0.6,
     elevation: 2,
     flexDirection: "row",
     justifyContent: "space-around",
+    borderRadius: 5,
   },
+  bottomRow: { alignSelf: "flex-end" },
 });
 
 export default Home;

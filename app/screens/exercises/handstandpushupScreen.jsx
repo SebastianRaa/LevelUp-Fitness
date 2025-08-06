@@ -1,11 +1,18 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { useRoute, useFocusEffect } from "@react-navigation/native";
-import { ScrollView, Text, StyleSheet, Image, Dimensions } from "react-native";
-
+import {
+  ScrollView,
+  Text,
+  Pressable,
+  StyleSheet,
+  Image,
+  Dimensions,
+} from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-const HandstandpushupScreen = () => {
+const HandstandpushupScreen = ({ navigation }) => {
   const route = useRoute();
   const scrollRef = useRef(null);
 
@@ -22,6 +29,12 @@ const HandstandpushupScreen = () => {
   );
   return (
     <ScrollView style={styles.container} ref={scrollRef}>
+      <Pressable
+        onPress={() => navigation.goBack()}
+        style={{ alignSelf: "flex-start", marginBottom: 10 }}
+      >
+        <Ionicons name="arrow-back" size={16} />
+      </Pressable>
       {/* Hauptüberschrift */}
       <Text>
         <Text style={styles.headline}>Handstand Liegestütze</Text>
@@ -51,8 +64,8 @@ const HandstandpushupScreen = () => {
         kontrolliert, um wieder in den Kniestand zurückzukehren.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 30 Sekunden halten
-        {"\n"}Fortgeschritten: 1 Minute halten
+        {"\n"}Einstieg: 30 Sekunden halten
+        {"\n"}Aufbau: 1 Minute halten
         {"\n"}Level-Up: 2 Minuten halten
         {"\n"}
       </Text>
@@ -88,8 +101,8 @@ const HandstandpushupScreen = () => {
         die Balance.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 10 Sekunden halten
-        {"\n"}Fortgeschritten: 30 Sekunden halten
+        {"\n"}Einstieg: 10 Sekunden halten
+        {"\n"}Aufbau: 30 Sekunden halten
         {"\n"}Level-Up: 1 Minute halten
         {"\n"}
       </Text>
@@ -124,8 +137,8 @@ const HandstandpushupScreen = () => {
         die Position.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 30 Sekunden halten
-        {"\n"}Fortgeschritten: 1 Minute halten
+        {"\n"}Einstieg: 30 Sekunden halten
+        {"\n"}Aufbau: 1 Minute halten
         {"\n"}Level-Up: 2 Minuten halten
         {"\n"}
       </Text>
@@ -156,8 +169,8 @@ const HandstandpushupScreen = () => {
         wieder nach oben. Behalte durchgehende Körperspannung und atme ruhig.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh.
         {"\n"}Level-Up: 2 Sätze à 20 Wdh.
         {"\n"}
       </Text>
@@ -183,8 +196,8 @@ const HandstandpushupScreen = () => {
         Zeit.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 10 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 10 Wdh.
         {"\n"}Level-Up: 2 Sätze à 15 Wdh.
         {"\n"}
       </Text>
@@ -209,8 +222,8 @@ const HandstandpushupScreen = () => {
         unter voller Körperspannung wieder hoch.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh.
-        {"\n"}Fortgeschritten: 2 Sätze à 9 Wdh.
+        {"\n"}Einstieg: 1 Satz à 5 Wdh.
+        {"\n"}Aufbau: 2 Sätze à 9 Wdh.
         {"\n"}Level-Up: 2 Sätze à 12 Wdh.
         {"\n"}
       </Text>
@@ -236,8 +249,8 @@ const HandstandpushupScreen = () => {
         nach oben.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 5 Wdh. pro Seite
-        {"\n"}Fortgeschritten: 2 Sätze à 8 Wdh. pro Seite
+        {"\n"}Einstieg: 1 Satz à 5 Wdh. pro Seite
+        {"\n"}Aufbau: 2 Sätze à 8 Wdh. pro Seite
         {"\n"}Level-Up: 2 Sätze à 10 Wdh. pro Seite
         {"\n"}
       </Text>
@@ -262,8 +275,8 @@ const HandstandpushupScreen = () => {
         ist, halte kurz und drücke dich wieder hoch. Wechsle die Seite.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 4 Wdh. pro Seite
-        {"\n"}Fortgeschritten: 2 Sätze à 6 Wdh. pro Seite
+        {"\n"}Einstieg: 1 Satz à 4 Wdh. pro Seite
+        {"\n"}Aufbau: 2 Sätze à 6 Wdh. pro Seite
         {"\n"}Level-Up: 2 Sätze à 8 Wdh. pro Seite
         {"\n"}
       </Text>
@@ -290,8 +303,8 @@ const HandstandpushupScreen = () => {
         sparsam.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 3 Wdh. pro Seite
-        {"\n"}Fortgeschritten: 2 Sätze à 4 Wdh. pro Seite
+        {"\n"}Einstieg: 1 Satz à 3 Wdh. pro Seite
+        {"\n"}Aufbau: 2 Sätze à 4 Wdh. pro Seite
         {"\n"}Level-Up: 2 Sätze à 6 Wdh. pro Seite
         {"\n"}
       </Text>
@@ -317,8 +330,8 @@ const HandstandpushupScreen = () => {
         Schwung aus den Beinen, um vom Boden wieder nach oben zu kommen.
         {"\n"}
         {"\n"}Trainingsziele:
-        {"\n"}Anfänger: 1 Satz à 1 Wdh. pro Seite
-        {"\n"}Fortgeschritten: 2 Sätze à 2 Wdh. pro Seite
+        {"\n"}Einstieg: 1 Satz à 1 Wdh. pro Seite
+        {"\n"}Aufbau: 2 Sätze à 2 Wdh. pro Seite
         {"\n"}Level-Up: 1 Satz à 5 Wdh. pro Seite
         {"\n"}
       </Text>
