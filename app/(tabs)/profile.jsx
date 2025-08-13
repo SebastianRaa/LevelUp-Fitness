@@ -141,7 +141,13 @@ export default function Profile(props) {
           </Pressable>
         </View>
 
-        <Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
+        <Modal
+          isVisible={isModalVisible}
+          onBackdropPress={() => {
+            toggleModal();
+            saveNameToStorage();
+          }}
+        >
           <View style={styles.modal}>
             <Text style={styles.modalTitle}>Namen ändern:</Text>
             <MyTextInput
@@ -223,9 +229,9 @@ export default function Profile(props) {
         />
       </View>
 
-      <Pressable onPress={() => props.navigation.navigate("TestingScreen")}>
+      {/*<Pressable onPress={() => props.navigation.navigate("TestingScreen")}>
         <Text style={styles.smallLink}>Zum Testbereich</Text>
-      </Pressable>
+      </Pressable>*/}
     </View>
   );
 }

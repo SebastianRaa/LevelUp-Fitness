@@ -12,10 +12,10 @@ import colors from "../colors";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-//Card for displaying the 4 concepts, will lead to new screen on press
+//Card for displaying the 5 "concepts", will lead to new screen on press
 function ConceptCard(props) {
   return (
-    <View>
+    <View style={{ marginBottom: 20 }}>
       <Pressable
         onPress={() => props.navigation.navigate(props.navigationTarget)}
         style={styles.pressable}
@@ -34,17 +34,14 @@ const styles = StyleSheet.create({
     borderColor: colors.primary,
     borderWidth: 1,
     backgroundColor: "white",
-    marginBottom: 20,
     elevation: 2,
     width: deviceWidth * 0.8,
     height: deviceHeight * 0.05,
-    //alignItems: "flex-start",
-    //justifyContent: "center",
+    justifyContent: "center",
   },
   cardText: {
     fontWeight: "medium",
     fontSize: 18,
-    paddingTop: deviceHeight * 0.01,
     paddingLeft: deviceWidth * 0.01,
   },
   pressable: {},

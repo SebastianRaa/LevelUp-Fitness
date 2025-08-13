@@ -14,6 +14,7 @@ const positiveMessages = [
 const emojis = ["😀", "😁", "💯", "💪", "🏋", "🤸", "🌟", "🔥", "🆒", "👑"];
 
 const levelUpEmojis = ["🚀", "🚀", "🏆", "🥇", "🏅"];
+
 function getRandomInt(min, max) {
   // liefert eine ganze Zahl zwischen min und max (beide inklusiv)
   return Math.floor(Math.random() * (max - min + 1)) + min;

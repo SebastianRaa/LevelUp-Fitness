@@ -15,7 +15,7 @@ const deviceHeight = Dimensions.get("window").height;
 //Card for displaying the 6 basic exercises, will lead to new screen on press
 function ExerciseCard(props) {
   return (
-    <View>
+    <View style={{ marginBottom: 20 }}>
       <Pressable
         onPress={() =>
           props.navigation.navigate(props.navigationTarget, props.exercise)
@@ -36,17 +36,14 @@ const styles = StyleSheet.create({
     borderColor: colors.primary,
     borderWidth: 1,
     backgroundColor: "white",
-    marginBottom: 20,
     elevation: 2,
     width: deviceWidth * 0.8,
     height: deviceHeight * 0.05,
-    //alignItems: "flex-start",
-    //justifyContent: "center",
+    justifyContent: "center",
   },
   cardText: {
     fontWeight: "medium",
     fontSize: 18,
-    paddingTop: deviceHeight * 0.01,
     paddingLeft: deviceWidth * 0.01,
   },
   pressable: {},

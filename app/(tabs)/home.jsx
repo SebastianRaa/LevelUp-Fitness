@@ -576,14 +576,11 @@ const Home = ({ navigation }) => {
   return (
     <ScrollView
       contentContainerStyle={{
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "flex-start",
         alignItems: "flex-start",
         margin: 10,
       }}
     >
-      <Text style={{ fontWeight: "bold", fontSize: 20, paddingBottom: 30 }}>
+      <Text style={{ fontWeight: "bold", fontSize: 20, paddingBottom: 10 }}>
         Hi{name ? " " + name : ""}!
       </Text>
       <Text style={{ fontSize: 20 }}>
@@ -684,7 +681,7 @@ const styles = StyleSheet.create({
     borderColor: colors.primary,
     backgroundColor: "white",
     padding: 10,
-    marginTop: 30,
+    marginTop: 10,
     width: "100%",
   },
   exercise: {

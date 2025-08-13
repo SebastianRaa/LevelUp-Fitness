@@ -76,9 +76,9 @@ const abzeichenNamesArray = [
 ];
 
 const abzeichenTextArray = [
-  "Erreiche einen Spieler Rang von 10.",
-  "Erreiche einen Spieler Rang von 30.",
-  "Erreiche einen Spieler Rang von 50.",
+  "Erreiche ein Gesamt-Level von 10.",
+  "Erreiche ein Gesamt-Level von 30.",
+  "Erreiche ein Gesamt-Level von 50.",
   "Erreiche Level 3 bei mindestens einer Grundübung.",
   "Erreiche Level 6 bei mindestens einer Grundübung.",
   "Erreiche Level 10 bei mindestens einer Grundübung.",

@@ -40,6 +40,8 @@ const HandstandpushupScreen = ({ navigation }) => {
         <Text style={styles.headline}>Handstand Liegestütze</Text>
         {"\n"}
         {"\n"}
+        Für die ersten 3 Level musst du die Sekundenzahl als Wiederholungen
+        eintragen, also z.B. 120 Sekunden = 120 Wiederholungen.
       </Text>
 
       {/* Level 1 */}
@@ -69,7 +71,6 @@ const HandstandpushupScreen = ({ navigation }) => {
         {"\n"}Level-Up: 2 Minuten halten
         {"\n"}
       </Text>
-
       <Image
         source={require("../../../assets/images/exercises/handstand_pushups_11-min.jpg")}
         resizeMode="contain"
@@ -80,7 +81,6 @@ const HandstandpushupScreen = ({ navigation }) => {
         resizeMode="contain"
         style={styles.imageUpright}
       />
-
       {/* Level 2 */}
       <Text
         style={styles.text}
@@ -106,7 +106,6 @@ const HandstandpushupScreen = ({ navigation }) => {
         {"\n"}Level-Up: 1 Minute halten
         {"\n"}
       </Text>
-
       <Image
         source={require("../../../assets/images/exercises/handstand_pushups_21-min.jpg")}
         resizeMode="contain"
@@ -117,7 +116,6 @@ const HandstandpushupScreen = ({ navigation }) => {
         resizeMode="contain"
         style={styles.imageQuadratic}
       />
-
       {/* Level 3 */}
       <Text
         style={styles.text}
@@ -142,13 +140,11 @@ const HandstandpushupScreen = ({ navigation }) => {
         {"\n"}Level-Up: 2 Minuten halten
         {"\n"}
       </Text>
-
       <Image
         source={require("../../../assets/images/exercises/handstand_pushups_31-min.jpg")}
         resizeMode="contain"
         style={styles.imageHorizontal}
       />
-
       {/* Level 4 */}
       <Text
         style={styles.text}
@@ -174,7 +170,6 @@ const HandstandpushupScreen = ({ navigation }) => {
         {"\n"}Level-Up: 2 Sätze à 20 Wdh.
         {"\n"}
       </Text>
-
       {/* Level 5 */}
       <Text
         style={styles.text}
@@ -201,7 +196,6 @@ const HandstandpushupScreen = ({ navigation }) => {
         {"\n"}Level-Up: 2 Sätze à 15 Wdh.
         {"\n"}
       </Text>
-
       {/* Level 6 */}
       <Text
         style={styles.text}
@@ -227,7 +221,6 @@ const HandstandpushupScreen = ({ navigation }) => {
         {"\n"}Level-Up: 2 Sätze à 12 Wdh.
         {"\n"}
       </Text>
-
       {/* Level 7 */}
       <Text
         style={styles.text}
@@ -254,7 +247,6 @@ const HandstandpushupScreen = ({ navigation }) => {
         {"\n"}Level-Up: 2 Sätze à 10 Wdh. pro Seite
         {"\n"}
       </Text>
-
       {/* Level 8 */}
       <Text
         style={styles.text}
@@ -280,7 +272,6 @@ const HandstandpushupScreen = ({ navigation }) => {
         {"\n"}Level-Up: 2 Sätze à 8 Wdh. pro Seite
         {"\n"}
       </Text>
-
       {/* Level 9 */}
       <Text
         style={styles.text}
@@ -308,7 +299,6 @@ const HandstandpushupScreen = ({ navigation }) => {
         {"\n"}Level-Up: 2 Sätze à 6 Wdh. pro Seite
         {"\n"}
       </Text>
-
       {/* Level 10 */}
       <Text
         style={styles.text}
