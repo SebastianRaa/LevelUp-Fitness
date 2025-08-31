@@ -1,3 +1,10 @@
+# LevelUp Fitness - Calisthenics App
+
+Dieses repository beinhaltet den Code für die LevelUp Fitness App, mit der jeder von überall aus und ohne Geräte trainieren kann. 6 verschiedene Grundübungen können dabei auf 10 Leveln trainiert werden!
+
+Das ist ein React Native Expo Projekt.
+
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
