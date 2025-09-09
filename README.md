@@ -4,6 +4,8 @@ Dieses repository beinhaltet den Code für die LevelUp Fitness App, mit der jede
 
 Das ist ein React Native Expo Projekt.
 
+Die APK-Datei, die zum Stand der Studie zur App verwendet worden ist, kann unter folgendem Link heruntergeladen werden: [App](https://cloud.tu-braunschweig.de/s/Nk2fYPpoXAMqo7o)
+
 
 # Welcome to your Expo app 👋
 
